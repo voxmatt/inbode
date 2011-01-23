@@ -1,0 +1,102 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Inbode</title>
+
+		<link type="text/css" href="/ui/css/custom-theme/jquery-ui-1.8.2.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="/ui/css/screen.css" rel="stylesheet" />
+		<script type="text/javascript" src="/ui/js/jquery-1.4.2.min.js"></script> 
+		<script type="text/javascript" src="/ui/js/jquery-ui-1.8.2.custom.min.js"></script> 
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+  function initialize() {
+    var myLatlng = new google.maps.LatLng(44.979965,-93.263836);
+    var myOptions = {
+      zoom: 14,
+      disableDefaultUI: true,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+  }
+</script>
+
+    <script type="text/javascript">
+  $(document).ready( function()
+  {
+  
+      $("#toggle").toggle(
+          function() {
+      
+            $("#t7_bottom").show("drop", { direction: 'up'} );
+      
+          },
+          function() {
+  
+            $("#t7_bottom").hide("drop", { direction: 'up'} );
+      
+      
+          }) ; 
+  });
+  
+    
+    </script>
+    
+    <style>
+      #t7_container {
+        width: 290px;
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+        height: 498px;
+        top: 15px;
+        right: 5px;    
+        background-color: transparent;
+        position: absolute;
+        z-index:10;
+      }
+      #t7_top{
+        background-color: #333;
+        color: #fff;
+      	height: 173px;
+      	width: 290px;
+      	z-index: 100;	
+      	text-align: center;
+      }
+      #t7_bottom {
+        background-color: #999;
+        color: #fff;
+      	width: 290px;
+      	height: 220px;
+      	z-index: -10;
+      	display: none;
+      	margin: 0px;
+      	padding: 0px;    
+      	text-align: center;
+      }
+      h2, p {
+        margin:0px;
+        padding:0px;
+      }
+  
+    
+    </style>
+
+</head>
+<body style="margin:0px; padding:0px;" onload="initialize()">
+  <div id="map_canvas" style="width:100%; height:100%"></div>
+  
+  <div id="t7_container">
+    <div id="t7_top">
+      <h2>Top Container</h2>      
+      <p><span id="toggle">Toggle</span></p>
+    </div>   
+    <div id="t7_bottom">
+      <h2>Hello! I'm supposed to slide down...</h2>
+    </div>
+  </div> 
+  
+</body>
+</html>

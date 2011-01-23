@@ -1,0 +1,298 @@
+
+/**
+
+
+	By Ten Seven Interactive
+	http://ten7i.com/
+	
+	May 10, 2009 - after years of practice
+
+	If you use this & don't acknowledge it,
+	we will cry a global tear. Be fair!
+
+
+**/
+
+
+
+/** the whole page **/
+html, body {
+	margin : 0px;
+	padding : 0px;
+	text-align : left;
+	font-size : 14px;
+	font-family : Arial, Sans-Serif;
+	font-weight: normal;
+	background-color: #FFFFFF;
+	color: #000000;
+}
+
+/** headlines and content **/	
+h1, h2, h3, h4, p, li, td, input {
+	font-family : Arial, Sans-Serif;
+	text-align : left;
+}
+
+h2 {
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: lighter;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: lighter;
+}
+
+/** hyper links **/
+a:link {
+	color: #1693a5;
+	text-decoration : underline;
+	font-weight : normal;
+}
+a:visited {
+	color: #999999;
+	text-decoration : underline;
+	font-weight : normal;
+}
+a:hover  {
+	color: #000000;
+	text-decoration : underline;
+	font-weight : normal;
+}
+a:active {
+	color: #999999;
+	text-decoration : underline;
+	font-weight : normal;
+}
+/** greeting links **/
+#t7_greeting a:link {
+	color: #000;
+	text-decoration : underline;
+	font-weight : normal;
+}
+#t7_greeting a:visited {
+	color: #333;
+	text-decoration : underline;
+	font-weight : normal;
+}
+#t7_greeting a:hover  {
+	color: #000000;
+	text-decoration : none;
+	font-weight : normal;
+}
+#t7_greeting a:active {
+	color: #999999;
+	text-decoration : underline;
+	font-weight : normal;
+}
+/** h2 links **/
+h2 a:link {
+	color: #1693a5;
+	text-decoration : none;
+}
+h2 a:visited {
+	color: #1693a5;
+	text-decoration : none;
+}
+h2 a:hover  {
+	color: #000000;
+	text-decoration : none;
+}
+h2 a:active {
+	color: #999999;
+	text-decoration : none;
+}
+
+/** container **/
+#t7_container {
+	text-align : left;
+	padding: 25px 0 0 0;
+	margin: 0px auto;
+	width: 960px;
+}
+
+/** header **/
+#t7_header_wrap {
+	height: 110px;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	clear: both;
+	background-image: url(images/header-bg.png);
+	background-repeat: repeat-x;
+	
+}
+#t7_header {
+	height: 110px;
+	width: 960px;
+	text-align : left;
+	padding: 0px;
+	margin: 0px auto;
+	clear: both;
+  background: transparent;
+}
+#t7_inbode_logo {
+  margin: 10px 0 0 0;
+  padding: 0;
+  width: 230px;
+  height: 79px;
+  float: left;
+}
+#t7_greeting {
+  color: #fff;
+  float: right;
+  text-align: right;
+  width: 400px;
+  margin-top: 40px;
+}
+
+
+/** units and buildings **/
+.building {
+  font-size: 18px;
+  font-weight: lighter;
+  margin: 25px 0 0 0 ;
+}
+.unit {
+  font-size: 14px;
+  margin: 5px 0 0 50px;
+}
+#t7_summary h3 {
+  text-transform: uppercase;
+  margin: 10px 0 0 40px;
+  font-size: 14px;
+}
+/** h3 links **/
+#t7_summary  a:link {
+	color: #1693a5;
+	text-decoration : none;
+}
+#t7_summary  a:visited {
+	color: #1693a5;
+	text-decoration : none;
+}
+#t7_summary  a:hover  {
+	color: #000000;
+	text-decoration : none;
+}
+#t7_summary  a:active {
+	color: #999999;
+	text-decoration : none;
+}
+#t7_summary h3 a:link {
+	color: #1693a5;
+	text-decoration : none;
+}
+#t7_summary h3 a:visited {
+	color: #1693a5;
+	text-decoration : none;
+}
+#t7_summary h3 a:hover  {
+	color: #000000;
+	text-decoration : none;
+}
+#t7_summary h3 a:active {
+	color: #999999;
+	text-decoration : none;
+}
+
+/** content areas **/
+#t7_content {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	width: 960px;
+	float: left;
+}
+#t7_content_top {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	clear: both;
+}
+#t7_content_bottom {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	clear: both;
+}
+
+/** footer **/
+#t7_footer {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	clear: both;
+	height: 25px;
+	width: 100%;
+}
+
+/** fix for extending the container all the way to the bottom **/
+#t7_extender {
+  width:960px;
+  clear:both;
+  height:0px;
+  margin:0px;
+  padding:0px;
+}
+
+
+/** warnings and messages **/
+div.messages {
+  background-image: none;
+  background-color: white;
+  margin: 30px auto;
+  padding: 15px;
+  width: 550px;
+  border: 0px solid;
+  font-weight: lighter;
+  color: #000;
+}
+
+div.messages a {
+  color: #000;
+}
+
+div.warning {
+  background-color: #C3DC1E;
+  color: #000;
+}
+
+div.error {
+  background-color: #A62A17;
+  color: #fff;
+}
+
+div.status {
+  background-color: #1693a5;
+  color: #fff;
+}
+
+/** admin menu font face override **/
+#admin-menu p,
+#admin-menu li,
+#admin-menu td,
+#admin-menu input {
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+	font-size: 9px;
+}
+
+/** overrides **/
+#tinymce {
+	background-image: none;
+	background: #fff;
+}
+
+
+.h100 {
+  height: 100%;
+}
+#t7_front {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  clear: both;
+  display: block;
+}

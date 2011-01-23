@@ -1,0 +1,371 @@
+<?php
+
+
+function register_libs() {
+
+	global $conf;
+	// reg libs
+	set_include_path( $conf['i_syspath'].'/lib/:'.get_include_path());
+	require_once('Webready/Gdata/Maps.php');
+	require_once('Zend/Gdata/ClientLogin.php');
+	
+}
+
+
+function inbode_testing() {
+
+		inbode_delete_unit();		
+
+}
+
+function inbode_get_feature_html($data) {
+	
+	// expecting $data to be an array of a node describing a unit, and an array of building info
+	// like this $data["node"] and $data["building"]
+	
+	global $conf;
+	$out  = '';
+	// open div
+	$out .= '<div style="font-family:Helvetica,Arial,sans-serif;width:300px">';
+	
+	// headline
+	$out .= '<h2 style="color:#464646;font-size:22px;">';
+	$out .= $data['node'][field_unit_bedroom][0]['value'].' bed ';
+	$out .= $data['node'][field_unit_bathroom][0]['value'].' bath ';
+	$out .= '$ '.$data['node'][field_unit_price][0]['amount'];
+	$out .= '</h2>';
+	
+	// images
+	if (isset($data['node'][field_unit_images][0]['filepath'])) {
+		$out .= '<div>';
+		foreach($data['node'][field_unit_images] as $img) {
+			if (isset($img['filepath'])) {
+				$out .= '<img border="0" width="105" src="'.$conf['i_imgsrv'].base_path().$img['filepath'].'" />';
+			}
+		}
+		$out .= '</div>';
+	}
+	
+	// close div
+	$out .= '</div>';
+	
+	return $out;
+
+}
+
+
+function inbode_get_building_info($bid) {
+
+  $bsql = "SELECT n.nid, n.title, l.street, l.additional, l.city, l.province, l.postal_code, l.country, l.latitude, l.longitude FROM node n LEFT JOIN location_instance li ON li.nid=n.nid LEFT JOIN location l ON  li.lid=l.lid WHERE n.nid=$bid ;";
+  
+  $bresource = db_query($bsql);
+  $building = array();
+  while ($brow = db_fetch_array($bresource)) $building[] = $brow;  
+  
+  return $building;  
+
+}
+
+
+function inbode_delete_unit( $featureid ) {
+
+	global $conf;
+	register_libs();
+	$client = Zend_Gdata_ClientLogin::getHttpClient( $conf['i_Guser'], $conf['i_Gpass'], Webready_Gdata_Maps::AUTH_SERVICE_NAME);
+
+	$auth_token = $client->getClientLoginToken();	
+	$url = 'http://maps.google.com/maps/feeds/features/'.$conf['i_Guser'].'/'.$conf['i_mid'].'/full/'.$featureid;
+
+	$ch = curl_init( $url );
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: GoogleLogin auth="'.$auth_token.'"') );
+	$response = curl_exec($ch);	
+	return $response;
+	
+}
+
+
+function inbode_save_unit( $title, $description, $lat, $lon ) {
+
+	global $conf;
+	register_libs();
+	$client = Zend_Gdata_ClientLogin::getHttpClient( $conf['i_Guser'], $conf['i_Gpass'], Webready_Gdata_Maps::AUTH_SERVICE_NAME);
+	$service = new Webready_Gdata_Maps( $client, $conf['i_appname'] );
+	$query = $service->newFeatureQuery();
+	$query->setMapElementId( $conf['i_mid'] );
+	$featureFeed = $service->getMapsFeatureFeed($query);
+	
+	// Create a new feature with a simple point
+	$feature = $service->newFeatureEntry();
+	$feature->newTitle( $title );
+	        
+	// Create a Placemark
+	$Placemark = new Webready_Gdata_Extension_Placemark();
+	$Placemark->newDescription( $description );        
+	$location = $lon.','.$lat.',0.0';
+	$Placemark->newPointWithCoordinates( $location );        	
+	$feature->newContentWithPlacemark( $Placemark );
+	        
+	// Insert the new feature using the feed's POST url
+	$nm = $service->insertMapFeature( $feature, $featureFeed->getPostUrl() );
+
+	return $nm->getFeatureElementId();
+
+}
+
+
+function inbode_update_featureid( $nid, $featureid ) {
+
+  $sql = "UPDATE content_type_unit SET field_featureid_value='$featureid' WHERE nid=$nid; ";  
+  $resource = db_query($sql);
+  return $resource;  
+}
+
+
+function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+
+
+  switch ($op) {
+  
+    case 'delete':
+    	// delete a feature on the map too. a feature id will cease to exist in a little bit here
+			if ($node->type=="unit") {
+				$fid = $node->field_featureid[0]["value"];
+				if (!inbode_delete_unit($fid)) {
+					drupal_set_message('Deleted your unit on the Inbode map.', 'status');
+				} else {
+					drupal_set_message('There was a problem deleting your unit on the Inbode map.', 'error');				
+				}
+			}
+
+      break;
+
+
+    case 'insert':
+			// a feature was created, create it on the map too. no unique feature element id exists yet.
+			// only do this with units, since we want a feature on the map for each unit. we'll need to 
+			// extract some building info since the address is located there. urgh.
+			
+			if ($node->type=="unit") {
+
+				// get some info on the building			
+				$buildinginfo = inbode_get_building_info($node->field_unit_building[0]['nid']);
+
+				// setup the array to get pretty html back for the placemark
+				$data=array();
+				$data["node"]=(array) $node;
+				$data["building"]=$buildinginfo[0];
+										
+				// what will the html in the placemark look like?
+				$htmlfeature = inbode_get_feature_html($data);
+				
+				// add the placemark to the map, get the feature id back and store it
+				$featureid = inbode_save_unit( $node->title, $htmlfeature, $buildinginfo[0]['latitude'], $buildinginfo[0]['longitude'] );
+				
+				if ( !inbode_update_featureid( $node->nid, $featureid ) ) {
+					watchdog('inbode', 'Inserted new unit '.$node->nid.' but failed to insert feature ID' );
+					drupal_set_message('Unable to record Google Maps feature ID, please try again or contact an administrator.', 'error');
+				} else {
+					watchdog('inbode', 'Inserted new unit '.$node->nid.' with feature ID '.$featureid );
+					drupal_set_message('Your unit was added to the Inbode map.', 'status');
+				};
+				
+							
+				
+			}
+			
+			break;
+
+
+    case 'update':
+    	// update a feature, do so on the map too. a feature id exists, use it.
+			// really shouldn't be doing this, but we're going to anyway for this alpha version. sorry goog.
+			// first delete the item, then recreate it
+			$fid = $node->field_featureid[0]["value"];
+			if (!inbode_delete_unit($fid)) {
+				watchdog('inbode', 'Deleted feature $fid for unit '.$node->nid. ' on the Inbode map.');
+				
+				// get some info on the building			
+				$buildinginfo = inbode_get_building_info($node->field_unit_building[0]['nid']);
+
+				// setup the array to get pretty html back for the placemark
+				$data=array();
+				$data["node"]=(array) $node;
+				$data["building"]=$buildinginfo[0];
+										
+				// what will the html in the placemark look like?
+				$htmlfeature = inbode_get_feature_html($data);
+				
+				// add the placemark to the map, get the feature id back and store it
+				$featureid = inbode_save_unit( $node->title, $htmlfeature, $buildinginfo[0]['latitude'], $buildinginfo[0]['longitude'] );
+				
+				if ( !inbode_update_featureid( $node->nid, $featureid ) ) {
+					watchdog('inbode', 'Updated old unit '.$node->nid.' but failed to insert feature ID' );
+					drupal_set_message('Unable to record Google Maps feature ID, please try again or contact an administrator.', 'error');
+				} else {
+					watchdog('inbode', 'Updated old unit '.$node->nid.' with a new feature ID '.$featureid );
+					drupal_set_message('Your unit was updated on the Inbode map.', 'status');
+				};				
+				
+				
+			} else {
+				watchdog('inbode', 'Problem deleting (on update) feature $fid for unit '.$node->nid. ' on the Inbode map.');
+				drupal_set_message('There was an error updating your unit on the Inbode map, please try again.', 'error');
+			}
+
+      break;
+
+
+
+  }
+
+}
+
+
+
+
+
+function inbode_menu() {
+  $items = array();
+
+
+    $items['user/%user/inbode'] = array(
+    'title' => 'Inbode',
+    'page callback' => 'inbode_summary',
+    'page arguments' => array(1),
+    'access callback' => '_inbode_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    );
+    
+
+    $items['inbode'] = array(
+    'title' => 'Inbode',
+    'page callback' => 'inbode_testing',
+    'page arguments' => array(1),
+    'access callback' => '_inbode_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    );    
+ 
+    return $items;
+    
+}
+
+function inbode_perm() {
+  return array('view inbode summary');
+}
+
+function inbode_summary($account) {
+
+  // setup the output html
+  $out  = "\n\n<div id=\"t7_summary\">";
+  $out .= "<h2><a href=\"/node/add/building?destination=user/".$account->uid."/inbode\">+ Add Building</a></h2>";
+
+  // get some unit data
+  $props = array();
+  $props = __inbode_get_properties( $account->uid );
+  
+  // no results means we have to add our first building so we show that funky image :)
+  if ( !isset($props["buildings"][0]) ) {
+    $out .= "<img src=\"/".path_to_theme()."/images/add-first-building.png\" border=\"0\" width=\"286\" height=\"137\" alt=\"Click here to add your first building\" hspace=\"90\" />";
+  } else {
+
+		// loop thur buildings  
+    foreach( $props["buildings"] as $building ) {
+
+      // building
+      $out .= "\n\n<div class=\"building\">\n";
+      $out .= "<a href=\"/node/".$building["nid"]."/edit?destination=user/".$account->uid."/inbode\">".$building["title"]."</a>";
+      $out .= "";
+      if (!$building["street"] || !$building["city"] || !$building["province"]) {
+				// do nothing
+      } else {
+	      $out .= "  &mdash; ". $building["street"].", ".$building["city"].", ".$building["province"];      
+      }
+      $out .= "\n</div>";
+      
+      if ( $building["num_units"]>0 ) {
+      
+	      // loop thru only the associated units
+	      foreach( $props["units"] as $unit ) {
+	      
+	      	if ( $unit["field_unit_building_nid"]==$building["nid"] ) {
+	      	
+			      $out .= "\n\t<div class=\"unit\">\n\t";
+			      $out .= "<a href=\"/node/".$unit["nid"]."/edit?destination=user/".$account->uid."/inbode\">".$unit["title"]."</a>&nbsp;&nbsp;";
+			      $out .= $unit["field_unit_bedroom_value"]."&nbsp;bed&nbsp;&nbsp;";
+			      $out .= $unit["field_unit_bathroom_value"]."&nbsp;bath&nbsp;&nbsp;";
+			      $out .= "$&nbsp;".$unit["field_unit_price_amount"]."&nbsp;&nbsp;";
+			      $out .= $unit["field_unit_area_value"]."&nbsp;sf.&nbsp;&nbsp;";
+			      $out .= $unit["field_unit_status_value"];
+			      $out .= "\n</div>";
+	
+	      	}
+	      
+	      }
+
+      } else {
+      
+      	// no units
+      	
+      
+      }
+      
+      // always have an "add unit"
+      $out .= "<h3><a href=\"/node/add/unit?destination=user/".$account->uid."/inbode\">+ Add Unit</a></h3>";
+
+    
+    }
+  
+
+  }
+  
+  $out .= "\n\n</div>";
+  
+  return $out;
+
+}
+
+
+function _inbode_access($account) {
+  global $user;
+  
+  return (
+  $user->uid == 1 ||
+  ($user->uid == $account->uid && user_access('view inbode summary')) 
+//  (user_access('access others lists of watched posts') && _watcher_user_settings_load('watcher_share_binder', $account->uid))
+  );
+}
+
+
+
+/**
+ * Returns all buildings and units that belong to a user
+ */
+function __inbode_get_properties( $uid ) {
+
+  // quick and dirty, requires some polish eventually 05.12.10
+  $bsql = "SELECT n.nid, n.title, (SELECT count(nid) FROM content_type_unit WHERE field_unit_building_nid=n.nid) as num_units, l.street, l.additional, l.city, l.province, l.postal_code, l.country, l.latitude, l.longitude FROM node n LEFT JOIN location_instance li ON li.nid=n.nid LEFT JOIN location l ON  li.lid=l.lid WHERE n.type='building' AND n.uid=$uid ;";
+  
+  $usql = "SELECT n.nid, c.field_unit_building_nid, n.title, c.field_unit_bedroom_value, c.field_unit_bathroom_value, c.field_unit_price_amount, c.field_unit_area_value, c.field_unit_available_value, c.field_unit_description_value, c.field_unit_status_value FROM node n, content_type_unit c WHERE type='unit' AND uid=$uid AND n.nid=c.nid ORDER BY field_unit_building_nid; ";
+  
+  $bresource = db_query($bsql);
+  $buildings = array();
+  while ($brow = db_fetch_array($bresource)) $buildings[] = $brow;  
+  
+  $uresource = db_query($usql);
+  $units = array();
+  while ($urow = db_fetch_array($uresource)) $units[] = $urow;  
+
+	$result = array();
+	$result["buildings"]=$buildings;
+	$result["units"]=$units;
+	  
+  return $result;  
+
+}
+

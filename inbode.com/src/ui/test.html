@@ -1,0 +1,88 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
+
+<head>
+
+		<meta name="author" content="Ten Seven, Interactive. LLC -- http://www.tenseveninteractive.com/" />
+		<title>Inbode</title>
+		<link type="text/css" href="css/custom-theme/jquery-ui-1.8.2.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="css/screen.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script> 
+		<script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script> 
+    <script type="text/javascript">
+  $(document).ready( function()
+  {
+  
+      $("#toggle").toggle(
+          function() {
+      
+            $("#t7_bottom").show("drop", { direction: 'up'} );
+      
+          },
+          function() {
+  
+            $("#t7_bottom").hide("drop", { direction: 'up'} );
+      
+      
+          }) ; 
+  });
+  
+    
+    </script>
+    <style>
+      #t7_container {
+        width: 290px;
+        /* 	position: absolute; */
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+        height: 498px;
+        top: 15px;
+        right: 5px;    
+        background-color: transparent;
+      }
+      #t7_top{
+        background-color: #333;
+        color: #fff;
+      	height: 173px;
+      	width: 290px;
+      	z-index: 100;	
+      	text-align: center;
+      /* 	position: absolute; */
+      }
+      #t7_bottom {
+        background-color: #999;
+        color: #fff;
+      	width: 290px;
+      	height: 220px;
+      	z-index: -10;
+      	display: none;
+      	margin: 0px;
+      	padding: 0px;    
+      	text-align: center;
+      /* 	position: absolute; */
+      }
+      h2, p {
+        margin:0px;
+        padding:0px;
+      }
+  
+    
+    </style>
+</head>
+<body>
+	
+  <div id="t7_container">
+    <div id="t7_top">
+      <h2>Top Container</h2>      
+      <p><span id="toggle">Toggle</span></p>
+    </div>   
+    <div id="t7_bottom">
+      <h2>Hello! I'm supposed to slide down...</h2>
+    </div>
+  </div>
+	
+</body>
+</html>

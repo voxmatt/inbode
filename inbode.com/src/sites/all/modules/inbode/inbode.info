@@ -1,0 +1,6 @@
+<?php
+
+; $Id$
+name = inbode.com 
+description = Custom functionality for inbode.com by <a href="http://ten7i.com/">Ten Seven</a>.
+core = 6.x

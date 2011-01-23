@@ -1,0 +1,139 @@
+
+/**
+
+
+	By Ten Seven Interactive
+	http://ten7i.com/
+	
+	May 10, 2009 - after years of practice
+
+	If you use this & don't acknowledge it,
+	we will cry a global tear. Be fair!
+
+
+**/
+
+
+
+/** the whole page **/
+html, body {
+	margin : 0px;
+	padding : 0px;
+	text-align : left;
+	font-size : 12px;
+	font-family : Helvetica, Arial, Sans-Serif;
+	font-weight: normal;
+	background-color: #FFFFFF;
+	color: #000000;
+}
+
+/** headlines and content **/	
+h1, h2, h3, h4, p, li, td, input {
+	font-family : Helvetica, Arial, Sans-Serif;
+	text-align : left;
+}
+
+/** hyper links **/
+a:link {
+	color: #333333;
+	text-decoration : underline;
+	font-weight : normal;
+}
+a:visited {
+	color: #999999;
+	text-decoration : underline;
+	font-weight : normal;
+}
+a:hover  {
+	color: #000000;
+	text-decoration : underline;
+	font-weight : normal;
+}
+a:active {
+	color: #999999;
+	text-decoration : underline;
+	font-weight : normal;
+}
+
+/** container **/
+#t7_container {
+	text-align : left;
+	padding: 0px;
+	margin: 0px auto;
+	width: 960px;
+}
+
+/** header **/
+#t7_header {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	clear: both;
+}
+
+/** content areas **/
+#t7_content {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	width: 640px;
+	float: left;
+}
+#t7_content_top {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	clear: both;
+}
+#t7_content_bottom {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	clear: both;
+}
+
+/** navigation areas **/
+#t7_nav_left {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	float: left;
+	width: 160px;
+}
+#t7_nav_right {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	float: right;
+	width: 160px;
+}
+
+/** footer **/
+#t7_footer {
+	text-align : left;
+	padding: 0px;
+	margin: 0px;
+	clear: both;
+}
+
+/** fix for extending the container all the way to the bottom **/
+#t7_extender {
+  width:960px;
+  clear:both;
+  height:0px;
+  margin:0px;
+  padding:0px;
+}
+
+
+/** admin menu font face override **/
+#admin-menu p, li, td, input {
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+	font-size: 9px;
+}
+
+/** overrides **/
+#tinymce {
+	background-image: none;
+	background: #fff;
+}

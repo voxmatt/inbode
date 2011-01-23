@@ -1,0 +1,661 @@
+#t7_container{  
+	width: 283px;
+	position: absolute;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+/* 	height: 498px; */
+	top: 15px;
+	right: 5px;
+	z-index: 10;
+/*   min-height: 178px; */
+}
+
+/*
+#t7_inbode_top{
+	background-image: url(/ui/img/inbode-logo-plain.png);
+	background-repeat: no-repeat;
+  background-position:0 0;
+	height: 173px;
+	width: 290px;
+
+	z-index: 100;	
+}
+*/
+#t7_container div,#t7_container p,#t7_container a,#t7_container span {
+	font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+	text-shadow: 0px 1px 2px #2b4d52;
+	filter: dropshadow(color=#2b4d52, offx=0, offy=1);
+	}
+
+
+#t7_signin {
+	font-size: 14px;
+	position: relative;
+  	float: right;
+	letter-spacing: 1px;
+	padding: 5px 20px 0px 0px;
+	margin: 0px;
+}
+
+#t7_container a,
+#t7_container a:link,
+#t7_container a:visited {
+	text-decoration: none;
+	color: #fff;
+	font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+}
+
+#t7_container a:hover{
+	text-decoration: underline;
+	color: #fff;
+	font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+}
+
+
+.t7_city {
+  clear: both;
+  padding: 80px 0px 0px 0px;
+  margin: 0px auto;
+  width: 220px;
+  height: auto;
+}
+#t7_city{
+	width: 208px;
+	height: 15px;
+	color: #636363;
+	font-size: 12px;
+	margin: 0px auto;
+	display: block;
+	padding: 5px;
+	font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+	font-weight: lighter;
+	background-color: white;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	border: 1px solid #107382;
+	
+}
+
+#t7_filter_selector{
+	color: white;
+	font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+	font-size: 14px;
+	width: 220px;
+	margin: 13px auto 0px auto;
+	letter-spacing: 1px;
+	text-align: center;
+}
+
+
+/*
+#t7_inbode_filter{
+	background-image: url(/ui/img/inbode-filters.png);
+	background-repeat: no-repeat;
+	background-position: 0px bottom;
+	width: 290px;
+	height: 220px;
+	z-index: -10;
+ 	position: absolute; 
+	display: none;
+	margin: 0px;
+	padding: 0px;
+}
+*/
+/*
+
+#t7_filter_content{
+	width: 250px;
+	height: 300px;
+	margin: 0px auto;
+	padding: 10px 0px 0px 0px;
+}
+*/
+
+.t7_vert_slider_container{
+	width: 49px;
+	height: 170px;
+	margin: 0px 0px 3px;
+	padding: 0px;
+	float: left;
+/*
+	border-left: solid 1px #4fb1bf;
+	border-right: solid 1px #156f7d;
+*/
+}
+#main_slider_container .beds {padding: 0 36px !important;}
+	#slider-price .room_for_plus, #slider-beds .room_for_plus, #slider-baths .room_for_plus {padding-right: 0px;}
+	#slider-price .slider_plus, #slider-beds .slider_plus, #slider-baths .slider_plus {color: red !important;}	
+
+
+.t7_slider_title{
+	font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+	font-size: 14px;
+	width: 54px;
+	text-align: center;
+	color: #fff;
+	font-weight: normal;
+}
+
+.t7_slider_holder {
+  width: 48px;
+  clear: both;
+  margin: 0px;
+  padding: 24px 0px 9px 6px;
+  overflow: hidden;
+}
+
+
+#t7_more_filters{
+	width: 200px;
+	margin: 8px auto 0;
+	padding: 0px;
+	height: 16px;
+	clear: both;
+	text-align: center;
+}
+
+.first_set a,
+.first_set a:link,
+.first a:visited {
+	color: #4c4c4c;
+	font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+	font-weight: normal;
+	font-size: 14px;
+	text-decoration: none;
+}
+
+
+.first_set a:hover {
+	color: #4c4c4c;
+	font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+	font-weight: normal;
+	font-size: 14px;
+	text-decoration: underline;
+
+}
+
+
+
+
+.second_set ul{
+	list-style: none;
+	padding: 0;
+	margin: 0 10px;
+	float: left;
+	font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+	letter-spacing: 1px;
+	color: #fff;
+	font-size: 12px;
+}
+
+#t7_dates{
+	width: 240px;
+	margin: 0 auto;
+	font-family: ''Helvetica Neue', Helvetica Neue', 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+	color: #fff;
+	font-size: 14px;
+	font-weight: lighter;
+}
+
+#date-from,
+#date-to {
+  color: #fff;
+  font-weight: bold;
+}
+
+
+#main_slider_container {width: 220px; height: 170px;margin: 0 auto;}
+
+.t7_slider{
+	width: 4px;
+	margin: 4px 26px 0px 25px;
+}
+
+.ui-slider-vertical .ui-slider-range {
+  width: 4px;
+  left: auto;
+}
+
+
+.ui-state-default,
+ .ui-widget-content .ui-state-default, 
+ .ui-widget-header .ui-state-default {
+  background: none;
+  border: 0px solid transparent;
+ }
+ 
+
+/*
+.ui-slider-vertical .ui-slider-handle {
+  background-color: #1693A5;
+  left:inherit;
+  margin:0;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #333;
+}
+*/
+
+.ui-slider-vertical {
+  height: 4px;
+  margin: 0 0 0 15px;
+}
+
+.ui-slider .ui-slider-handle {
+  cursor: pointer;
+
+  position:absolute;
+  width: 40px;
+  z-index: 2;
+  text-shadow: 0px -1px 1px #c4c4c4 !important;
+  filter: dropshadow(color=#c4c4c4, offx=0, offy=-1) !important;
+}
+
+.ui-slider-horizontal {
+  height: 4px;
+  margin: 15px 0px;
+}
+
+.ui-slider-horizontal .ui-slider-handle {
+	background:url("/ui/img/move_in_slider.png") no-repeat scroll 50% 50%;
+  left:inherit;
+  margin:0;
+  width: 15px;
+  height: 15px;
+  border: none;
+  top: -6px;
+}
+
+
+#slider-price,
+#slider-beds,
+#slider-baths {
+  height:120px;
+}
+
+#slider-dates {
+  width: 220px;
+  margin: 15px 0px;
+}
+
+
+
+/*
+#t7_more_filters_content {
+  margin: 5px auto 0px auto;
+  padding: 0px;
+  clear: both;
+  display: none;
+  height: 100px;
+  width: 250px;
+}
+*/
+
+
+#t7_ldr {
+	float: left;
+	width: 16px;
+	height: 16px;
+}
+#t7_ldr img {
+	display: none;
+}
+
+/* bubble css for maps */
+.t7_bubble { 
+	width: 240px;
+	height: 180px;
+	padding: 10px 10px 0;
+}
+	.t7_bubble a {text-decoration: none;}
+
+.t7_bubble .t7_text_left{
+	color: #636363;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serf;
+	font-size: 12px;
+	display: inline;
+	height: 16px;
+	margin-top: 4px;
+	padding-right: 8px;
+
+/*
+	display: block;
+	text-align: right;
+	width: 114px;
+	float: left;
+*/
+}
+
+.t7_star {position: relative;top:1px;}
+.t7_star:active {position: relative;top:2px;}
+
+.t7_bubble  .t7_text_right{
+	color: #636363;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serf;
+	font-size: 12px;
+	height: 16px;
+	margin-top: 3px;
+	display: inline;
+/*
+	text-align: left;
+	float: right;
+	display: block
+	width: 114px;
+*/
+}
+
+.t7_bubble h1{
+	color: #464646;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serf;
+	font-size: 22px;
+	text-align: center;
+	font-weight: bold;
+	padding: 0px;
+	margin: 0px;
+}
+
+.t7_bubble .t7_apt_images{
+	width: 114px;
+	height: 83px;
+	background-image: url(/ui/img/apt_bkgrd.jpg);
+	float: left;
+	margin: 5px 3px;
+}
+
+.t7_bubble .t7_apt_images img{
+	margin: 5px;
+}
+
+/*
+#t7_button {
+	background-image: url(/ui/img/button.jpg);
+	height: 34px;
+	width: 241px;
+	float: left;
+	margin-top: 5px;
+}
+*/
+
+#t7_button h1 {
+	color: #fff;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serf;
+	font-size: 16px;
+	text-align: center;
+	font-weight: bold;
+	padding: 5px 0px 0px 0px;
+	margin: 0;
+	text-decoration: none;
+}
+	#t7_button:active {position: relative;top:1px;}
+.t7_bubble p{
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serf;
+	font-size: 12px;
+	color: #000101;
+	line-height: 15px;
+	padding: 5px 0px 5px 0px;
+	margin: 0;
+}
+
+.t7_bubble .t7_tabs{
+	width: 70px;
+	float: left;
+	color: #187987;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serf;
+	font-size: 12px;
+	height: 28px;
+	margin-bottom: 5px;
+	text-align: center;
+	text-decoration: none;
+	border: none;
+}
+
+.t7_bubble .t7_tabs img{
+	margin-left: 20px;
+	border: none;
+}
+.t7_bot {
+	clear:both;
+	
+	text-align: center;
+}
+
+
+#slider-price a,
+#slider-beds a,
+#slider-baths a {
+	left: -20px;
+	text-align: center;
+	font-size: 13px;
+	padding: 2px 4px 3px;
+	height: 16px;
+}
+#slider-price a:hover,
+#slider-beds a:hover,
+#slider-baths a:hover {
+	text-decoration: none;
+}
+
+
+
+
+
+/* CSS3 GREY GRADIENT BUTTONS for sliders! */
+
+.ui-slider-vertical .ui-slider-handle {
+   
+   border-top: 1px solid #f2f4f5;
+   background: #f2f1f1;
+   background: -webkit-gradient(linear, left top, left bottom, from(#fcfbfb), to(#989898));
+   background: -moz-linear-gradient(top, #fcfbfb, #989898);
+   padding: 3.5px 7px;
+   -webkit-border-radius: 13px;
+   -moz-border-radius: 13px;
+   border-radius: 13px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   color: #444444 !important;
+   font-size: 14px;
+   text-decoration: none;
+   vertical-align: middle;
+
+   }
+
+
+
+/* no blue outline */
+input:focus, a {outline: 0 none;}
+
+
+
+/* ******************************************************** */
+/* ***********      Styles from UI remake      ************ */
+/* ***********************William************************** */
+
+			.trigger_1, .trigger_2 {
+			
+				padding-left: 12px;
+				font-size: 12px !important;
+			
+			}
+
+			.trigger_1 {margin-right: 26px;}
+			.trigger_2 {margin:25px 12px 0 0;}
+
+				.active {background: transparent url(/ui/img/triangle_down.png) no-repeat left;}
+				.inactive {background: transparent url(/ui/img/triangle_right.png) no-repeat left;}			
+			
+
+
+
+			#t7_ui_container {
+			
+				width: 283px;
+				overflow: hidden;
+			
+			}
+			
+			.top_cap {
+				
+				margin: 0;
+				padding: 0;
+				background: transparent url(/ui/img/top_cap.png) no-repeat top;
+				width: 283px;
+				height: 11px;
+			
+			}
+			
+			
+			.body_content {
+			
+				width: 283px;
+				background: transparent url(/ui/img/extender.png) no-repeat bottom;
+				overflow: hidden;
+				
+			}
+			
+			
+			.logo_search {
+				
+				margin: 0;
+				padding: 0;
+				
+				width: 283px;
+				height: 173px;
+				background: transparent url(/ui/img/logo_mid.png) no-repeat top;
+				
+			}
+			
+			.first_set {				
+
+				height: auto;
+				display: none;
+				width: 283px;
+				padding-bottom: 20px;
+				
+			}
+
+				
+			.second_set {
+			
+				height: 145px;
+				display: none;
+				width: 283px;
+				padding-bottom: 20px;
+			
+			}
+
+			.second_set div, .second_set a {
+				
+				text-align: center;
+				
+			}
+		
+			.amenities {
+			
+				width: 230px;
+				margin: 0 auto;
+			
+			}
+			.amenities ul {
+			
+				text-align: left;
+				padding: 0px;
+				width: 100px;
+				margin: 0 0 25px;
+				
+			}
+				.amenities .left_col {padding-right:10px}
+				.amenities .right_col {padding-left:10px}
+
+
+
+
+
+
+
+.custom-checkbox {display: inline; font-size: 16px; line-height: 16px; cursor: pointer; cursor: hand;}
+.custom-checkbox .mark {display: inline;}
+
+.custom-checkbox img {vertical-align: middle; width: 16px; height: 16px;}
+.custom-checkbox img{background: transparent url(safari-checkbox.png) no-repeat;}
+
+.custom-checkbox img{
+	background-position: 0px 0px;
+}
+.custom-checkbox-hover img{
+	background-position: -16px 0px;
+}
+.custom-checkbox-checked img{
+	background-position: 0px -16px;
+}
+.custom-checkbox-checked .custom-checkbox-hover img {
+	background-position: -16px -16px;
+}
+
+.custom-checkbox-disabled img{
+	background-position: 0px -32px;
+}
+.custom-checkbox-checked .custom-checkbox-disabled img{
+	background-position: 0px -48px;
+}
+
+
+
+/* custom checkboxes */
+
+.jquery-safari-checkbox {display: inline; font-size: 16px; line-height: 16px; cursor: pointer; cursor: hand;}
+.jquery-safari-checkbox .mark {display: inline;}
+
+.jquery-safari-checkbox img {vertical-align: middle; width: 16px; height: 15px;margin-right: 4px;}
+.jquery-safari-checkbox img{background: transparent url(/ui/img/safari-checkbox.png) no-repeat;}
+
+
+.jquery-safari-checkbox img{
+
+	background-position: 0px -17px;
+}
+.jquery-safari-checkbox-hover img{
+	background-position: -16px -17px;
+}
+.jquery-safari-checkbox-checked img{
+	background-position: 0px -2px;
+	
+}
+.jquery-safari-checkbox-checked .jquery-safari-checkbox-hover img {
+	background-position: -16px -2px;
+}
+
+
+		.t7_bubble .jquery-safari-checkbox {display: inline; font-size: 16px; line-height: 16px; cursor: pointer; cursor: hand;}
+		.t7_bubble .jquery-safari-checkbox .mark {display: inline;}
+		
+		.t7_bubble .jquery-safari-checkbox img {vertical-align: middle; width: 16px; height: 15px;margin-right: 4px;}
+		.t7_bubble .jquery-safari-checkbox img{background: transparent url(/ui/img/star_sprite.png) no-repeat;}
+		
+		
+		.t7_bubble .jquery-safari-checkbox img{
+		
+			background-position: 0px -17px;
+		}
+		.t7_bubble .jquery-safari-checkbox-hover img{
+			background-position: -16px -17px;
+		}
+		.t7_bubble .jquery-safari-checkbox-checked img{
+			background-position: 0px -2px;
+			
+		}
+		.t7_bubble .jquery-safari-checkbox-checked .jquery-safari-checkbox-hover img {
+			background-position: -16px -2px;
+		}
+
+
+
+
+
+
+
+
+
+
