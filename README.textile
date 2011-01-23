@@ -1,0 +1,3 @@
+h1. Inbode
+
+Here in lies all the code for Inbode including databases and automatic deployment to our staging server. We <3 Git!
