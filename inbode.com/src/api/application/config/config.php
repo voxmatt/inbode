@@ -1,28 +1,112 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-// $config['i_syspath'] = '/Users/ivan/TenSeven/code/inbode/inbode.com';		// ivan's macpro
-//$config['i_syspath'] = '/Users/ivan/TenSeven/code/inbode/api.inbode.com';		// ivan's 17" macbook pro
-$config['i_syspath'] = '/Users/William/code/inbode/inbode.com/api';		// iMac Two
-$config['i_Guser'] = 'inbodemaps@gmail.com';
-$config['i_Gpass'] = 'w1r3dmag';
-// Default location if none given;
-$config['i_location'] = 'Minneapolis, MN, USA';
-// Google Maps unique ID
-$config['i_mid'] = '00048d00ffda2e6448768';
-// Google geocode address
-$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
-// Google search url
-$config['i_searchuri'] = 'http://maps.google.com/maps/feeds/features/113984735916308832907/00048d00ffda2e6448768/snippet?sortby=distance';
-// Default radius if no bounding box
-$config['i_radius'] = 10000;
-// Server storing the images with the trailing slash
-$config['i_imgserver'] = 'http://inbode/';
+if (file_exists("/usr/www/users/stegic/git")) {
+
+	// staging
+	$config['i_syspath'] = '/usr/www/users/stegic/git/inbode/inbode.com/api';	
+	// Google account username and password
+	$config['i_Guser'] = 'inbodemaps@gmail.com';
+	$config['i_Gpass'] = 'w1r3dmag';
+	// Default location if none given;
+	$config['i_location'] = 'Minneapolis, MN, USA';
+	// Google Maps unique ID
+	$config['i_mid'] = '00048d00ffda2e6448768';
+	// Google geocode address
+	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
+	// Google search url
+	$config['i_searchuri'] = 'http://maps.google.com/maps/feeds/features/113984735916308832907/00048d00ffda2e6448768/snippet?sortby=distance';
+	// Default radius if no bounding box
+	$config['i_radius'] = 10000;
+	// Server storing the images with the trailing slash
+	$config['i_imgserver'] = 'http://inbode.ten7i.net/';
+	// Temp access token
+	$config['i_token'] = '1/TJjE2krJMjHkIhAN91gY7GOn8QKB0vNTJ305vTb-cUs';
+	// Base Site URL
+	$config['base_url']	= "http://inbode.ten7i.net/api";
+
+
+} else if (file_exists("/usr/www/users/inbode/git")) {
+
+	// production
+	$config['i_syspath'] = '/usr/www/users/inbode/git/inbode/inbode.com/api';
+	// Google account username and password
+	$config['i_Guser'] = 'inbodemaps@gmail.com';
+	$config['i_Gpass'] = 'w1r3dmag';
+	// Default location if none given;
+	$config['i_location'] = 'Minneapolis, MN, USA';
+	// Google Maps unique ID
+	$config['i_mid'] = '00048d00ffda2e6448768';
+	// Google geocode address
+	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
+	// Google search url
+	$config['i_searchuri'] = 'http://maps.google.com/maps/feeds/features/113984735916308832907/00048d00ffda2e6448768/snippet?sortby=distance';
+	// Default radius if no bounding box
+	$config['i_radius'] = 10000;
+	// Server storing the images with the trailing slash
+	$config['i_imgserver'] = 'http://inbode.com/';
+	// Temp access token
+	$config['i_token'] = '1/TJjE2krJMjHkIhAN91gY7GOn8QKB0vNTJ305vTb-cUs';
+	// Base Site URL
+	$config['base_url']	= "http://inbode.com/api";
+
+
+} else if (file_exists("/Users/ivan/git/inbode/inbode.com/src")) {
+
+	// ivan's local
+	$config['i_syspath'] = '/Users/ivan/git/inbode/inbode.com/api';
+	// Google account username and password
+	$config['i_Guser'] = 'inbodemaps@gmail.com';
+	$config['i_Gpass'] = 'w1r3dmag';
+	// Default location if none given;
+	$config['i_location'] = 'Minneapolis, MN, USA';
+	// Google Maps unique ID
+	$config['i_mid'] = '00048d00ffda2e6448768';
+	// Google geocode address
+	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
+	// Google search url
+	$config['i_searchuri'] = 'http://maps.google.com/maps/feeds/features/113984735916308832907/00048d00ffda2e6448768/snippet?sortby=distance';
+	// Default radius if no bounding box
+	$config['i_radius'] = 10000;
+	// Server storing the images with the trailing slash
+	$config['i_imgserver'] = 'http://inbode/';
+	// Temp access token
+	$config['i_token'] = '1/TJjE2krJMjHkIhAN91gY7GOn8QKB0vNTJ305vTb-cUs';
+	// Base Site URL
+	$config['base_url']	= "http://inbode/api";
+
+
+} else {
+
+	// local (william!)
+	$config['i_syspath'] = '/Users/William/git/inbode/inbode.com/api';
+	// Google account username and password
+	$config['i_Guser'] = 'inbodemaps@gmail.com';
+	$config['i_Gpass'] = 'w1r3dmag';
+	// Default location if none given;
+	$config['i_location'] = 'Minneapolis, MN, USA';
+	// Google Maps unique ID
+	$config['i_mid'] = '00048d00ffda2e6448768';
+	// Google geocode address
+	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
+	// Google search url
+	$config['i_searchuri'] = 'http://maps.google.com/maps/feeds/features/113984735916308832907/00048d00ffda2e6448768/snippet?sortby=distance';
+	// Default radius if no bounding box
+	$config['i_radius'] = 10000;
+	// Server storing the images with the trailing slash
+	$config['i_imgserver'] = 'http://inbode/';
+	// Temp access token
+	$config['i_token'] = '1/TJjE2krJMjHkIhAN91gY7GOn8QKB0vNTJ305vTb-cUs';
+	// Base Site URL
+	$config['base_url']	= "http://inbode/api";
+
+
+}
 
 
 
-// Temp access token
-$config['i_token'] = '1/TJjE2krJMjHkIhAN91gY7GOn8QKB0vNTJ305vTb-cUs';
+
+
 
 
 /*
@@ -36,7 +120,7 @@ $config['i_token'] = '1/TJjE2krJMjHkIhAN91gY7GOn8QKB0vNTJ305vTb-cUs';
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://inbode/api";
+/* $config['base_url']	= "http://inbode/api"; */
 
 /*
 |--------------------------------------------------------------------------

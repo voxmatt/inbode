@@ -1,4 +1,95 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+if (file_exists("/usr/www/users/stegic/git")) {
+
+	// staging
+	$active_group = "default";
+	$active_record = TRUE;
+	$db['default']['hostname'] = "db137c.pair.com";
+	$db['default']['username'] = "stegic_22";
+	$db['default']['password'] = "kp9DncwZ";
+	$db['default']['database'] = "stegic_inbode";
+	$db['default']['dbdriver'] = "mysql";
+	$db['default']['dbprefix'] = "";
+	$db['default']['pconnect'] = TRUE;
+	$db['default']['db_debug'] = FALSE;
+	$db['default']['cache_on'] = FALSE;
+	$db['default']['cachedir'] = "";
+	$db['default']['char_set'] = "utf8";
+	$db['default']['dbcollat'] = "utf8_general_ci";
+	$db['default']['swap_pre'] = "";
+	$db['default']['autoinit'] = TRUE;
+	$db['default']['stricton'] = FALSE;
+	
+
+} else if (file_exists("/usr/www/users/inbode/git")) {
+
+	// production
+	$active_group = "default";
+	$active_record = TRUE;
+	$db['default']['hostname'] = "db139c.pair.com";
+	$db['default']['username'] = "inbode";
+	$db['default']['password'] = "MuN6bHMC";
+	$db['default']['database'] = "inbode_drupal";
+	$db['default']['dbdriver'] = "mysql";
+	$db['default']['dbprefix'] = "";
+	$db['default']['pconnect'] = TRUE;
+	$db['default']['db_debug'] = FALSE;
+	$db['default']['cache_on'] = FALSE;
+	$db['default']['cachedir'] = "";
+	$db['default']['char_set'] = "utf8";
+	$db['default']['dbcollat'] = "utf8_general_ci";
+	$db['default']['swap_pre'] = "";
+	$db['default']['autoinit'] = TRUE;
+	$db['default']['stricton'] = FALSE;
+	
+
+} else if (file_exists("/Users/ivan/git/inbode/inbode.com/src")) {
+
+	// ivan's local
+	$active_group = "default";
+	$active_record = TRUE;
+	$db['default']['hostname'] = "127.0.0.1";
+	$db['default']['username'] = "root";
+	$db['default']['password'] = "root";
+	$db['default']['database'] = "_drupal_inbode";
+	$db['default']['dbdriver'] = "mysql";
+	$db['default']['dbprefix'] = "";
+	$db['default']['pconnect'] = TRUE;
+	$db['default']['db_debug'] = FALSE;
+	$db['default']['cache_on'] = FALSE;
+	$db['default']['cachedir'] = "";
+	$db['default']['char_set'] = "utf8";
+	$db['default']['dbcollat'] = "utf8_general_ci";
+	$db['default']['swap_pre'] = "";
+	$db['default']['autoinit'] = TRUE;
+	$db['default']['stricton'] = FALSE;
+	
+
+} else {
+
+	// local
+	$active_group = "default";
+	$active_record = TRUE;
+	$db['default']['hostname'] = "127.0.0.1";
+	$db['default']['username'] = "root";
+	$db['default']['password'] = "root";
+	$db['default']['database'] = "_drupal_inbode";
+	$db['default']['dbdriver'] = "mysql";
+	$db['default']['dbprefix'] = "";
+	$db['default']['pconnect'] = TRUE;
+	$db['default']['db_debug'] = FALSE;
+	$db['default']['cache_on'] = FALSE;
+	$db['default']['cachedir'] = "";
+	$db['default']['char_set'] = "utf8";
+	$db['default']['dbcollat'] = "utf8_general_ci";
+	$db['default']['swap_pre'] = "";
+	$db['default']['autoinit'] = TRUE;
+	$db['default']['stricton'] = FALSE;
+	
+
+}
+
 /*
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS
@@ -37,25 +128,6 @@
 | The $active_record variables lets you determine whether or not to load
 | the active record class
 */
-
-$active_group = "default";
-$active_record = TRUE;
-
-$db['default']['hostname'] = "127.0.0.1";
-$db['default']['username'] = "root";
-$db['default']['password'] = "root";
-$db['default']['database'] = "_drupal_inbode";
-$db['default']['dbdriver'] = "mysql";
-$db['default']['dbprefix'] = "";
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = FALSE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = "";
-$db['default']['char_set'] = "utf8";
-$db['default']['dbcollat'] = "utf8_general_ci";
-$db['default']['swap_pre'] = "";
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
 
 
 /* End of file database.php */
