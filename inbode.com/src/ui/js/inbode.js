@@ -279,7 +279,7 @@ inbode.util = {
 		$('#t7_ldr img').fadeIn();
 	
 		// url for query
-		var searchurl = 'http://inbode/api/search/location/' + $('#t7_city').val();
+		var searchurl = '/api/search/location/' + $('#t7_city').val();
 	
 	    // now perform a request to storelocator to find the stores around this location
 	    $.getJSON( searchurl, 
