@@ -9,6 +9,6 @@
 																						'host' => 'db137c.pair.com',
 																						'database' => 'stegic_inbode'
 																						),
-														)
+														);
 																												
 ?>
