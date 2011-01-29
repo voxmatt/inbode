@@ -2,6 +2,63 @@
 
 class Inbode {
 
+
+	// a way to get the auth token for clientlogin on google accounts, we'll prob need this
+	function getauthtoken($username, $password) {
+
+		$loginurl = 'https://www.google.com/accounts/ClientLogin';
+		$postparams = array(
+											'Email' => $username,
+											'Passwd' => $password,
+											'service' => 'fusiontables',
+											'accountType' => 'GOOGLE'
+										);
+
+		$CI =& get_instance();
+  	$r = $this->request($loginurl, 'POST', $postparams, NULL);
+  	if ($r['status'] == 'ok' && $r['info']['http_code'] == '200') {    	
+	    $token_array = explode("=",  $r['response']);
+	    $token = str_replace("\n", "", $token_array[3]);
+	    return $token;
+		} else {
+			return $r['status'];	
+		}
+
+  }	
+
+	// fusion tables client lib for sql statements
+	function fusionquery($query) {
+	
+		$qurl = 'https://www.google.com/fusiontables/api/query';
+		$CI =& get_instance();
+		$token = $CI->config->item('i_GAtoken');
+		
+	  if(preg_match("/^select|^show tables|^describe/i", $query)) { 
+
+
+			$url = $qurl."?sql=".urlencode($query);
+			$headers = array('Authorization' => 'GoogleLogin auth=DQAAAJUBAADzSF38ZzZfqdSAlmGPqrMTPAh2TnUK5r_dgtSguxEJp6rqeWnlDA3Lo88aUO3it7Y7iMOKmgjDKB8RJnVBx3-DUE064xxN64-zXIWoWdm2OFyNCXK4iB2afwNnwSuBMN_b607hriUXvAcvPdYkbBR4tuapcetxm1nvA8WlUMiDXveqYFpHvWK5Bzl9VlG0GLuz-DO6nxTuDSYv2clwa4HZokiWScNZVr8CdzyhWodWfe6dLa1Nf2cnCk2x1EDE3JNBaEwPEdeCqXcJXprD3dKf1ceKSKTwIkLSID_GGFbEG1r-6TIjMHBLGej1CgLE_USvym9RkdHGE1pqaNjunzCmXW87PNz00mPTfEhj3-2PBZC0jF3P4wFdpu1q6E-DcsFdqAmpwmeVhtF9eIhraH21uGAQJ3knNT8cThyYDZ3lghX6wmNKH4Ft48PcnB95f-fEQ2qLI39qU1E8mPBYZ3jZ-dCPYqWm0QnqHOXkYkx4oCVZ111Fnq8l5ccWxIAAxwqxZPHjZX3ojlNdX-W6CXZqKm9tN-_Kc0l6CjLOd4U6QQ');
+	  	$r = $this->request($url, 'GET', NULL, $headers);
+
+		} else {
+		
+	 	  $query = "sql=".urlencode($query);
+	 	  $params = array( 'sql' => urlencode($query) );
+			$headers = array( 
+								      'Content-type' => 'application/x-www-form-urlencoded', 
+								      'Authorization' => 'GoogleLogin auth='.$token         
+								    );
+
+	  	$r = $this->request($qurl, 'POST', $params, $headers);
+
+		
+		}			
+
+	  return $r;
+	  
+	}
+	
+
 	function geocode($address) {
 
 		$CI =& get_instance();

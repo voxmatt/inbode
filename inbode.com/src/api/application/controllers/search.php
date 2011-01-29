@@ -50,6 +50,15 @@ class Search extends REST_Controller
 			$searchuri = $this->config->item('i_searchuri') . '&box=' . $box;
 		}
 
+
+		// we used to do a spatial search on google maps using the google maps data api
+		// we are now better and smarter and use google fusion tables. yay us.
+
+		$r = $this->inbode->fusionquery('SHOW TABLES');		
+		$items = array('r' => $r);
+
+
+/*
 		// now do the spatial search using the google map
 		$h = array('Authorization: AuthSub token="'.$this->config->item('i_token').'"');
 		// the response, search results around the latlng or using a bounding box!
@@ -151,6 +160,7 @@ class Search extends REST_Controller
 			$items=array();
 		
 		}
+*/
 		
 		
 		$return = array('status'=>'ok', 'location'=>$location, 'latlng'=>$latlng, 'items'=>$items);		

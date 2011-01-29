@@ -2,40 +2,28 @@
 	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language; ?>" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>">
-  <!--
-  
-  
-  
-  
+<!-- 
+
+         _       __              __   
+        (_)___  / /_  ____  ____/ /__ 
+       / / __ \/ __ \/ __ \/ __  / _ \
+      / / / / / /_/ / /_/ / /_/ /  __/
+     /_/_/ /_/_.___/\____/\__,_/\___/ 
+
+     inbode.com is made in America
+     by the people of ten7i.com
+       ______          ______                      
+      /_  __/___  ____/__  (_) _________  ____ ___ 
+       / /  / _ \/ __ \ / / / / ___/ __ \/ __ `__ \
+      / /  /  __/ / / // / /_/ /__/ /_/ / / / / / /
+     /_/   \___/_/ /_//_/_/(_)___/\____/_/ /_/ /_/ 
 
 
+ -->
+ 
+ 	<head>
 
-      Digitally crafted using perfect pixels
-      with some bits and bytes by wunderkids
-      at Ten Seven Interactive. Shaa-zaaamm!
-
-     ______          _____                    
-    /_  __/__  ____ / ___/___ _   _____  ____ 
-     / / / _ \/ __ \\__ \/ _ \ | / / _ \/ __ \
-    / / /  __/ / / /__/ /  __/ |/ /  __/ / / /
-   /_/  \___/_/ /_/____/\___/|___/\___/_/ /_/ 
-
-
-          http://ten7i.com/shaa-zaaamm
-                   1256732626
-
-
-
-
-  
-  
-  
-  
-  
-  -->	
-	<head>
-
-		<meta name="author" content="Ten Seven, Interactive. LLC -- http://www.tenseveninteractive.com/" />
+		<meta name="author" content="Inbode Inc." />
 		<title><?php print $head_title; ?></title>
 		<?php print $head; ?>
 		<?php print $styles; ?>
