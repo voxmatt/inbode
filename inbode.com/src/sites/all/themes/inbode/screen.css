@@ -308,7 +308,11 @@ fieldset, input, textarea {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 }
-
+ .messages {
+ 	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+ }
 
 fieldset legend {
 	padding: 0 10px 0 8px;

@@ -14,20 +14,15 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
 			// a new unit was created, create it in the fusion table too baby!
 			// we only created entries in the fusion table if we add unit info
-			
 			if ($node->type=="unit") {
-
 				// get some info on the building			
 				$buildinginfo = inbode_get_building_info($node->field_unit_building[0]['nid']);
-
 				// setup the building and unit array
 				$data=array();
 				$data["node"]=(array) $node;
 				$data["building"]=$buildinginfo[0];
-										
-				// add the placemark to the map, get the feature id back and store it
-				$rowid = inbode_fusion_insert_unit($data);
-				
+				// add the mofo to fusion, get the unique ROWID back
+				$rowid = inbode_fusion_insert_unit($data);				
 				if ( !inbode_update_featureid( $node->nid, $rowid ) ) {
 					watchdog('inbode', 'Inserted new unit '.$node->nid.' but failed to insert ROWID' );
 					drupal_set_message('Your unit was added, but with an error. Please <a href="/node/'.$node->nid.'/edit">re-save your unit data</a>.', 'error');
@@ -35,28 +30,28 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 					watchdog('inbode', 'Inserted new unit '.$node->nid.' with ROWID '.$rowid );
 					drupal_set_message('Your unit was added to Inbode.', 'status');
 				};
-				
 			}
 			
 			break;
 			
-			
-		// below here is old shit for google maps, above it is fusion		  
-
 
     case 'delete':
-    	// delete a feature on the map too. a feature id will cease to exist in a little bit here
+    
+    	// delete a row in the fusion table
 			if ($node->type=="unit") {
-				$fid = $node->field_featureid[0]["value"];
-				if (!inbode_delete_unit($fid)) {
-					drupal_set_message('Deleted your unit on the Inbode map.', 'status');
+				$rowid = $node->field_featureid[0]["value"];
+				if (!inbode_fusion_delete_unit($rowid)) {
+					drupal_set_message('Deleted your unit with Inbode.', 'status');
 				} else {
-					drupal_set_message('There was a problem deleting your unit on the Inbode map.', 'error');				
+					drupal_set_message('There was a problem deleting your unit with Inbode.', 'error');				
 				}
 			}
 
       break;
 
+
+
+		// below here is old shit for google maps, above it is fusion		  
 
 
     case 'update':
@@ -103,6 +98,8 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
 }
 
+
+// insert data, both building and unit, into the google fusion table
 function inbode_fusion_insert_unit($data) {
 
 	global $conf;
@@ -199,8 +196,27 @@ function inbode_fusion_insert_unit($data) {
 }
 
 
+// delete a unit (with building info) from the google fusion table
+function inbode_fusion_delete_unit( $rowid ) {
+
+	global $conf;
+	$tableid = $conf['i_InbodeBeta-BuildingsUnits'];
+	$sql = "DELETE FROM $tableid WHERE ROWID='$rowid'";
+	$result = inbode_fusionquery($sql);
+	if (isset($result['response'])) {
+		if ($result['response']=='OK') {
+			return 1;		
+		} else {
+			return 0;
+		}
+	} else {
+		return 0;
+	}
+
+}
 
 
+// get some building info
 function inbode_get_building_info($bid) {
 
   $bsql = "SELECT n.nid, n.title, b.field_building_description_value, l.street, l.additional, l.city, l.province, l.postal_code, l.country, l.latitude, l.longitude, (SELECT field_building_amenities_value FROM content_field_building_amenities a WHERE a.nid=$bid AND a.field_building_amenities_value='cats') AS building_am_cats, (SELECT field_building_amenities_value FROM content_field_building_amenities a WHERE a.nid=$bid AND a.field_building_amenities_value='small-dogs') AS building_am_dogs_small, (SELECT field_building_amenities_value FROM content_field_building_amenities a WHERE a.nid=$bid AND a.field_building_amenities_value='big-dogs') AS building_am_dogs_large, (SELECT field_building_amenities_value FROM content_field_building_amenities a WHERE a.nid=$bid AND a.field_building_amenities_value='pool') AS building_am_pool FROM node n LEFT JOIN location_instance li ON li.nid=n.nid LEFT JOIN location l ON  li.lid=l.lid LEFT JOIN content_type_building b ON b.nid=n.nid WHERE n.nid=$bid ;";
@@ -213,6 +229,7 @@ function inbode_get_building_info($bid) {
 
 }
 
+// parse a csv string into an array
 function inbode_str_getcsv($input, $delimiter=',', $enclosure='"', $escape=null, $eol=null) { 
   $temp=fopen("php://memory", "rw");
   fwrite($temp, $input);
@@ -222,6 +239,8 @@ function inbode_str_getcsv($input, $delimiter=',', $enclosure='"', $escape=null,
   return $r;
 } 
 
+
+// perform a sql like query to google fusion tables
 function inbode_fusionquery($query) {
 
 	global $conf;
@@ -304,6 +323,7 @@ function inbode_fusionquery($query) {
 }
 	
 
+// perform a managed curl request of any type
 function inbode_request($uri = NULL, $type = 'GET', $params = NULL, $headers = NULL) {
 
 	// when setting the $headers, set it explicitly
@@ -368,7 +388,7 @@ function inbode_request($uri = NULL, $type = 'GET', $params = NULL, $headers = N
 
 
 
-
+// intercept the url menus
 function inbode_menu() {
   $items = array();
 
@@ -396,10 +416,14 @@ function inbode_menu() {
     
 }
 
+
+// permissions
 function inbode_perm() {
   return array('view inbode summary');
 }
 
+
+// summary page
 function inbode_summary($account) {
 
   // setup the output html
@@ -472,14 +496,14 @@ function inbode_summary($account) {
 }
 
 
+// access
 function _inbode_access($account) {
   global $user;
   
   return (
-  $user->uid == 1 ||
-  ($user->uid == $account->uid && user_access('view inbode summary')) 
-//  (user_access('access others lists of watched posts') && _watcher_user_settings_load('watcher_share_binder', $account->uid))
-  );
+  		$user->uid == 1 ||
+  		($user->uid == $account->uid && user_access('view inbode summary')) 
+	  );
 }
 
 
@@ -515,25 +539,6 @@ function __inbode_get_properties( $uid ) {
 
 /* shit goes here */
 
-function inbode_delete_unit( $featureid ) {
-
-	global $conf;
-	register_libs();
-	$client = Zend_Gdata_ClientLogin::getHttpClient( $conf['i_Guser'], $conf['i_Gpass'], Webready_Gdata_Maps::AUTH_SERVICE_NAME);
-
-	$auth_token = $client->getClientLoginToken();	
-	$url = 'http://maps.google.com/maps/feeds/features/'.$conf['i_Guser'].'/'.$conf['i_mid'].'/full/'.$featureid;
-
-	$ch = curl_init( $url );
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: GoogleLogin auth="'.$auth_token.'"') );
-	$response = curl_exec($ch);	
-	return $response;
-	
-}
 
 
 function inbode_save_unit( $title, $description, $lat, $lon ) {
