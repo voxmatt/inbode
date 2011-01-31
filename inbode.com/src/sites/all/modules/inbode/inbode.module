@@ -56,10 +56,10 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     	// we just <3 google fusion tables!
     	// how slick are sql queries via http with spatial tied to it? awesome!
 			
-			
+			// unit
 			if ($node->type=="unit") {
 	
-				// let's update the unit please! (includes building data that is current.
+				// let's update the unit please! (includes building data that is current.)
 				// unique rowid in fusion to update
 				$rowid = $node->field_featureid[0]["value"];
 				// get some info on the building			
@@ -80,13 +80,124 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
 
 			}
+			
+			// building
+			if ($node->type=="building") {
+	
+				// let's update the building please!
+				// no unique rowid in fusion to update, there's a slew of them potentially
 
+				// get some info on the building			
+				$buildingid = $node->nid;
+				$buildinginfo = inbode_get_building_info($buildingid);
+				// do the update
+				$result = inbode_fusion_update_building($buildingid, $buildinginfo);				
+				
+				if ( !$result )  {
+					watchdog('inbode', 'Fusion table error updating building '.$buildingid.' with data '.serialize($buildinginfo) );
+					drupal_set_message('Oops, there was an error updating Inbode. Please try again later.', 'error');
+				} else {
+					watchdog('inbode', 'Updated fusion table building id '.$node->nid);
+					drupal_set_message('Your unit was updated on Inbode.', 'status');
+				};				
+
+
+			}
 
       break;
 
 
 
   }
+
+}
+
+
+// update all building data in the google fusion table for this building id
+function inbode_fusion_update_building($id, $data) {
+	
+	global $conf;	
+	$tableid = $conf['i_InbodeBeta-BuildingsUnits'];
+	
+	if (!isset($id) || !is_numeric($id)) {
+		return 0;
+	}
+	
+	// get all ROWIDs from fusion that we must update
+	$rowsql = "SELECT ROWID FROM $tableid WHERE 'building_id'='$id'";
+	$rowids = inbode_fusionquery($rowsql);
+	
+	if (isset($rowids['column_data'])) {
+		$rowdata = $rowids['column_data'];
+	} else {
+		return 0;
+	}
+		
+
+	// build  SQL like update query to be executed with the fusion table
+	$sql  = "UPDATE $tableid SET ";
+
+	$sql .= "'latlng'='".$data[0]['latitude'].",".$data[0]['longitude']."', ";
+	$sql .= "'building_name'='".addcslashes($data[0]['title'], "'")."', ";
+	$sql .= "'building_description'='".addcslashes($data[0]['field_building_description_value'], "'")."', ";
+	$sql .= "'street'='".addcslashes($data[0]['street'], "'")."', ";
+	$sql .= "'street2'='".addcslashes($data[0]['additional'], "'")."', ";
+	$sql .= "'city'='".addcslashes($data[0]['city'], "'")."', ";
+	$sql .= "'province'='".addcslashes($data[0]['province'], "'")."', ";
+	$sql .= "'postal_code'='".addcslashes($data[0]['postal_code'], "'")."', ";
+	$sql .= "'country'='".addcslashes($data[0]['country'], "'")."', ";
+	$sql .= "'building_am_cats'='";
+	if ($data[0]['building_am_cats']) { $sql .= "1"; } else { $sql .= "0";	};
+	$sql .= "', ";
+	$sql .= "'building_am_dogs_small'='";
+	if ($data[0]['building_am_dogs_small']) { $sql .= "1"; } else { $sql .= "0";	};
+	$sql .= "', ";
+	$sql .= "'building_am_dogs_large'='";
+	if ($data[0]['building_am_dogs_large']) { $sql .= "1"; } else { $sql .= "0";	};
+	$sql .= "', ";
+	$sql .= "'building_am_pool'='";
+	if ($data[0]['building_am_pool']) { $sql .= "1"; } else { $sql .= "0";	};
+	$sql .= "' ";
+	$sql .= " WHERE ROWID=";
+
+/*
+
+	hope to bring images here too
+
+	$sql .= "'building_image_1'='', ";
+	$sql .= "'building_image_2'='', ";
+	$sql .= "'building_image_3'='', ";
+	$sql .= "'building_image_4'='', ";
+*/
+
+
+
+	// update google fusion now please!
+	if (isset($id) && is_numeric($id)) {
+		
+		// results
+		$result=array();
+		
+		foreach($rowdata as $rowid) {		
+			$result[] = inbode_fusionquery($sql."'".$rowid['rowid']."'" );		
+		}		
+		
+		foreach($result as $r) {
+			if ($r['info']['http_code']==200 && $r['info']['content_type']=='text/plain' && isset($r['response'])) {
+				// yay we're good
+			} else {
+				watchdog('inbode', 'Error updating all buildings with building_id '.$id. ' and data ['.$result.']');
+				return 0;
+			}			
+		}
+
+		return 1;
+
+	} else {
+		return 0;
+	}
+
+
 
 }
 
@@ -493,7 +604,7 @@ function inbode_request($uri = NULL, $type = 'GET', $params = NULL, $headers = N
 function inbode_menu() {
   $items = array();
 
-
+		// user home
     $items['user/%user/inbode'] = array(
     'title' => 'Inbode',
     'page callback' => 'inbode_summary',
@@ -503,7 +614,6 @@ function inbode_menu() {
     'type' => MENU_LOCAL_TASK,
     );
      
- 
     return $items;
     
 }
@@ -531,7 +641,7 @@ function inbode_summary($account) {
     $out .= "<img src=\"/".path_to_theme()."/images/add-first-building.png\" border=\"0\" width=\"286\" height=\"137\" alt=\"Click here to add your first building\" hspace=\"90\" />";
   } else {
 
-		// loop thur buildings  
+		// loop thru buildings  
     foreach( $props["buildings"] as $building ) {
 
       // building
@@ -573,7 +683,7 @@ function inbode_summary($account) {
       }
       
       // always have an "add unit"
-      $out .= "<h3><a href=\"/node/add/unit?destination=user/".$account->uid."/inbode\">+ Add Unit</a></h3>";
+      $out .= "<h3><a href=\"/node/add/unit?destination=user/".$account->uid."/inbode&edit[field_unit_building][nid][nid]=".$building["nid"]."\">+ Add Unit</a></h3>";
 
     
     }
