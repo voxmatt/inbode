@@ -137,48 +137,48 @@
             <div id="slider-dates"></div><!-- slider-dates end -->
           </div><!-- t7_dates end -->
 
-          <div class="amenities">
+          <div class="amenities" id="amenities">
             <ul class="left_col">
               <li><input class="jquery-safari-checkbox" type="checkbox" name="amenities"
-              value="balcony" id="balcony"><label for="balcony">balcony</label></li>
+              id="unit_am_balcony"><label for="unit_am_balcony">balcony</label></li>
 
               <li><input class="jquery-safari-checkbox" type="checkbox" name="amenities"
-              value="dishwasher" id="dishwasher"><label for=
-              "dishwasher">dishwasher</label></li>
+              id="unit_am_dishwasher"><label for=
+              "unit_am_dishwasher">dishwasher</label></li>
 
-              <li><label for="dishwasher"><input class="jquery-safari-checkbox" type=
-              "checkbox" name="amenities" value="furnished" id="furnished"><label for=
-              "furnished">furnished</label></label></li>
+              <li><input class="jquery-safari-checkbox" type=
+              "checkbox" name="amenities" id="unit_am_furnished"><label for=
+              "unit_am_furnished">furnished</label></li>
 
-              <li><label for="dishwasher"><input class="jquery-safari-checkbox" type=
-              "checkbox" name="amenities" value="laundry" id="laundry"><label for=
-              "laundry">unit laundry</label></label></li>
+              <li><input class="jquery-safari-checkbox" type=
+              "checkbox" name="amenities" id="unit_am_laundry"><label for=
+              "unit_am_laundry">unit laundry</label></li>
 
-              <li><label for="dishwasher"><input class="jquery-safari-checkbox" type=
-              "checkbox" name="amenities" value="disposal" id="disposal"><label for=
-              "disposal">disposal</label></label></li>
+              <li><input class="jquery-safari-checkbox" type=
+              "checkbox" name="amenities" id="unit_am_disposal"><label for=
+              "unit_am_disposal">disposal</label></li>
             </ul>
 
             <ul class="right_col">
-              <li><label for="dishwasher"><input class="jquery-safari-checkbox" type=
-              "checkbox" name="amenities" value="garage" id="garage"><label for=
-              "garage">garage</label></label></li>
+              <li><input class="jquery-safari-checkbox" type=
+              "checkbox" name="amenities" id="unit_am_garage"><label for=
+              "unit_am_garage">garage</label></li>
 
-              <li><label for="dishwasher"><input class="jquery-safari-checkbox" type=
-              "checkbox" name="amenities" value="pool" id="pool"><label for=
-              "pool">pool</label></label></li>
+              <li><input class="jquery-safari-checkbox" type=
+              "checkbox" name="amenities" id="building_am_pool"><label for=
+              "building_am_pool">pool</label></li>
 
-              <li><label for="dishwasher"><input class="jquery-safari-checkbox" type=
-              "checkbox" name="amenities" value="cats" id="cats"><label for=
-              "cats">cats</label></label></li>
+              <li><input class="jquery-safari-checkbox" type=
+              "checkbox" name="amenities" id="building_am_cats"><label for=
+              "building_am_cats">cats</label></li>
 
-              <li><label for="dishwasher"><input class="jquery-safari-checkbox" type=
-              "checkbox" name="amenities" value="small_dogs" id="small_dogs"><label for=
-              "small_dogs">small dogs</label></label></li>
+              <li><input class="jquery-safari-checkbox" type=
+              "checkbox" name="amenities" id="building_am_dogs_small"><label for=
+              "building_am_dogs_small">small dogs</label></li>
 
-              <li><label for="dishwasher"><input class="jquery-safari-checkbox" type=
-              "checkbox" name="amenities" value="large_dogs" id="large_dogs"><label for=
-              "large_dogs">large dogs</label></label></li>
+              <li><input class="jquery-safari-checkbox" type=
+              "checkbox" name="amenities" id="building_am_dogs_large"><label for=
+              "building_am_dogs_large">large dogs</label></li>
             </ul>
           </div><!-- amenities end -->
         </div><!-- 2ND_SET END -->

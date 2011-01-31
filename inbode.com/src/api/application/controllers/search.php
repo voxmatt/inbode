@@ -49,7 +49,9 @@ class Search extends REST_Controller
 		// we used to do a spatial search on google maps using the google maps data api
 		// we are now better and smarter and use google fusion tables. yay us.
 		// fusion table with buildings and units is 417990
-		$fusionresult = $this->inbode->fusionquery('SELECT * FROM '.$tableid.' WHERE ST_INTERSECTS(\'latlng\', CIRCLE( LATLNG('.$latlng['lat'].','.$latlng['lng'].'), 20000) )');		
+		//$q = 'SELECT * FROM '.$tableid.' WHERE ST_INTERSECTS(\'latlng\', CIRCLE( LATLNG('.$latlng['lat'].','.$latlng['lng'].'), 80000) )';
+		$q = "SELECT * FROM $tableid WHERE 'status'='listed'" ;
+		$fusionresult = $this->inbode->fusionquery($q);		
 
 		if ( isset($fusionresult['count'])) {
 	 		$records = $fusionresult['count'];	
@@ -118,6 +120,8 @@ class Search extends REST_Controller
 				$f['unit_am_dishwasher'] = $result['unit_am_dishwasher'];
 				$f['unit_am_disposal'] = $result['unit_am_disposal'];
 				$f['unit_am_balcony'] = $result['unit_am_balcony'];
+				$f['unit_am_furnished'] = $result['unit_am_furnished'];
+				$f['unit_am_garage'] = $result['unit_am_garage'];
 				$f['status'] = $result['status'];
 				$unit_images=array();
 				for ($ui = 1; $ui<=8 ; $ui++) {

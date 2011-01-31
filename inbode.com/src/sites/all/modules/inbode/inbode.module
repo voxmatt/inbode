@@ -269,6 +269,12 @@ function inbode_fusion_update_unit( $rowid, $data ) {
 	$sql .= "'unit_am_balcony'='";
 	if ( stripos($uam,'balcony')===false) { $sql .= "0"; } else { $sql .= "1";	};
 	$sql .= "', ";
+	$sql .= "'unit_am_furnished'='";
+	if ( stripos($uam,'furnished')===false) { $sql .= "0"; } else { $sql .= "1";	};
+	$sql .= "', ";
+	$sql .= "'unit_am_garage'='";
+	if ( stripos($uam,'garage')===false) { $sql .= "0"; } else { $sql .= "1";	};
+	$sql .= "', ";
 	
 	// images
 	$unit_images = $data['node']['field_unit_images'];
@@ -320,7 +326,7 @@ function inbode_fusion_insert_unit( $data ) {
 	$tableid = $conf['i_InbodeBeta-BuildingsUnits'];
 
 	// build an SQL like query to be executed with the fusion table
-	$sql  = "INSERT INTO $tableid ('building_id','latlng','building_name','building_description','street','street2','city','province','postal_code','country','building_am_cats','building_am_dogs_small','building_am_dogs_large','building_am_pool','building_image_1','building_image_2','building_image_3','building_image_4','unit_id','status','unit_name','unit_description','bedrooms','bathrooms','price','currency','area','available_date','unit_am_laundry','unit_am_dishwasher','unit_am_disposal','unit_am_balcony','unit_image_1','unit_image_2','unit_image_3','unit_image_4','unit_image_5','unit_image_6','unit_image_7','unit_image_8') VALUES (";
+	$sql  = "INSERT INTO $tableid ('building_id','latlng','building_name','building_description','street','street2','city','province','postal_code','country','building_am_cats','building_am_dogs_small','building_am_dogs_large','building_am_pool','building_image_1','building_image_2','building_image_3','building_image_4','unit_id','status','unit_name','unit_description','bedrooms','bathrooms','price','currency','area','available_date','unit_am_laundry','unit_am_dishwasher','unit_am_disposal','unit_am_furnished','unit_am_garage','unit_am_balcony','unit_image_1','unit_image_2','unit_image_3','unit_image_4','unit_image_5','unit_image_6','unit_image_7','unit_image_8') VALUES (";
 	
 	// building details
 	$sql .= $data['building']['nid'].", ";
@@ -373,6 +379,8 @@ function inbode_fusion_insert_unit( $data ) {
 	if ( stripos($uam,'dishwasher')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
 	if ( stripos($uam,'disposal')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
 	if ( stripos($uam,'balcony')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
+	if ( stripos($uam,'furnished')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
+	if ( stripos($uam,'garage')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
 	// images
 	$unit_images = $data['node']['field_unit_images'];
 	$kk=0;
