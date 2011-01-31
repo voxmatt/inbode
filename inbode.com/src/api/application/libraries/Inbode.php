@@ -26,7 +26,7 @@ class Inbode {
 
   }	
 
-	// fusion tables client lib for sql statements
+	// fusion tables query
 	function fusionquery($query) {
 	
 		$qurl = 'https://www.google.com/fusiontables/api/query';
@@ -35,26 +35,75 @@ class Inbode {
 		
 	  if(preg_match("/^select|^show tables|^describe/i", $query)) { 
 
-
-			$url = $qurl."?sql=".urlencode($query);
-			$headers = array('Authorization' => 'GoogleLogin auth=DQAAAJUBAADzSF38ZzZfqdSAlmGPqrMTPAh2TnUK5r_dgtSguxEJp6rqeWnlDA3Lo88aUO3it7Y7iMOKmgjDKB8RJnVBx3-DUE064xxN64-zXIWoWdm2OFyNCXK4iB2afwNnwSuBMN_b607hriUXvAcvPdYkbBR4tuapcetxm1nvA8WlUMiDXveqYFpHvWK5Bzl9VlG0GLuz-DO6nxTuDSYv2clwa4HZokiWScNZVr8CdzyhWodWfe6dLa1Nf2cnCk2x1EDE3JNBaEwPEdeCqXcJXprD3dKf1ceKSKTwIkLSID_GGFbEG1r-6TIjMHBLGej1CgLE_USvym9RkdHGE1pqaNjunzCmXW87PNz00mPTfEhj3-2PBZC0jF3P4wFdpu1q6E-DcsFdqAmpwmeVhtF9eIhraH21uGAQJ3knNT8cThyYDZ3lghX6wmNKH4Ft48PcnB95f-fEQ2qLI39qU1E8mPBYZ3jZ-dCPYqWm0QnqHOXkYkx4oCVZ111Fnq8l5ccWxIAAxwqxZPHjZX3ojlNdX-W6CXZqKm9tN-_Kc0l6CjLOd4U6QQ');
-	  	$r = $this->request($url, 'GET', NULL, $headers);
+			$url = $qurl."/?sql=".urlencode($query);
+			$headers = array('Authorization: GoogleLogin auth='.$token);
+	  	$ret = $this->request($url, 'GET', NULL, $headers);
 
 		} else {
 		
 	 	  $query = "sql=".urlencode($query);
 	 	  $params = array( 'sql' => urlencode($query) );
 			$headers = array( 
-								      'Content-type' => 'application/x-www-form-urlencoded', 
-								      'Authorization' => 'GoogleLogin auth='.$token         
+								      'Content-type: application/x-www-form-urlencoded', 
+								      'Authorization: GoogleLogin auth='.$token         
 								    );
-
-	  	$r = $this->request($qurl, 'POST', $params, $headers);
-
+	  	$ret = $this->request($qurl, 'POST', $params, $headers);
 		
-		}			
+		}
 
-	  return $r;
+		// response array
+		$ra = array();
+		$ra['info'] = $ret['info'];
+		
+		if ($ret['info']['content_type']=='text/plain; charset=UTF-8' && $ret['info']['http_code']=='200') {
+
+		  $response = $ret['response'];
+		  // get the response into an array of lines (responses are always csv from google, tables of data)
+			$lines = explode("\n", $response);
+			
+			// now loop thru each line, and create an array to return with a header row
+			$records=count($lines);
+			
+			if ($records>1) {
+
+				$i=0;
+
+				foreach ($lines as $line) {
+					$cols = $this->str_getcsv($line);		
+					if ($line) {
+						// loop thru each of the cols, either header or data
+						$k=0;
+						foreach($cols as $col) {
+							if ($i==0) {
+								// first line of response are the column names
+								$ra['column_name']['name'.$k] = $col;				
+							} else {				
+								// on to the data
+								$ra['column_data'][$i][$ra['column_name']['name'.$k]] = $col;				
+							}
+							$k++;
+						}				
+						// increment			
+						$i++;		
+					}	
+				}
+
+				$ra['count'] = $i-1;
+			
+			} else {
+			
+				$ra['response'] = $ret['response'];
+				$ra['count'] = 0;		
+			
+			}
+		
+		} else {
+		
+			$ra['response'] = $ret['response'];
+			$ra['count'] = 0;		
+		}
+
+		return $ra;
 	  
 	}
 	
@@ -79,6 +128,12 @@ class Inbode {
 	}
 	
 	function request($uri = NULL, $type = 'GET', $params = NULL, $headers = NULL) {
+
+		// when setting the $headers, set it explicitly
+		// $headers = array('Content type: blah/blah');
+		// not
+		// $headers = array('Content type' => 'blah/blah');
+		// !!!
 	
 		$return = array();
 	
@@ -106,10 +161,13 @@ class Inbode {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);		
+		curl_setopt($ch, CURLINFO_HEADER_OUT, 0);
+
 		
 		// get the response
 		$return['response'] = curl_exec($ch);	
  		$return['info'] = curl_getinfo($ch);
+
 
 		// check for curl errors
 		if(curl_errno($ch)) {
@@ -131,6 +189,14 @@ class Inbode {
 
 	}
 
+	function str_getcsv($input, $delimiter=',', $enclosure='"', $escape=null, $eol=null) { 
+	  $temp=fopen("php://memory", "rw");
+	  fwrite($temp, $input);
+	  fseek($temp, 0);
+	  $r=fgetcsv($temp, 4096, $delimiter, $enclosure);
+	  fclose($temp);
+	  return $r;
+	} 
 
 	function xml2array($contents, $get_attributes=1, $priority = 'tag') { 
 			// thanks!	

@@ -44,7 +44,19 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// Inbode Application Name
 	$conf['i_appname'] = 'Inbode Alpha';
 
-
+	// fusion tables specific
+	// google account username
+	$conf['i_GAuser'] = 'maps@inbode.com';
+	// google account password	
+	$conf['i_GApass'] = 'w1r3dmag';
+	// google token for client login
+	$conf['i_GAtoken'] = 'DQAAAJUBAACXh_6YQC7wSnZEb1W3zZOr7pUwZ5UoFvMG9mGiP20GL5ikh6vR4rHp_0ADPCU_fc5PKDdi5NpS5VIysIbJAm-HSGXtxXRkAqqbb-2kgZoeCdNb6DygF0bTUtf-6PwWZqauY3ysFe-QOYyp5erz5Innrn1hseQsBOvkMCmVwUsedJq8x9D-rAiOlzIDL_TsYWmL6sQI08FuewPOk_OVbCIP8IZ05blm0CCFjze8of-ZhAs4xKNRpGGzzT1U7ml9MfMbDWVW_cBnsNVLIujuk8RDnlXMYDwihBIDMi924rEAc5_7bapwz_mF6p7RCGGsZ7tNzwmjNBC5G8h63m8OziduAsWYMSWJME37qsVmi13ADT3PD2pkGcvHZp9Z43V3uzZjkvdSsZicq-AqOlbfdGQ2cvmO7mqiYoCAK0tWIiOBHp8MaHiexeG9XF4s0IipV_zscHie4IALxY-qyKhsdLtWXSCPcgordPWXInesZVpQyaz0u09gUSi5sfQx94bH7abIGsE8UjluOQQZWJjzTR29gDHHFuzOHhrjpLcOflJ0Eg';
+	$conf['i_InbodeBeta-BuildingsUnits'] = '417990';
+	// to be used in the future
+	$conf['i_InbodeBeta-Building'] = '000000';
+	$conf['i_InbodeBeta-Unit'] = '000000';
+	
+	
 } else if (file_exists("/usr/www/users/inbode")) {
 
 	// production
@@ -68,6 +80,18 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	
 	// Inbode Application Name
 	$conf['i_appname'] = 'Inbode Alpha';
+
+	// fusion tables specific
+	// google account username
+	$conf['i_GAuser'] = 'maps@inbode.com';
+	// google account password	
+	$conf['i_GApass'] = 'w1r3dmag';
+	// google token for client login
+	$conf['i_GAtoken'] = 'DQAAAJUBAACXh_6YQC7wSnZEb1W3zZOr7pUwZ5UoFvMG9mGiP20GL5ikh6vR4rHp_0ADPCU_fc5PKDdi5NpS5VIysIbJAm-HSGXtxXRkAqqbb-2kgZoeCdNb6DygF0bTUtf-6PwWZqauY3ysFe-QOYyp5erz5Innrn1hseQsBOvkMCmVwUsedJq8x9D-rAiOlzIDL_TsYWmL6sQI08FuewPOk_OVbCIP8IZ05blm0CCFjze8of-ZhAs4xKNRpGGzzT1U7ml9MfMbDWVW_cBnsNVLIujuk8RDnlXMYDwihBIDMi924rEAc5_7bapwz_mF6p7RCGGsZ7tNzwmjNBC5G8h63m8OziduAsWYMSWJME37qsVmi13ADT3PD2pkGcvHZp9Z43V3uzZjkvdSsZicq-AqOlbfdGQ2cvmO7mqiYoCAK0tWIiOBHp8MaHiexeG9XF4s0IipV_zscHie4IALxY-qyKhsdLtWXSCPcgordPWXInesZVpQyaz0u09gUSi5sfQx94bH7abIGsE8UjluOQQZWJjzTR29gDHHFuzOHhrjpLcOflJ0Eg';
+	$conf['i_InbodeBeta-BuildingsUnits'] = '417990';
+	// to be used in the future
+	$conf['i_InbodeBeta-Building'] = '000000';
+	$conf['i_InbodeBeta-Unit'] = '000000';
 
 
 } else if (file_exists("/Users/ivan/git/inbode/inbode.com/src")) {
@@ -94,6 +118,19 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// Inbode Application Name
 	$conf['i_appname'] = 'Inbode Alpha';
 
+	// fusion tables specific
+	// google account username
+	$conf['i_GAuser'] = 'maps@inbode.com';
+	// google account password	
+	$conf['i_GApass'] = 'w1r3dmag';
+	// google token for client login
+	$conf['i_GAtoken'] = 'DQAAAJUBAACXh_6YQC7wSnZEb1W3zZOr7pUwZ5UoFvMG9mGiP20GL5ikh6vR4rHp_0ADPCU_fc5PKDdi5NpS5VIysIbJAm-HSGXtxXRkAqqbb-2kgZoeCdNb6DygF0bTUtf-6PwWZqauY3ysFe-QOYyp5erz5Innrn1hseQsBOvkMCmVwUsedJq8x9D-rAiOlzIDL_TsYWmL6sQI08FuewPOk_OVbCIP8IZ05blm0CCFjze8of-ZhAs4xKNRpGGzzT1U7ml9MfMbDWVW_cBnsNVLIujuk8RDnlXMYDwihBIDMi924rEAc5_7bapwz_mF6p7RCGGsZ7tNzwmjNBC5G8h63m8OziduAsWYMSWJME37qsVmi13ADT3PD2pkGcvHZp9Z43V3uzZjkvdSsZicq-AqOlbfdGQ2cvmO7mqiYoCAK0tWIiOBHp8MaHiexeG9XF4s0IipV_zscHie4IALxY-qyKhsdLtWXSCPcgordPWXInesZVpQyaz0u09gUSi5sfQx94bH7abIGsE8UjluOQQZWJjzTR29gDHHFuzOHhrjpLcOflJ0Eg';
+	$conf['i_InbodeBeta-BuildingsUnits'] = '417990';
+	// to be used in the future
+	$conf['i_InbodeBeta-Building'] = '000000';
+	$conf['i_InbodeBeta-Unit'] = '000000';
+
+
 } else {
 
 	// local
@@ -117,5 +154,18 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	
 	// Inbode Application Name
 	$conf['i_appname'] = 'Inbode Alpha';
+
+	// fusion tables specific
+	// google account username
+	$conf['i_GAuser'] = 'maps@inbode.com';
+	// google account password	
+	$conf['i_GApass'] = 'w1r3dmag';
+	// google token for client login
+	$conf['i_GAtoken'] = 'DQAAAJUBAACXh_6YQC7wSnZEb1W3zZOr7pUwZ5UoFvMG9mGiP20GL5ikh6vR4rHp_0ADPCU_fc5PKDdi5NpS5VIysIbJAm-HSGXtxXRkAqqbb-2kgZoeCdNb6DygF0bTUtf-6PwWZqauY3ysFe-QOYyp5erz5Innrn1hseQsBOvkMCmVwUsedJq8x9D-rAiOlzIDL_TsYWmL6sQI08FuewPOk_OVbCIP8IZ05blm0CCFjze8of-ZhAs4xKNRpGGzzT1U7ml9MfMbDWVW_cBnsNVLIujuk8RDnlXMYDwihBIDMi924rEAc5_7bapwz_mF6p7RCGGsZ7tNzwmjNBC5G8h63m8OziduAsWYMSWJME37qsVmi13ADT3PD2pkGcvHZp9Z43V3uzZjkvdSsZicq-AqOlbfdGQ2cvmO7mqiYoCAK0tWIiOBHp8MaHiexeG9XF4s0IipV_zscHie4IALxY-qyKhsdLtWXSCPcgordPWXInesZVpQyaz0u09gUSi5sfQx94bH7abIGsE8UjluOQQZWJjzTR29gDHHFuzOHhrjpLcOflJ0Eg';
+	$conf['i_InbodeBeta-BuildingsUnits'] = '417990';
+	// to be used in the future
+	$conf['i_InbodeBeta-Building'] = '000000';
+	$conf['i_InbodeBeta-Unit'] = '000000';
+
 
 }
