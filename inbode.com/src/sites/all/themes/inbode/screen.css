@@ -23,7 +23,7 @@ html, body {
 	padding : 0px;
 	text-align : left;
 	font-size : 14px;
-	font-family : Arial, Sans-Serif;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: normal;
 	background-color: #FFFFFF;
 	color: #000000;
@@ -31,7 +31,7 @@ html, body {
 
 /** headlines and content **/	
 h1, h2, h3, h4, p, li, td, input {
-	font-family : Arial, Sans-Serif;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-align : left;
 }
 
@@ -276,8 +276,10 @@ div.status {
 #admin-menu li,
 #admin-menu td,
 #admin-menu input {
-	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
-	font-size: 9px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	letter-spacing: 0.1em;
 }
 
 /** overrides **/
@@ -297,4 +299,27 @@ div.status {
   height: 100%;
   clear: both;
   display: block;
+}
+
+
+fieldset, input, textarea {
+	border: 1px #ccc solid;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+
+fieldset legend {
+	padding: 0 10px 0 8px;
+}
+
+input, textarea {
+	padding: 3px 5px;	
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+}
+label {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
 }

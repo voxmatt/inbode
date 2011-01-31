@@ -40,14 +40,14 @@ class Inbode {
 	  	$ret = $this->request($url, 'GET', NULL, $headers);
 
 		} else {
-		
+
 	 	  $query = "sql=".urlencode($query);
-	 	  $params = array( 'sql' => urlencode($query) );
 			$headers = array( 
 								      'Content-type: application/x-www-form-urlencoded', 
-								      'Authorization: GoogleLogin auth='.$token         
+								      'Authorization: GoogleLogin auth='.$token,
+											'Content-Length: '.strlen($query)
 								    );
-	  	$ret = $this->request($qurl, 'POST', $params, $headers);
+	  	$ret = inbode_request($qurl, 'POST', $query, $headers);
 		
 		}
 
@@ -171,8 +171,6 @@ class Inbode {
 
 		// check for curl errors
 		if(curl_errno($ch)) {
-			drupal_set_message('<p>There was an error: '. curl_error($ch). '</p>', 'error');
-			watchdog('store_locator', 'Error in '. $type .' request to '. $uri .' with headers ['. addslashes(serialize($headers)) .'] and params ['. addslashes(serialize($params)) .'] -- '. addslashes(curl_error($ch)));
 	 		// uh ohhh	
 			$return['status'] = 'error';
 			$return['message'] = curl_error($ch);

@@ -1,135 +1,49 @@
 <?php
 
 
-function register_libs() {
 
-	global $conf;
-	// reg libs
-	set_include_path( $conf['i_syspath'].'/lib/:'.get_include_path());
-	require_once('Webready/Gdata/Maps.php');
-	require_once('Zend/Gdata/ClientLogin.php');
-	
-}
-
-
-function inbode_testing() {
-
-		inbode_delete_unit();		
-
-}
-
-function inbode_get_feature_html($data) {
-	
-	// expecting $data to be an array of a node describing a unit, and an array of building info
-	// like this $data["node"] and $data["building"]
-	
-	global $conf;
-	$out  = '';
-	// open div
-	$out .= '<div style="font-family:Helvetica,Arial,sans-serif;width:300px">';
-	
-	// headline
-	$out .= '<h2 style="color:#464646;font-size:22px;">';
-	$out .= $data['node'][field_unit_bedroom][0]['value'].' bed ';
-	$out .= $data['node'][field_unit_bathroom][0]['value'].' bath ';
-	$out .= '$ '.$data['node'][field_unit_price][0]['amount'];
-	$out .= '</h2>';
-	
-	// images
-	if (isset($data['node'][field_unit_images][0]['filepath'])) {
-		$out .= '<div>';
-		foreach($data['node'][field_unit_images] as $img) {
-			if (isset($img['filepath'])) {
-				$out .= '<img border="0" width="105" src="'.$conf['i_imgsrv'].base_path().$img['filepath'].'" />';
-			}
-		}
-		$out .= '</div>';
-	}
-	
-	// close div
-	$out .= '</div>';
-	
-	return $out;
-
-}
-
-
-function inbode_get_building_info($bid) {
-
-  $bsql = "SELECT n.nid, n.title, l.street, l.additional, l.city, l.province, l.postal_code, l.country, l.latitude, l.longitude FROM node n LEFT JOIN location_instance li ON li.nid=n.nid LEFT JOIN location l ON  li.lid=l.lid WHERE n.nid=$bid ;";
-  
-  $bresource = db_query($bsql);
-  $building = array();
-  while ($brow = db_fetch_array($bresource)) $building[] = $brow;  
-  
-  return $building;  
-
-}
-
-
-function inbode_delete_unit( $featureid ) {
-
-	global $conf;
-	register_libs();
-	$client = Zend_Gdata_ClientLogin::getHttpClient( $conf['i_Guser'], $conf['i_Gpass'], Webready_Gdata_Maps::AUTH_SERVICE_NAME);
-
-	$auth_token = $client->getClientLoginToken();	
-	$url = 'http://maps.google.com/maps/feeds/features/'.$conf['i_Guser'].'/'.$conf['i_mid'].'/full/'.$featureid;
-
-	$ch = curl_init( $url );
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: GoogleLogin auth="'.$auth_token.'"') );
-	$response = curl_exec($ch);	
-	return $response;
-	
-}
-
-
-function inbode_save_unit( $title, $description, $lat, $lon ) {
-
-	global $conf;
-	register_libs();
-	$client = Zend_Gdata_ClientLogin::getHttpClient( $conf['i_Guser'], $conf['i_Gpass'], Webready_Gdata_Maps::AUTH_SERVICE_NAME);
-	$service = new Webready_Gdata_Maps( $client, $conf['i_appname'] );
-	$query = $service->newFeatureQuery();
-	$query->setMapElementId( $conf['i_mid'] );
-	$featureFeed = $service->getMapsFeatureFeed($query);
-	
-	// Create a new feature with a simple point
-	$feature = $service->newFeatureEntry();
-	$feature->newTitle( $title );
-	        
-	// Create a Placemark
-	$Placemark = new Webready_Gdata_Extension_Placemark();
-	$Placemark->newDescription( $description );        
-	$location = $lon.','.$lat.',0.0';
-	$Placemark->newPointWithCoordinates( $location );        	
-	$feature->newContentWithPlacemark( $Placemark );
-	        
-	// Insert the new feature using the feed's POST url
-	$nm = $service->insertMapFeature( $feature, $featureFeed->getPostUrl() );
-
-	return $nm->getFeatureElementId();
-
-}
-
-
-function inbode_update_featureid( $nid, $featureid ) {
-
-  $sql = "UPDATE content_type_unit SET field_featureid_value='$featureid' WHERE nid=$nid; ";  
-  $resource = db_query($sql);
-  return $resource;  
-}
 
 
 function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
 
   switch ($op) {
-  
+
+
+    case 'insert':
+
+			// a new unit was created, create it in the fusion table too baby!
+			// we only created entries in the fusion table if we add unit info
+			
+			if ($node->type=="unit") {
+
+				// get some info on the building			
+				$buildinginfo = inbode_get_building_info($node->field_unit_building[0]['nid']);
+
+				// setup the building and unit array
+				$data=array();
+				$data["node"]=(array) $node;
+				$data["building"]=$buildinginfo[0];
+										
+				// add the placemark to the map, get the feature id back and store it
+				$rowid = inbode_fusion_insert_unit($data);
+				
+				if ( !inbode_update_featureid( $node->nid, $rowid ) ) {
+					watchdog('inbode', 'Inserted new unit '.$node->nid.' but failed to insert ROWID' );
+					drupal_set_message('Your unit was added, but with an error. Please <a href="/node/'.$node->nid.'/edit">re-save your unit data</a>.', 'error');
+				} else {
+					watchdog('inbode', 'Inserted new unit '.$node->nid.' with ROWID '.$rowid );
+					drupal_set_message('Your unit was added to Inbode.', 'status');
+				};
+				
+			}
+			
+			break;
+			
+			
+		// below here is old shit for google maps, above it is fusion		  
+
+
     case 'delete':
     	// delete a feature on the map too. a feature id will cease to exist in a little bit here
 			if ($node->type=="unit") {
@@ -143,41 +57,6 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
       break;
 
-
-    case 'insert':
-			// a feature was created, create it on the map too. no unique feature element id exists yet.
-			// only do this with units, since we want a feature on the map for each unit. we'll need to 
-			// extract some building info since the address is located there. urgh.
-			
-			if ($node->type=="unit") {
-
-				// get some info on the building			
-				$buildinginfo = inbode_get_building_info($node->field_unit_building[0]['nid']);
-
-				// setup the array to get pretty html back for the placemark
-				$data=array();
-				$data["node"]=(array) $node;
-				$data["building"]=$buildinginfo[0];
-										
-				// what will the html in the placemark look like?
-				$htmlfeature = inbode_get_feature_html($data);
-				
-				// add the placemark to the map, get the feature id back and store it
-				$featureid = inbode_save_unit( $node->title, $htmlfeature, $buildinginfo[0]['latitude'], $buildinginfo[0]['longitude'] );
-				
-				if ( !inbode_update_featureid( $node->nid, $featureid ) ) {
-					watchdog('inbode', 'Inserted new unit '.$node->nid.' but failed to insert feature ID' );
-					drupal_set_message('Unable to record Google Maps feature ID, please try again or contact an administrator.', 'error');
-				} else {
-					watchdog('inbode', 'Inserted new unit '.$node->nid.' with feature ID '.$featureid );
-					drupal_set_message('Your unit was added to the Inbode map.', 'status');
-				};
-				
-							
-				
-			}
-			
-			break;
 
 
     case 'update':
@@ -224,6 +103,268 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
 }
 
+function inbode_fusion_insert_unit($data) {
+
+	global $conf;
+	
+	$tableid = $conf['i_InbodeBeta-BuildingsUnits'];
+
+	// build an SQL like query to be executed with the fusion table
+	$sql  = "INSERT INTO $tableid ('building_id','latlng','building_name','building_description','street','street2','city','province','postal_code','country','building_am_cats','building_am_dogs_small','building_am_dogs_large','building_am_pool','building_image_1','building_image_2','building_image_3','building_image_4','unit_id','status','unit_name','unit_description','bedrooms','bathrooms','price','currency','area','available_date','unit_am_laundry','unit_am_dishwasher','unit_am_disposal','unit_am_balcony','unit_image_1','unit_image_2','unit_image_3','unit_image_4','unit_image_5','unit_image_6','unit_image_7','unit_image_8') VALUES (";
+	
+	// building details
+	$sql .= $data['building']['nid'].", ";
+	$sql .= "'".$data['building']['latitude'].",".$data['building']['longitude']."', ";
+	$sql .= "'".$data['building']['title']."', ";
+	$sql .= "'".$data['building']['field_building_description_value']."', ";
+	$sql .= "'".$data['building']['street']."', ";
+	$sql .= "'".$data['building']['additional']."', ";
+	$sql .= "'".$data['building']['city']."', ";
+	$sql .= "'".$data['building']['province']."', ";
+	$sql .= "'".$data['building']['postal_code']."', ";
+	$sql .= "'".$data['building']['country']."', ";
+	// amenities for building
+	if ($data['building']['building_am_cats']) { $sql .= "1, "; } else { $sql .= "0, ";	};
+	if ($data['building']['building_am_dogs_small']) { $sql .= "1, "; } else { $sql .= "0, ";	};
+	if ($data['building']['building_am_dogs_large']) { $sql .= "1, "; } else { $sql .= "0, ";	};
+	if ($data['building']['building_am_pool']) { $sql .= "1, "; } else { $sql .= "0, ";	};
+	// building images
+	$sql .= "'', ";
+	$sql .= "'', ";
+	$sql .= "'', ";
+	$sql .= "'', ";
+	// unit details	, unit_id
+	$sql .= "'".$data['node']['nid']."', ";
+	// status
+	$sql .= "'".$data['node']['field_unit_status'][0]['value']."', ";
+	// unit_name (title)
+	$sql .= "'".$data['node']['title']."', ";
+	// unit_description
+	$sql .= "'".$data['node']['field_unit_description'][0]['value']."', ";
+	// bedrooms, baths, price, currency
+	$sql .= "'".$data['node']['field_unit_bedroom'][0]['value']."', ";
+	$sql .= "'".$data['node']['field_unit_bathroom'][0]['value']."', ";
+	$sql .= "'".$data['node']['field_unit_price'][0]['amount']."', ";
+	$sql .= "'".$data['node']['field_unit_price'][0]['currency']."', ";
+	// area, date
+	$sql .= "'".$data['node']['field_unit_area'][0]['value']."', ";
+	$sql .= "'".$data['node']['field_unit_available'][0]['value']."', ";
+	// unit amenities (unit_am_laundry,unit_am_dishwasher,unit_am_disposal,unit_am_balcony)
+	$unit_amenities = $data['node']['field_unit_amenities'];
+	$uam = '';
+	foreach($unit_amenities as $am) {
+		switch ($am['value']) {
+			default:
+				$uam .= $am['value'].":";
+				break;
+		}
+	}
+	if ( stripos($uam,'in-unit-laundry')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
+	if ( stripos($uam,'dishwasher')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
+	if ( stripos($uam,'disposal')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
+	if ( stripos($uam,'balcony')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
+	// images
+	$unit_images = $data['node']['field_unit_images'];
+	$kk=0;
+	foreach($unit_images as $ui) {
+		if ($kk<8) {
+			if ($kk!=7) {
+				$sql .= "'".$ui['filepath']."', ";
+			} else {
+				$sql .= "'".$ui['filepath']."'";
+			}
+		}
+		$kk++;
+	}
+	
+	if ($kk<8) {
+		for ($jj=$kk+1 ; $jj<=8 ; $jj++) {
+			if ($jj==8) {
+				$sql .= "''";		
+			} else {
+				$sql .= "'', ";		
+			}
+		}
+	}
+
+	$sql .= ")";
+	$result = inbode_fusionquery($sql);
+	
+	if ($result['info']['http_code']==200 && $result['info']['content_type']=='text/plain; charset=UTF-8' && isset($result['column_data'][1]['rowid'])) {
+		return($result['column_data'][1]['rowid']);
+	} else {
+		return 0;
+	}
+
+}
+
+
+
+
+function inbode_get_building_info($bid) {
+
+  $bsql = "SELECT n.nid, n.title, b.field_building_description_value, l.street, l.additional, l.city, l.province, l.postal_code, l.country, l.latitude, l.longitude, (SELECT field_building_amenities_value FROM content_field_building_amenities a WHERE a.nid=$bid AND a.field_building_amenities_value='cats') AS building_am_cats, (SELECT field_building_amenities_value FROM content_field_building_amenities a WHERE a.nid=$bid AND a.field_building_amenities_value='small-dogs') AS building_am_dogs_small, (SELECT field_building_amenities_value FROM content_field_building_amenities a WHERE a.nid=$bid AND a.field_building_amenities_value='big-dogs') AS building_am_dogs_large, (SELECT field_building_amenities_value FROM content_field_building_amenities a WHERE a.nid=$bid AND a.field_building_amenities_value='pool') AS building_am_pool FROM node n LEFT JOIN location_instance li ON li.nid=n.nid LEFT JOIN location l ON  li.lid=l.lid LEFT JOIN content_type_building b ON b.nid=n.nid WHERE n.nid=$bid ;";
+  
+  $bresource = db_query($bsql);
+  $building = array();
+  while ($brow = db_fetch_array($bresource)) $building[] = $brow;  
+  
+  return $building;  
+
+}
+
+function inbode_str_getcsv($input, $delimiter=',', $enclosure='"', $escape=null, $eol=null) { 
+  $temp=fopen("php://memory", "rw");
+  fwrite($temp, $input);
+  fseek($temp, 0);
+  $r=fgetcsv($temp, 4096, $delimiter, $enclosure);
+  fclose($temp);
+  return $r;
+} 
+
+function inbode_fusionquery($query) {
+
+	global $conf;
+
+	$qurl = 'https://www.google.com/fusiontables/api/query';
+	$token = $conf['i_GAtoken'];
+	
+  if(preg_match("/^select|^show tables|^describe/i", $query)) { 
+
+		$url = $qurl."/?sql=".urlencode($query);
+		$headers = array('Authorization: GoogleLogin auth='.$token);
+  	$ret = inbode_request($url, 'GET', NULL, $headers);
+
+	} else {
+	
+ 	  $query = "sql=".urlencode($query);
+		$headers = array( 
+							      'Content-type: application/x-www-form-urlencoded', 
+							      'Authorization: GoogleLogin auth='.$token,
+										'Content-Length: '.strlen($query)
+							    );
+  	$ret = inbode_request($qurl, 'POST', $query, $headers);
+	
+	}
+
+	// response array
+	$ra = array();
+	$ra['info'] = $ret['info'];
+	
+	if ($ret['info']['content_type']=='text/plain; charset=UTF-8' && $ret['info']['http_code']=='200') {
+
+	  $response = $ret['response'];
+	  // get the response into an array of lines (responses are always csv from google, tables of data)
+		$lines = explode("\n", $response);
+		
+		// now loop thru each line, and create an array to return with a header row
+		$records=count($lines);
+		
+		if ($records>1) {
+
+			$i=0;
+
+			foreach ($lines as $line) {
+				$cols = inbode_str_getcsv($line);		
+				if ($line) {
+					// loop thru each of the cols, either header or data
+					$k=0;
+					foreach($cols as $col) {
+						if ($i==0) {
+							// first line of response are the column names
+							$ra['column_name']['name'.$k] = $col;				
+						} else {				
+							// on to the data
+							$ra['column_data'][$i][$ra['column_name']['name'.$k]] = $col;				
+						}
+						$k++;
+					}				
+					// increment			
+					$i++;		
+				}	
+			}
+
+			$ra['count'] = $i-1;
+		
+		} else {
+		
+			$ra['response'] = $ret['response'];
+			$ra['count'] = 0;		
+		
+		}
+	
+	} else {
+	
+		$ra['response'] = $ret['response'];
+		$ra['count'] = 0;		
+	}
+
+	return $ra;
+  
+}
+	
+
+function inbode_request($uri = NULL, $type = 'GET', $params = NULL, $headers = NULL) {
+
+	// when setting the $headers, set it explicitly
+	// $headers = array('Content type: blah/blah');
+	// not
+	// $headers = array('Content type' => 'blah/blah');
+	// !!!
+
+	$return = array();
+
+	if (!$uri) {
+		$return['status'] = 'error';
+		$return['message'] = 'No URI specified.';
+		return $return;
+	}
+	
+	$ch = curl_init($uri);
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
+	
+	// if any headers are supplied
+	if ($headers) {
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers );
+	}
+	
+	// if any post parameters are supplied
+	if (($type=='POST' && isset($params)) || ($type=='PUT' && isset($params))) {
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $params );
+	}
+
+	// misc options		
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);		
+	curl_setopt($ch, CURLINFO_HEADER_OUT, 0);
+
+	
+	// get the response
+	$return['response'] = curl_exec($ch);	
+		$return['info'] = curl_getinfo($ch);
+
+
+	// check for curl errors
+	if(curl_errno($ch)) {
+		drupal_set_message('<p>There was an error: '. curl_error($ch). '</p>', 'error');
+		watchdog('inbode', 'Error in '. $type .' request to '. $uri .' with headers ['. addslashes(serialize($headers)) .'] and params ['. addslashes(serialize($params)) .'] -- '. addslashes(curl_error($ch)));
+ 		// uh ohhh	
+		$return['status'] = 'error';
+		$return['message'] = curl_error($ch);
+ 		curl_close($ch);	
+		return $return;
+	}
+
+	// destroy the curl session
+		curl_close($ch);		
+
+	// respond
+	$return['status'] = 'ok';
+	return $return;
+
+}
 
 
 
@@ -342,7 +483,6 @@ function _inbode_access($account) {
 }
 
 
-
 /**
  * Returns all buildings and units that belong to a user
  */
@@ -369,3 +509,127 @@ function __inbode_get_properties( $uid ) {
 
 }
 
+
+
+
+
+/* shit goes here */
+
+function inbode_delete_unit( $featureid ) {
+
+	global $conf;
+	register_libs();
+	$client = Zend_Gdata_ClientLogin::getHttpClient( $conf['i_Guser'], $conf['i_Gpass'], Webready_Gdata_Maps::AUTH_SERVICE_NAME);
+
+	$auth_token = $client->getClientLoginToken();	
+	$url = 'http://maps.google.com/maps/feeds/features/'.$conf['i_Guser'].'/'.$conf['i_mid'].'/full/'.$featureid;
+
+	$ch = curl_init( $url );
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: GoogleLogin auth="'.$auth_token.'"') );
+	$response = curl_exec($ch);	
+	return $response;
+	
+}
+
+
+function inbode_save_unit( $title, $description, $lat, $lon ) {
+
+	global $conf;
+	register_libs();
+	$client = Zend_Gdata_ClientLogin::getHttpClient( $conf['i_Guser'], $conf['i_Gpass'], Webready_Gdata_Maps::AUTH_SERVICE_NAME);
+	$service = new Webready_Gdata_Maps( $client, $conf['i_appname'] );
+	$query = $service->newFeatureQuery();
+	$query->setMapElementId( $conf['i_mid'] );
+	$featureFeed = $service->getMapsFeatureFeed($query);
+	
+	// Create a new feature with a simple point
+	$feature = $service->newFeatureEntry();
+	$feature->newTitle( $title );
+	        
+	// Create a Placemark
+	$Placemark = new Webready_Gdata_Extension_Placemark();
+	$Placemark->newDescription( $description );        
+	$location = $lon.','.$lat.',0.0';
+	$Placemark->newPointWithCoordinates( $location );        	
+	$feature->newContentWithPlacemark( $Placemark );
+	        
+	// Insert the new feature using the feed's POST url
+	$nm = $service->insertMapFeature( $feature, $featureFeed->getPostUrl() );
+
+	return $nm->getFeatureElementId();
+
+}
+
+
+function inbode_update_featureid( $nid, $featureid ) {
+	
+	if ($featureid) {
+	  $sql = "UPDATE content_type_unit SET field_featureid_value='$featureid' WHERE nid=$nid; ";  
+	  $resource = db_query($sql);
+	  return $resource;  	
+	} else {
+		return 0;
+	}
+
+}
+
+
+
+function register_libs() {
+
+	global $conf;
+	// reg libs
+	set_include_path( $conf['i_syspath'].'/lib/:'.get_include_path());
+	require_once('Webready/Gdata/Maps.php');
+	require_once('Zend/Gdata/ClientLogin.php');
+	
+}
+
+
+function inbode_testing() {
+
+		inbode_delete_unit();		
+
+}
+
+
+
+
+function inbode_get_feature_html($data) {
+	
+	// expecting $data to be an array of a node describing a unit, and an array of building info
+	// like this $data["node"] and $data["building"]
+	
+	global $conf;
+	$out  = '';
+	// open div
+	$out .= '<div style="font-family:Helvetica,Arial,sans-serif;width:300px">';
+	
+	// headline
+	$out .= '<h2 style="color:#464646;font-size:22px;">';
+	$out .= $data['node'][field_unit_bedroom][0]['value'].' bed ';
+	$out .= $data['node'][field_unit_bathroom][0]['value'].' bath ';
+	$out .= '$ '.$data['node'][field_unit_price][0]['amount'];
+	$out .= '</h2>';
+	
+	// images
+	if (isset($data['node'][field_unit_images][0]['filepath'])) {
+		$out .= '<div>';
+		foreach($data['node'][field_unit_images] as $img) {
+			if (isset($img['filepath'])) {
+				$out .= '<img border="0" width="105" src="'.$conf['i_imgsrv'].base_path().$img['filepath'].'" />';
+			}
+		}
+		$out .= '</div>';
+	}
+	
+	// close div
+	$out .= '</div>';
+	
+	return $out;
+
+}
