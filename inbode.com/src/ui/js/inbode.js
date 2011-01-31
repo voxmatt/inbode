@@ -302,7 +302,6 @@ inbode.util = {
           "status": item.status          
         };
         
-        //alert(item.unit_am_dishwasher);
         
         results.push(inb);
         // temp html
@@ -372,7 +371,7 @@ inbode.util = {
   
 		if ($("div.first_set").is(":hidden")) {
 		  $("div.first_set").slideDown("slow");
-		  $(this).removeClass("inactive").addClass("active");
+		  $("a.trigger_1").removeClass("inactive").addClass("active");
 
 	    // set initial values on sliders
 	    if (!$("#slider-price a:first").html()) {
@@ -410,9 +409,10 @@ inbode.util = {
 
 
 		} else {
+		
 		  $("div.first_set").slideUp("slow");
 		  $("div.second_set").slideUp("slow");
-		  $(this).removeClass("active").addClass("inactive");
+		  $("a.trigger_1").removeClass("active").addClass("inactive");
 		  $("a.trigger_2").removeClass("active").addClass("inactive");
 
 		  $.cookie('filters_visible', '0', { expires: cookieexpiration });
@@ -426,7 +426,7 @@ inbode.util = {
 		
 		if ($("div.second_set").is(":hidden")) {
 		  $("div.second_set").slideDown("slow");
-		  $(this).removeClass("inactive").addClass("active");
+		  $("a.trigger_2").removeClass("inactive").addClass("active");
 
 	    if (!$("#date-from").html()) {
 	      $("#date-from").html(datez[0])
@@ -438,7 +438,7 @@ inbode.util = {
 
 		} else {
 		  $("div.second_set").slideUp("slow");
-		  $(this).removeClass("active").addClass("inactive");
+		  $("a.trigger_2").removeClass("active").addClass("inactive");
 
 		  $.cookie('more_filters_visible', '0', { expires: cookieexpiration });
 		}
@@ -556,9 +556,19 @@ inbode.util = {
       if (
 		      	(item.price <= pricemax) && (item.price >= pricemin) && 
 		      	(item.beds <= bedsmax) && (item.beds >= bedsmin) && 
-		      	(item.baths <= bathsmax) && (item.baths >= bathsmin) &&
-		      	item.building_am_cats!=building_am_cats
-		      	
+		      	(item.baths <= bathsmax) && (item.baths >= bathsmin) 
+//		      	item.building_am_cats==building_am_cats &&
+//		      	item.building_am_dogs_small==building_am_dogs_small && 						
+//		      	item.building_am_dogs_small==building_am_dogs_small &&
+//		      	item.building_am_dogs_large==building_am_dogs_large &&
+//		      	item.building_am_pool==building_am_pool &&
+//		      	item.unit_am_laundry==unit_am_laundry &&
+//		      	item.unit_am_dishwasher==unit_am_dishwasher &&
+//		      	item.unit_am_disposal==unit_am_disposal &&
+//		      	item.unit_am_balcony==unit_am_balcony &&
+//		      	item.unit_am_furnished==unit_am_furnished &&
+//		      	item.unit_am_garage==unit_am_garage
+		      			      	
 	      	) {	      	
 	
         item.marker.setVisible(true);
