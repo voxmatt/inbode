@@ -46,6 +46,7 @@ datez[2] = 1;
 
 // now ready
 $(document).ready(function () {
+
   // initialize inbode!
   inbode.util.init();
   $('#t7_city').keypress(function (e) {
@@ -53,73 +54,7 @@ $(document).ready(function () {
       inbode.util.search();
     }
   });
-  $("#t7_filter_selector").toggle(
-
-  function () {
-    $("#t7_inbode_top").css('backgroundImage', 'url("/ui/img/inbode-logo-grey.png")');
-    $("#t7_inbode_filter").show("drop", {
-      direction: 'up'
-    });
-    // set initial values on sliders
-    if (!$("#slider-price a:first").html()) {
-      $("#slider-price a:first").html(price_lower)
-    };
-    if (!$("#slider-price a:last").html()) {
-			if (price_upper==price[1]) {
-	      $("#slider-price a:last").html(price_upper + "+")		
-			} else {
-	      $("#slider-price a:last").html(price_upper)		
-			}
-    };
-    if (!$("#slider-beds a:first").html()) {
-      $("#slider-beds a:first").html(beds_lower)
-    };
-    if (!$("#slider-beds a:last").html()) {
-			if (beds_upper==beds[1]) {
-	      $("#slider-beds a:last").html(beds_upper + "+")
-	    } else {
-	      $("#slider-beds a:last").html(beds_upper)
-	    }
-    };
-    if (!$("#slider-baths a:first").html()) {
-      $("#slider-baths a:first").html(baths_lower)
-    };
-    if (!$("#slider-baths a:last").html()) {
-			if (baths_upper==baths[1]) {
-		    $("#slider-baths a:last").html(baths_upper + "+")
-		  } else {
-		    $("#slider-baths a:last").html(baths_upper)
-		  }
-    };
-  }, function () {
-    $("#t7_inbode_top").css('backgroundImage', 'url("/ui/img/inbode-logo-plain.png")');
-    $("#t7_inbode_filter").hide("drop", {
-      direction: 'up'
-    });
-  });
-  $("#t7_more_filters").toggle(
-
-  function () {
-    $("#t7_inbode_filter").effect("size", {
-      to: {
-        height: 319
-      }
-    }, "slow");
-    $("#t7_more_filters_content").show();
-    if (!$("#date-from").html()) {
-      $("#date-from").html(datez[0])
-    };
-    if (!$("#date-to").html()) {
-      $("#date-to").html(datez[1])
-    };
-  }, function () {
-    $("#t7_inbode_filter").effect("size", {
-      to: {
-        height: 220
-      }
-    }, "slow");
-    $("#t7_more_filters_content").hide();
-  });
+  
   // horizontal slide for date
   $("#slider-dates").slider({
     orientation: "horizontal",
@@ -195,18 +130,18 @@ $(document).ready(function () {
   
   // check box clicks
   $('#amenities .jquery-safari-checkbox').click( function() {
-	  inbode.util.filter();
+	  inbode.util.filter( $(this).attr('id'), !$(this).is(':checked') );
     $.cookie( $(this).attr('id'), !$(this).is(':checked'), { expires: cookieexpiration });
   });
   
   // set states of checkboxes
   $('#amenities .jquery-safari-checkbox').each(function(i) {
-    	
 		if ($.cookie($(this).attr('id'))=='true') {
 			$(this).attr('checked', true);
 		}
-  	
   });
+  
+  
   
   
 });
@@ -221,7 +156,24 @@ inbode.favorite = {
 };
 
 inbode.util = {
+
   init: function () {
+
+		// filter and more filter click events
+		$("a.trigger_1").click(function () {
+			inbode.util.open_filters();      
+		});
+	
+	  $("a.trigger_2").click(function () {
+			inbode.util.open_more_filters();      
+	  });
+	
+		// pretty checkboxes
+		$('input:checkbox:not([safari])').checkbox({cls:'jquery-safari-checkbox'});
+		$('input[safari]:checkbox').checkbox({cls:'jquery-safari-checkbox'});
+		$('input:radio').checkbox({cls:'jquery-safari-checkbox'});
+	
+  
     var options = {
       zoom: 12,
       disableDefaultUI: true,
@@ -285,7 +237,20 @@ inbode.util = {
         inbode.util.search();
       }
     }
+    
+    
   },
+	showfilters: function() {
+
+  	// open up the filters if the cookie exists
+  	if ($.cookie('filters_visible')==1) {
+			inbode.util.open_filters();      
+  	}
+  
+  	if ($.cookie('more_filters_visible')==1) {
+			inbode.util.open_more_filters();      
+  	}	
+	},
   setloc: function (latlng) {
     var geocoder;
     geocoder = new google.maps.Geocoder();
@@ -336,6 +301,9 @@ inbode.util = {
           "available": item.available,
           "status": item.status          
         };
+        
+        //alert(item.unit_am_dishwasher);
+        
         results.push(inb);
         // temp html
         var mrkrhtml = '<div class="t7_bubble">';
@@ -389,7 +357,9 @@ inbode.util = {
       map.setCenter(l);
 			
       // loader off	
-      $('#t7_ldr img').fadeOut();
+      $('#t7_ldr img').fadeOut(function() {
+      	inbode.util.showfilters();      
+      });
       
       // apply the filter
       inbode.util.filter();
@@ -397,8 +367,93 @@ inbode.util = {
       
     });
   },
-  filter: function () {
   
+  open_filters: function() {
+  
+		if ($("div.first_set").is(":hidden")) {
+		  $("div.first_set").slideDown("slow");
+		  $(this).removeClass("inactive").addClass("active");
+
+	    // set initial values on sliders
+	    if (!$("#slider-price a:first").html()) {
+	      $("#slider-price a:first").html(price_lower)
+	    };
+	    if (!$("#slider-price a:last").html()) {
+				if (price_upper==price[1]) {
+		      $("#slider-price a:last").html(price_upper + "+")		
+				} else {
+		      $("#slider-price a:last").html(price_upper)		
+				}
+	    };
+	    if (!$("#slider-beds a:first").html()) {
+	      $("#slider-beds a:first").html(beds_lower)
+	    };
+	    if (!$("#slider-beds a:last").html()) {
+				if (beds_upper==beds[1]) {
+		      $("#slider-beds a:last").html(beds_upper + "+")
+		    } else {
+		      $("#slider-beds a:last").html(beds_upper)
+		    }
+	    };
+	    if (!$("#slider-baths a:first").html()) {
+	      $("#slider-baths a:first").html(baths_lower)
+	    };
+	    if (!$("#slider-baths a:last").html()) {
+				if (baths_upper==baths[1]) {
+			    $("#slider-baths a:last").html(baths_upper + "+")
+			  } else {
+			    $("#slider-baths a:last").html(baths_upper)
+			  }
+	    };
+	    
+		  $.cookie('filters_visible', '1', { expires: cookieexpiration });
+
+
+		} else {
+		  $("div.first_set").slideUp("slow");
+		  $("div.second_set").slideUp("slow");
+		  $(this).removeClass("active").addClass("inactive");
+		  $("a.trigger_2").removeClass("active").addClass("inactive");
+
+		  $.cookie('filters_visible', '0', { expires: cookieexpiration });
+		  $.cookie('more_filters_visible', '0', { expires: cookieexpiration });
+
+		}  	
+  
+  },
+  
+  open_more_filters: function() {
+		
+		if ($("div.second_set").is(":hidden")) {
+		  $("div.second_set").slideDown("slow");
+		  $(this).removeClass("inactive").addClass("active");
+
+	    if (!$("#date-from").html()) {
+	      $("#date-from").html(datez[0])
+	    };
+	    if (!$("#date-to").html()) {
+	      $("#date-to").html(datez[1])
+	    };
+		  $.cookie('more_filters_visible', '1', { expires: cookieexpiration });
+
+		} else {
+		  $("div.second_set").slideUp("slow");
+		  $(this).removeClass("active").addClass("inactive");
+
+		  $.cookie('more_filters_visible', '0', { expires: cookieexpiration });
+		}
+  
+  },
+  
+  filter: function (idc, chkd) {
+  
+  	if(chkd) {
+  		chkd = 1;
+  	} else {
+  		chkd = 0;
+  	}
+  
+  	// major filters
     var pricemin = $("#slider-price a:first").html();
     if (!pricemin) { pricemin=price_lower};
     var pricemax = parseInt($("#slider-price a:last").html());
@@ -411,12 +466,107 @@ inbode.util = {
     if (!bathsmin) { bathsmin=baths_lower};
     var bathsmax = parseInt($("#slider-baths a:last").html());
     if (!bathsmax) { bathsmax=baths_upper};
+
+		// amenities
+		if ($('#building_am_cats').is(':checked')) {
+			var building_am_cats = 1;
+		} else {
+			var building_am_cats = 0;
+		}
+		if ($('#building_am_dogs_small').is(':checked')) {
+			var building_am_dogs_small = 1;
+		} else {
+			var building_am_dogs_small = 0;
+		}
+		if ($('#building_am_dogs_large').is(':checked')) {
+			var building_am_dogs_large = 1;
+		} else {
+			var building_am_dogs_large = 0;
+		}
+		if ($('#building_am_pool').is(':checked')) {
+			var building_am_pool = 1;
+		} else {
+			var building_am_pool = 0;
+		}
+		if ($('#unit_am_laundry').is(':checked')) {
+			var unit_am_laundry = 1;
+		} else {
+			var unit_am_laundry = 0;
+		}
+		if ($('#unit_am_dishwasher').is(':checked')) {
+			var unit_am_dishwasher = 1;
+		} else {
+			var unit_am_dishwasher = 0;
+		}
+		if ($('#unit_am_disposal').is(':checked')) {
+			var unit_am_disposal = 1;
+		} else {
+			var unit_am_disposal = 0;
+		}
+		if ($('#unit_am_balcony').is(':checked')) {
+			var unit_am_balcony = 1;
+		} else {
+			var unit_am_balcony = 0;
+		}
+		if ($('#unit_am_furnished').is(':checked')) {
+			var unit_am_furnished = 1;
+		} else {
+			var unit_am_furnished = 0;
+		}
+		if ($('#unit_am_garage').is(':checked')) {
+			var unit_am_garage = 1;
+		} else {
+			var unit_am_garage = 0;
+		}
+			
+		switch (idc) {
+			case "building_am_cats":
+				building_am_cats = chkd;
+				break;
+			case "building_am_dogs_small":
+				building_am_dogs_small = chkd;
+				break;
+			case "building_am_dogs_large":
+				building_am_dogs_large = chkd;
+				break;
+			case "building_am_pool":
+				building_am_pool = chkd;
+				break;
+			case "unit_am_laundry":
+				unit_am_laundry = chkd;
+				break;
+			case "unit_am_dishwasher":
+				unit_am_dishwasher = chkd;
+				break;
+			case "unit_am_disposal":
+				unit_am_disposal = chkd;
+				break;
+			case "unit_am_balcony":
+				unit_am_balcony = chkd ;
+				break;
+			case "unit_am_furnished":
+				unit_am_furnished = chkd;
+				break;
+			case "unit_am_garage":
+				unit_am_garage = chkd;
+				break;
+		}
     
     $.each(results, function (i, item) {
-      if ((item.price <= pricemax) && (item.price >= pricemin) && (item.beds <= bedsmax) && (item.beds >= bedsmin) && (item.baths <= bathsmax) && (item.baths >= bathsmin)) {
+      if (
+		      	(item.price <= pricemax) && (item.price >= pricemin) && 
+		      	(item.beds <= bedsmax) && (item.beds >= bedsmin) && 
+		      	(item.baths <= bathsmax) && (item.baths >= bathsmin) &&
+		      	item.building_am_cats!=building_am_cats
+		      	
+	      	) {	      	
+	
         item.marker.setVisible(true);
+
       } else {
+
         item.marker.setVisible(false);
+
       }
     });
     

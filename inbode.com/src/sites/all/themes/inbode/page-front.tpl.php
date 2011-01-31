@@ -35,31 +35,6 @@
   <script type="text/javascript" src="/ui/js/inbode.js"></script>
   <script type="text/javascript">
 		google.load('gdata', '2.x', { packages: ['maps'] });
-		$(document).ready(function(){
-		$("a.trigger_1").click(function () {
-		        if ($("div.first_set").is(":hidden")) {
-		                $("div.first_set").slideDown("slow");
-		                $(this).removeClass("inactive").addClass("active");
-		        } else {
-		                $("div.first_set").slideUp("slow");
-		                $("div.second_set").slideUp("slow");
-		                $(this).removeClass("active").addClass("inactive");
-		                $("a.trigger_2").removeClass("active").addClass("inactive");
-		        }
-		});
-		        $("a.trigger_2").click(function () {
-		                if ($("div.second_set").is(":hidden")) {
-		                        $("div.second_set").slideDown("slow");
-		                        $(this).removeClass("inactive").addClass("active");
-		                } else {
-		                        $("div.second_set").slideUp("slow");
-		                        $(this).removeClass("active").addClass("inactive");
-		                }
-		        });
-		$('input:checkbox:not([safari])').checkbox({cls:'jquery-safari-checkbox'});
-		$('input[safari]:checkbox').checkbox({cls:'jquery-safari-checkbox'});
-		$('input:radio').checkbox({cls:'jquery-safari-checkbox'});
-		});
   </script>
 </head>
 
@@ -85,7 +60,7 @@
           <div id="t7_filter_selector">
             <div id="t7_ldr"><img border="0" width="16" height="16" src=
             "/ui/img/ajax-loader.gif"></div><!-- t7_ldr end -->
-            <a class="trigger_1 inactive" href="#">filters</a>
+            <a id="filtz" class="trigger_1 inactive" href="#">filters</a>
           </div><!-- t7_filter_selector end -->
         </div><!-- LOGO_SEARCH END -->
         <!-- ============ First Filter Set Start ============ -->
