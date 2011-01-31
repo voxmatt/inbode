@@ -23,8 +23,8 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 				$data["building"]=$buildinginfo[0];
 				// add the mofo to fusion, get the unique ROWID back
 				$rowid = inbode_fusion_insert_unit($data);				
-				if ( !inbode_update_featureid( $node->nid, $rowid ) ) {
-					watchdog('inbode', 'Inserted new unit '.$node->nid.' but failed to insert ROWID' );
+				if ( !inbode_update_rowid( $node->nid, $rowid ) ) {
+					watchdog('inbode', 'Inserted new unit '.$node->nid.' but failed to insert ROWID'.$rowid );
 					drupal_set_message('Your unit was added, but with an error. Please <a href="/node/'.$node->nid.'/edit">re-save your unit data</a>.', 'error');
 				} else {
 					watchdog('inbode', 'Inserted new unit '.$node->nid.' with ROWID '.$rowid );
@@ -51,44 +51,36 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
 
 
-		// below here is old shit for google maps, above it is fusion		  
-
-
     case 'update':
-    	// update a feature, do so on the map too. a feature id exists, use it.
-			// really shouldn't be doing this, but we're going to anyway for this alpha version. sorry goog.
-			// first delete the item, then recreate it
-			$fid = $node->field_featureid[0]["value"];
-			if (!inbode_delete_unit($fid)) {
-				watchdog('inbode', 'Deleted feature $fid for unit '.$node->nid. ' on the Inbode map.');
-				
+    
+    	// we just <3 google fusion tables!
+    	// how slick are sql queries via http with spatial tied to it? awesome!
+			
+			
+			if ($node->type=="unit") {
+	
+				// let's update the unit please! (includes building data that is current.
+				// unique rowid in fusion to update
+				$rowid = $node->field_featureid[0]["value"];
 				// get some info on the building			
 				$buildinginfo = inbode_get_building_info($node->field_unit_building[0]['nid']);
-
-				// setup the array to get pretty html back for the placemark
+				// setup the building and unit array
 				$data=array();
 				$data["node"]=(array) $node;
 				$data["building"]=$buildinginfo[0];
-										
-				// what will the html in the placemark look like?
-				$htmlfeature = inbode_get_feature_html($data);
+				$result = inbode_fusion_update_unit($rowid, $data);				
 				
-				// add the placemark to the map, get the feature id back and store it
-				$featureid = inbode_save_unit( $node->title, $htmlfeature, $buildinginfo[0]['latitude'], $buildinginfo[0]['longitude'] );
-				
-				if ( !inbode_update_featureid( $node->nid, $featureid ) ) {
-					watchdog('inbode', 'Updated old unit '.$node->nid.' but failed to insert feature ID' );
-					drupal_set_message('Unable to record Google Maps feature ID, please try again or contact an administrator.', 'error');
+				if ( !$result )  {
+					watchdog('inbode', 'Fusion table error updating unit '.$node->nid.' with ROWID '.$rowid. ' and data '.serialize($data) );
+					drupal_set_message('Oops, there was an error updating Inbode. Please try again later.', 'error');
 				} else {
-					watchdog('inbode', 'Updated old unit '.$node->nid.' with a new feature ID '.$featureid );
-					drupal_set_message('Your unit was updated on the Inbode map.', 'status');
+					watchdog('inbode', 'Updated fusion table unit '.$node->nid.' with a ROWID '.$rowid );
+					drupal_set_message('Your unit was updated on Inbode.', 'status');
 				};				
-				
-				
-			} else {
-				watchdog('inbode', 'Problem deleting (on update) feature $fid for unit '.$node->nid. ' on the Inbode map.');
-				drupal_set_message('There was an error updating your unit on the Inbode map, please try again.', 'error');
+
+
 			}
+
 
       break;
 
@@ -99,11 +91,121 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 }
 
 
-// insert data, both building and unit, into the google fusion table
-function inbode_fusion_insert_unit($data) {
+// update unit data in google fustion tables
+function inbode_fusion_update_unit( $rowid, $data ) {
 
-	global $conf;
+	global $conf;	
+	$tableid = $conf['i_InbodeBeta-BuildingsUnits'];
+
+	// build  SQL like update query to be executed with the fusion table
+	$sql  = "UPDATE $tableid SET ";
 	
+	$sql .= "'building_id'='".$data['building']['nid']."', ";
+	$sql .= "'latlng'='".$data['building']['latitude'].",".$data['building']['longitude']."', ";
+	$sql .= "'building_name'='".addcslashes($data['building']['title'], "'")."', ";
+	$sql .= "'building_description'='".addcslashes($data['building']['field_building_description_value'], "'")."', ";
+	$sql .= "'street'='".addcslashes($data['building']['street'], "'")."', ";
+	$sql .= "'street2'='".addcslashes($data['building']['additional'], "'")."', ";
+	$sql .= "'city'='".addcslashes($data['building']['city'], "'")."', ";
+	$sql .= "'province'='".addcslashes($data['building']['province'], "'")."', ";
+	$sql .= "'postal_code'='".addcslashes($data['building']['postal_code'], "'")."', ";
+	$sql .= "'country'='".addcslashes($data['building']['country'], "'")."', ";
+	$sql .= "'building_am_cats'='";
+	if ($data['building']['building_am_cats']) { $sql .= "1"; } else { $sql .= "0";	};
+	$sql .= "', ";
+	$sql .= "'building_am_dogs_small'='";
+	if ($data['building']['building_am_dogs_small']) { $sql .= "1"; } else { $sql .= "0";	};
+	$sql .= "', ";
+	$sql .= "'building_am_dogs_large'='";
+	if ($data['building']['building_am_dogs_large']) { $sql .= "1"; } else { $sql .= "0";	};
+	$sql .= "', ";
+	$sql .= "'building_am_pool'='";
+	if ($data['building']['building_am_pool']) { $sql .= "1"; } else { $sql .= "0";	};
+	$sql .= "', ";
+	$sql .= "'building_image_1'='', ";
+	$sql .= "'building_image_2'='', ";
+	$sql .= "'building_image_3'='', ";
+	$sql .= "'building_image_4'='', ";
+	$sql .= "'unit_id'='".$data['node']['nid']."', ";
+	$sql .= "'status'='".addcslashes($data['node']['field_unit_status'][0]['value'], "'")."', ";
+	$sql .= "'unit_name'='".addcslashes($data['node']['title'], "'")."', ";
+	$sql .= "'unit_description'='".addcslashes($data['node']['field_unit_description'][0]['value'], "'")."', ";
+	$sql .= "'bedrooms'='".$data['node']['field_unit_bedroom'][0]['value']."', ";
+	$sql .= "'bathrooms'='".$data['node']['field_unit_bathroom'][0]['value']."', ";
+	$sql .= "'price'='".$data['node']['field_unit_price'][0]['amount']."', ";
+	$sql .= "'currency'='".$data['node']['field_unit_price'][0]['currency']."', ";
+	$sql .= "'area'='".$data['node']['field_unit_area'][0]['value']."', ";
+	$sql .= "'available_date'='".$data['node']['field_unit_available'][0]['value']."', ";
+	// amenities
+	$unit_amenities = $data['node']['field_unit_amenities'];
+	$uam = '';
+	foreach($unit_amenities as $am) {
+		switch ($am['value']) {
+			default:
+				$uam .= $am['value'].":";
+				break;
+		}
+	}
+	$sql .= "'unit_am_laundry'='";
+	if ( stripos($uam,'in-unit-laundry')===false) { $sql .= "0"; } else { $sql .= "1";	};
+	$sql .= "', ";
+	$sql .= "'unit_am_dishwasher'='";
+	if ( stripos($uam,'dishwasher')===false) { $sql .= "0"; } else { $sql .= "1";	};
+	$sql .= "', ";
+	$sql .= "'unit_am_disposal'='";
+	if ( stripos($uam,'disposal')===false) { $sql .= "0"; } else { $sql .= "1";	};
+	$sql .= "', ";
+	$sql .= "'unit_am_balcony'='";
+	if ( stripos($uam,'balcony')===false) { $sql .= "0"; } else { $sql .= "1";	};
+	$sql .= "', ";
+	
+	// images
+	$unit_images = $data['node']['field_unit_images'];
+	$kk=0;
+	foreach($unit_images as $ui) {
+		if ($kk<8) {
+			$nn=$kk+1;
+			if ($kk!=7) {
+				$sql .= "'unit_image_".$nn."'='".addcslashes($ui['filepath'], "'")."', ";
+			} else {
+				$sql .= "'unit_image_".$nn."'='".addcslashes($ui['filepath'], "'")."'";
+			}
+		}
+		$kk++;
+	}
+	
+	if ($kk<8) {
+		for ($jj=$kk+1 ; $jj<=8 ; $jj++) {
+			if ($jj==8) {
+				$sql .= "'unit_image_". $jj ."'=''";		
+			} else {
+				$sql .= "'unit_image_". $jj ."'='', ";		
+			}
+		}
+	}
+
+	$sql .= " WHERE ROWID='$rowid'";
+
+	// update google fusion now please!
+	$result = inbode_fusionquery($sql);
+
+	watchdog('inbode', 'Updating unit with ROWID '.$rowid. ' and sql ['.$sql.']');
+		
+	if ($result['info']['http_code']==200 && $result['info']['content_type']=='text/plain' && isset($result['response'])) {
+		return 1;
+	} else {
+		return 0;
+	}
+
+
+
+}
+
+
+// insert data, both building and unit, into the google fusion table
+function inbode_fusion_insert_unit( $data ) {
+
+	global $conf;	
 	$tableid = $conf['i_InbodeBeta-BuildingsUnits'];
 
 	// build an SQL like query to be executed with the fusion table
@@ -112,14 +214,14 @@ function inbode_fusion_insert_unit($data) {
 	// building details
 	$sql .= $data['building']['nid'].", ";
 	$sql .= "'".$data['building']['latitude'].",".$data['building']['longitude']."', ";
-	$sql .= "'".$data['building']['title']."', ";
-	$sql .= "'".$data['building']['field_building_description_value']."', ";
-	$sql .= "'".$data['building']['street']."', ";
-	$sql .= "'".$data['building']['additional']."', ";
-	$sql .= "'".$data['building']['city']."', ";
-	$sql .= "'".$data['building']['province']."', ";
-	$sql .= "'".$data['building']['postal_code']."', ";
-	$sql .= "'".$data['building']['country']."', ";
+	$sql .= "'".addcslashes($data['building']['title'], "'")."', ";
+	$sql .= "'".addcslashes($data['building']['field_building_description_value'], "'")."', ";
+	$sql .= "'".addcslashes($data['building']['street'], "'")."', ";
+	$sql .= "'".addcslashes($data['building']['additional'], "'")."', ";
+	$sql .= "'".addcslashes($data['building']['city'], "'")."', ";
+	$sql .= "'".addcslashes($data['building']['province'], "'")."', ";
+	$sql .= "'".addcslashes($data['building']['postal_code'], "'")."', ";
+	$sql .= "'".addcslashes($data['building']['country'], "'")."', ";
 	// amenities for building
 	if ($data['building']['building_am_cats']) { $sql .= "1, "; } else { $sql .= "0, ";	};
 	if ($data['building']['building_am_dogs_small']) { $sql .= "1, "; } else { $sql .= "0, ";	};
@@ -133,11 +235,11 @@ function inbode_fusion_insert_unit($data) {
 	// unit details	, unit_id
 	$sql .= "'".$data['node']['nid']."', ";
 	// status
-	$sql .= "'".$data['node']['field_unit_status'][0]['value']."', ";
+	$sql .= "'".addcslashes($data['node']['field_unit_status'][0]['value'], "'")."', ";
 	// unit_name (title)
-	$sql .= "'".$data['node']['title']."', ";
+	$sql .= "'".addcslashes($data['node']['title'], "'")."', ";
 	// unit_description
-	$sql .= "'".$data['node']['field_unit_description'][0]['value']."', ";
+	$sql .= "'".addcslashes($data['node']['field_unit_description'][0]['value'], "'")."', ";
 	// bedrooms, baths, price, currency
 	$sql .= "'".$data['node']['field_unit_bedroom'][0]['value']."', ";
 	$sql .= "'".$data['node']['field_unit_bathroom'][0]['value']."', ";
@@ -166,9 +268,9 @@ function inbode_fusion_insert_unit($data) {
 	foreach($unit_images as $ui) {
 		if ($kk<8) {
 			if ($kk!=7) {
-				$sql .= "'".$ui['filepath']."', ";
+				$sql .= "'".addcslashes($ui['filepath'], "'")."', ";
 			} else {
-				$sql .= "'".$ui['filepath']."'";
+				$sql .= "'".addcslashes($ui['filepath'], "'")."'";
 			}
 		}
 		$kk++;
@@ -330,7 +432,6 @@ function inbode_request($uri = NULL, $type = 'GET', $params = NULL, $headers = N
 	// $headers = array('Content type: blah/blah');
 	// not
 	// $headers = array('Content type' => 'blah/blah');
-	// !!!
 
 	$return = array();
 
@@ -401,16 +502,7 @@ function inbode_menu() {
     'access arguments' => array(1),
     'type' => MENU_LOCAL_TASK,
     );
-    
-
-    $items['inbode'] = array(
-    'title' => 'Inbode',
-    'page callback' => 'inbode_testing',
-    'page arguments' => array(1),
-    'access callback' => '_inbode_access',
-    'access arguments' => array(1),
-    'type' => MENU_LOCAL_TASK,
-    );    
+     
  
     return $items;
     
@@ -507,12 +599,9 @@ function _inbode_access($account) {
 }
 
 
-/**
- * Returns all buildings and units that belong to a user
- */
+// all buildings that belong to this user
 function __inbode_get_properties( $uid ) {
 
-  // quick and dirty, requires some polish eventually 05.12.10
   $bsql = "SELECT n.nid, n.title, (SELECT count(nid) FROM content_type_unit WHERE field_unit_building_nid=n.nid) as num_units, l.street, l.additional, l.city, l.province, l.postal_code, l.country, l.latitude, l.longitude FROM node n LEFT JOIN location_instance li ON li.nid=n.nid LEFT JOIN location l ON  li.lid=l.lid WHERE n.type='building' AND n.uid=$uid ;";
   
   $usql = "SELECT n.nid, c.field_unit_building_nid, n.title, c.field_unit_bedroom_value, c.field_unit_bathroom_value, c.field_unit_price_amount, c.field_unit_area_value, c.field_unit_available_value, c.field_unit_description_value, c.field_unit_status_value FROM node n, content_type_unit c WHERE type='unit' AND uid=$uid AND n.nid=c.nid ORDER BY field_unit_building_nid; ";
@@ -534,43 +623,8 @@ function __inbode_get_properties( $uid ) {
 }
 
 
-
-
-
-/* shit goes here */
-
-
-
-function inbode_save_unit( $title, $description, $lat, $lon ) {
-
-	global $conf;
-	register_libs();
-	$client = Zend_Gdata_ClientLogin::getHttpClient( $conf['i_Guser'], $conf['i_Gpass'], Webready_Gdata_Maps::AUTH_SERVICE_NAME);
-	$service = new Webready_Gdata_Maps( $client, $conf['i_appname'] );
-	$query = $service->newFeatureQuery();
-	$query->setMapElementId( $conf['i_mid'] );
-	$featureFeed = $service->getMapsFeatureFeed($query);
-	
-	// Create a new feature with a simple point
-	$feature = $service->newFeatureEntry();
-	$feature->newTitle( $title );
-	        
-	// Create a Placemark
-	$Placemark = new Webready_Gdata_Extension_Placemark();
-	$Placemark->newDescription( $description );        
-	$location = $lon.','.$lat.',0.0';
-	$Placemark->newPointWithCoordinates( $location );        	
-	$feature->newContentWithPlacemark( $Placemark );
-	        
-	// Insert the new feature using the feed's POST url
-	$nm = $service->insertMapFeature( $feature, $featureFeed->getPostUrl() );
-
-	return $nm->getFeatureElementId();
-
-}
-
-
-function inbode_update_featureid( $nid, $featureid ) {
+// update the rowid of a unit so we know where to tie it to in fusion tables
+function inbode_update_rowid( $nid, $featureid ) {
 	
 	if ($featureid) {
 	  $sql = "UPDATE content_type_unit SET field_featureid_value='$featureid' WHERE nid=$nid; ";  
@@ -584,57 +638,3 @@ function inbode_update_featureid( $nid, $featureid ) {
 
 
 
-function register_libs() {
-
-	global $conf;
-	// reg libs
-	set_include_path( $conf['i_syspath'].'/lib/:'.get_include_path());
-	require_once('Webready/Gdata/Maps.php');
-	require_once('Zend/Gdata/ClientLogin.php');
-	
-}
-
-
-function inbode_testing() {
-
-		inbode_delete_unit();		
-
-}
-
-
-
-
-function inbode_get_feature_html($data) {
-	
-	// expecting $data to be an array of a node describing a unit, and an array of building info
-	// like this $data["node"] and $data["building"]
-	
-	global $conf;
-	$out  = '';
-	// open div
-	$out .= '<div style="font-family:Helvetica,Arial,sans-serif;width:300px">';
-	
-	// headline
-	$out .= '<h2 style="color:#464646;font-size:22px;">';
-	$out .= $data['node'][field_unit_bedroom][0]['value'].' bed ';
-	$out .= $data['node'][field_unit_bathroom][0]['value'].' bath ';
-	$out .= '$ '.$data['node'][field_unit_price][0]['amount'];
-	$out .= '</h2>';
-	
-	// images
-	if (isset($data['node'][field_unit_images][0]['filepath'])) {
-		$out .= '<div>';
-		foreach($data['node'][field_unit_images] as $img) {
-			if (isset($img['filepath'])) {
-				$out .= '<img border="0" width="105" src="'.$conf['i_imgsrv'].base_path().$img['filepath'].'" />';
-			}
-		}
-		$out .= '</div>';
-	}
-	
-	// close div
-	$out .= '</div>';
-	
-	return $out;
-
-}
