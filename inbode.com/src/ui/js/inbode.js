@@ -1,3 +1,21 @@
+/*
+         _       __              __   
+        (_)___  / /_  ____  ____/ /__ 
+       / / __ \/ __ \/ __ \/ __  / _ \
+      / / / / / /_/ / /_/ / /_/ /  __/
+     /_/_/ /_/_.___/\____/\__,_/\___/ 
+
+     inbode.com is made in America
+     by the people of ten7i.com
+       ______          ______                      
+      /_  __/___  ____/__  (_) _________  ____ ___ 
+       / /  / _ \/ __ \ / / / / ___/ __ \/ __ `__ \
+      / /  /  __/ / / // / /_/ /__/ /_/ / / / / / /
+     /_/   \___/_/ /_//_/_/(_)___/\____/_/ /_/ /_/ 
+
+*/
+
+
 // generals
 var map;
 var results = new Array();
@@ -28,21 +46,35 @@ baths[2] = 0.5;
 if($.cookie('baths_lower')) { baths_lower=$.cookie('baths_lower') } else { baths_lower=baths[0]};
 if($.cookie('baths_upper')) { baths_upper=$.cookie('baths_upper') } else { baths_upper=baths[1]};
 
-// initial dates
-var now = new Date();
-var then = new Date();
+// dates
+var date_lower, date_upper;
+var datez = new Array();
 var dayspan = 100;
-var fromdate = new Date();
-var todate = new Date();
+var now = new Date();
 var yr = now.getFullYear() + "";
 var y = yr.substring(2);
-then.setDate(now.getDate() + dayspan);
-var tr = then.getFullYear() + "";
-var t = tr.substring(2);
-var datez = new Array();
-datez[0] = now.getMonth() + 1 + "/" + now.getDate() + "/" + y;
-datez[1] = then.getMonth() + 1 + "/" + then.getDate() + "/" + t;
-datez[2] = 1;
+zm = now.getMonth()+1;
+if (zm<10) {
+	zm = '0'+zm;
+}
+zd = now.getDate();
+if (zd<10) {
+	zd = '0'+zd;
+}
+datez[0] = zm + "/" + zd + "/" + y;
+var now = new Date();
+now.setDate(now.getDate()+dayspan);
+var yr = now.getFullYear() + "";
+var y = yr.substring(2);
+zm = now.getMonth()+1;
+if (zm<10) {
+	zm = '0'+zm;
+}
+zd = now.getDate();
+if (zd<10) {
+	zd = '0'+zd;
+}
+datez[1] = zm + "/" + zd + "/" + y;
 
 // now ready
 $(document).ready(function () {
@@ -64,8 +96,38 @@ $(document).ready(function () {
     range: true,
     values: [0, dayspan],
     slide: function (event, ui) {
-      $("#date-from").html(ui.values[0]);
-      $("#date-to").html(ui.values[1]);
+    
+			var now = new Date();
+    	now.setDate(now.getDate()+ui.values[0]);
+			mnow = now.getMonth()+1;
+    	if (mnow<10) {
+				mnow = '0' + mnow;
+    	}
+    	dnow = now.getDate();
+    	if (dnow<10) {
+    		dnow = '0' + dnow;
+    	}
+    	ynow = now.getFullYear()+'';
+    	
+    	date_lower = mnow + "/" + dnow + "/" + ynow.substring(2);
+      $.cookie('date_lower', date_lower, { expires: cookieexpiration });
+      $("#date-from").html( date_lower );
+
+			var now = new Date();
+    	now.setDate(now.getDate()+ui.values[1]);
+			mnow = now.getMonth()+1;
+    	if (mnow<10) {
+				mnow = '0' + mnow;
+    	}
+    	dnow = now.getDate();
+    	if (dnow<10) {
+    		dnow = '0' + dnow;
+    	}
+    	ynow = now.getFullYear()+'';
+    	date_upper = mnow + "/" + dnow + "/" + ynow.substring(2);
+      $.cookie('date_upper', date_upper, { expires: cookieexpiration });
+      $("#date-to").html( date_upper );
+
     }
   });
   // vertical sliders
@@ -150,9 +212,32 @@ $(document).ready(function () {
 inbode = {};
 
 inbode.favorite = {
-  starclick: function () {},
-  starover: function () {},
-  starout: function () {},
+  
+  starclick: function (id) {
+  
+  	if ( $('#'+id).attr('src')=='/ui/img/grey_star.png' ) {
+			// now a fave :)
+  		$('#'+id).attr('src', '/ui/img/yellow_star.png');
+  		if ($.cookie('faves')) {
+		    $.cookie( 'faves', $.cookie('faves')+'|'+id, { expires: cookieexpiration });
+  		} else {
+		    $.cookie( 'faves', '|'+id, { expires: cookieexpiration });
+  		}
+  	} else {
+  		// no longer a fave :(
+  		$('#'+id).attr('src', '/ui/img/grey_star.png');
+  		$.cookie( 'faves', $.cookie('faves').replace( '|'+id, ''));
+  	}
+  
+  },
+  
+  starover: function (id) {
+  	$('#'+id).addClass('hand');  
+  },
+  
+  starout: function (id) {
+  	$('#'+id).removeClass('hand');  
+  },
 };
 
 inbode.util = {
@@ -299,7 +384,9 @@ inbode.util = {
           "unit_am_furnished": item.unit_am_furnished,
           "unit_am_garage": item.unit_am_garage,
           "available": item.available,
-          "status": item.status          
+          "status": item.status,          
+          "nid": item.nid,
+          "visible": 1          
         };
         
         
@@ -331,7 +418,15 @@ inbode.util = {
         mrkrhtml += '<div class="t7_bot">';
         mrkrhtml += '<div class="t7_text_left"><i>' + item.street + '</i></div>';
         mrkrhtml += '<div class="t7_text_right">';
-        mrkrhtml += '<img class="t7_star" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick();" onMouseOver="inbode.favorite.starover();" onMouseOut="inbode.favorite.starout();" /> favorite';
+        
+        if ($.cookie('faves')) {
+	        if ( $.cookie('faves').search(item.nid)>0 ) {
+		        mrkrhtml += '<img class="t7_star" id="fave_'+item.nid+'" src="/ui/img/yellow_star.png" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');">favorite</a>';        
+	        } else {
+		        mrkrhtml += '<img class="t7_star" id="fave_'+item.nid+'" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');">favorite</a>';        
+	        }
+	      }
+        
         mrkrhtml += '</div>';
         mrkrhtml += '</div>';
         mrkrhtml += '<a href="/"><div id="t7_button"><h1>view full listing</h1></div></a>';
@@ -448,9 +543,9 @@ inbode.util = {
   filter: function (idc, chkd) {
   
   	if(chkd) {
-  		chkd = 1;
+  		chkd = true;
   	} else {
-  		chkd = 0;
+  		chkd = false;
   	}
   
   	// major filters
@@ -466,97 +561,70 @@ inbode.util = {
     if (!bathsmin) { bathsmin=baths_lower};
     var bathsmax = parseInt($("#slider-baths a:last").html());
     if (!bathsmax) { bathsmax=baths_upper};
-
-		// amenities
-		if ($('#building_am_cats').is(':checked')) {
-			var building_am_cats = 1;
-		} else {
-			var building_am_cats = 0;
-		}
-		if ($('#building_am_dogs_small').is(':checked')) {
-			var building_am_dogs_small = 1;
-		} else {
-			var building_am_dogs_small = 0;
-		}
-		if ($('#building_am_dogs_large').is(':checked')) {
-			var building_am_dogs_large = 1;
-		} else {
-			var building_am_dogs_large = 0;
-		}
-		if ($('#building_am_pool').is(':checked')) {
-			var building_am_pool = 1;
-		} else {
-			var building_am_pool = 0;
-		}
-		if ($('#unit_am_laundry').is(':checked')) {
-			var unit_am_laundry = 1;
-		} else {
-			var unit_am_laundry = 0;
-		}
-		if ($('#unit_am_dishwasher').is(':checked')) {
-			var unit_am_dishwasher = 1;
-		} else {
-			var unit_am_dishwasher = 0;
-		}
-		if ($('#unit_am_disposal').is(':checked')) {
-			var unit_am_disposal = 1;
-		} else {
-			var unit_am_disposal = 0;
-		}
-		if ($('#unit_am_balcony').is(':checked')) {
-			var unit_am_balcony = 1;
-		} else {
-			var unit_am_balcony = 0;
-		}
-		if ($('#unit_am_furnished').is(':checked')) {
-			var unit_am_furnished = 1;
-		} else {
-			var unit_am_furnished = 0;
-		}
-		if ($('#unit_am_garage').is(':checked')) {
-			var unit_am_garage = 1;
-		} else {
-			var unit_am_garage = 0;
-		}
-			
-		switch (idc) {
-			case "building_am_cats":
-				building_am_cats = chkd;
-				break;
-			case "building_am_dogs_small":
-				building_am_dogs_small = chkd;
-				break;
-			case "building_am_dogs_large":
-				building_am_dogs_large = chkd;
-				break;
-			case "building_am_pool":
-				building_am_pool = chkd;
-				break;
-			case "unit_am_laundry":
-				unit_am_laundry = chkd;
-				break;
-			case "unit_am_dishwasher":
-				unit_am_dishwasher = chkd;
-				break;
-			case "unit_am_disposal":
-				unit_am_disposal = chkd;
-				break;
-			case "unit_am_balcony":
-				unit_am_balcony = chkd ;
-				break;
-			case "unit_am_furnished":
-				unit_am_furnished = chkd;
-				break;
-			case "unit_am_garage":
-				unit_am_garage = chkd;
-				break;
-		}
     
+    // go thru each one of the amenities and create an array of the current state
+    // remember that the one we just clicked on (if we did) hasn't changed yet
+    // and so the 'idc' and 'chkd' value will override anything we come into contact with
+    amenities = []; 
+	  $('#amenities .jquery-safari-checkbox').each(function(i) {
+    	if ($(this).attr('id')==idc) {
+	    	var am = { "var": $(this).attr('id'),
+	    						 "chk": chkd 
+	    						};
+    	} else {
+	    	var am = { "var": $(this).attr('id'),
+	    						 "chk": $(this).is(':checked') 
+	    						};
+    	}
+			amenities.push(am);
+		});
+		
+		
+		// first filter by main ranges
     $.each(results, function (i, item) {
       if (
 		      	(item.price <= pricemax) && (item.price >= pricemin) && 
 		      	(item.beds <= bedsmax) && (item.beds >= bedsmin) && 
 		      	(item.baths <= bathsmax) && (item.baths >= bathsmin) 
+	      	) {	      	
+				item.visible = 1;	
+      } else {
+				item.visible = 0;	
+      }
+    });
+
+    
+    // now filter by additional categories if they exist!
+    // for each amenity, go thru the results set
+    $.each(amenities, function (i, item) {
+    
+//    	if (item.var &&)
+
+//			var amenity = item.var;
+//			alert("amenity busy with:"+amenity);
+			// for amenity item.var, go thru the results object
+			// only switch items off if they are already on and match!
+//	    $.each(results, function (j, jtem) {
+	    
+//	    	alert(jtem.visible+") nid: "+jtem.nid+ " has "+amenity+"="+jtem.amenity);
+
+//				if (jtem.visible) {
+				
+					//if (item.chk==1 && jtem.amenity!=item.chk) {
+					//	jtem.visible = 0;
+					//}
+
+					// example:
+					//	item.var = 'building_am_cats'
+					//	item.chk = 1
+					//						
+				
+//				}
+
+//		});
+			
+//			if (item.var) {
+//				alert(item.var+":"+item.chk);
 //		      	item.building_am_cats==building_am_cats &&
 //		      	item.building_am_dogs_small==building_am_dogs_small && 						
 //		      	item.building_am_dogs_small==building_am_dogs_small &&
@@ -569,16 +637,21 @@ inbode.util = {
 //		      	item.unit_am_furnished==unit_am_furnished &&
 //		      	item.unit_am_garage==unit_am_garage
 		      			      	
-	      	) {	      	
-	
-        item.marker.setVisible(true);
+			
+			
+		});
+    
 
-      } else {
 
-        item.marker.setVisible(false);
-
-      }
-    });
+		// i have a results object with the correct visibility, apply it!
+    $.each(results, function (i, item) {
+			if (item.visible) {
+				item.marker.setVisible(true);
+			} else {
+				item.marker.setVisible(false);
+			}
+		});    
+    
     
   }
 };

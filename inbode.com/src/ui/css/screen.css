@@ -310,6 +310,15 @@ body {
 	top: 2px;
 }
 
+.t7_bubble a {
+	color: #636363;
+	text-decoration: none;
+}
+.t7_bubble a:hover {
+	color: #636363;
+	text-decoration: underline;
+}
+
 .t7_bubble .t7_text_right {
 	color: #636363;
 	display: inline;
@@ -634,4 +643,8 @@ input:focus, a {
 
 .t7_bubble .jquery-safari-checkbox-checked .jquery-safari-checkbox-hover img {
 	background-position: -16px -2px;
+}
+
+.hand {
+	cursor: pointer;
 }
