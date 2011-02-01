@@ -68,7 +68,13 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 				$data=array();
 				$data["node"]=(array) $node;
 				$data["building"]=$buildinginfo[0];
-				$result = inbode_fusion_update_unit($rowid, $data);				
+				
+
+				if ($rowid) {
+					$result = inbode_fusion_update_unit($rowid, $data);							
+				} else {
+					$result = NULL;
+				}
 				
 				if ( !$result )  {
 					watchdog('inbode', 'Fusion table error updating unit '.$node->nid.' with ROWID '.$rowid. ' and data '.serialize($data) );
@@ -162,7 +168,7 @@ function inbode_fusion_update_building($id, $data) {
 
 /*
 
-	hope to bring images here too
+	hope to bring images here too some day
 
 	$sql .= "'building_image_1'='', ";
 	$sql .= "'building_image_2'='', ";
@@ -208,6 +214,11 @@ function inbode_fusion_update_unit( $rowid, $data ) {
 	global $conf;	
 	$tableid = $conf['i_InbodeBeta-BuildingsUnits'];
 
+	// sanity check!
+	if (!isset($rowid) || !is_numeric($rowid)) {
+		return 0;
+	}
+	
 	// build  SQL like update query to be executed with the fusion table
 	$sql  = "UPDATE $tableid SET ";
 	
@@ -233,6 +244,7 @@ function inbode_fusion_update_unit( $rowid, $data ) {
 	$sql .= "'building_am_pool'='";
 	if ($data['building']['building_am_pool']) { $sql .= "1"; } else { $sql .= "0";	};
 	$sql .= "', ";
+	// not doing building images at this stage
 	$sql .= "'building_image_1'='', ";
 	$sql .= "'building_image_2'='', ";
 	$sql .= "'building_image_3'='', ";
@@ -276,30 +288,56 @@ function inbode_fusion_update_unit( $rowid, $data ) {
 	if ( stripos($uam,'garage')===false) { $sql .= "0"; } else { $sql .= "1";	};
 	$sql .= "', ";
 	
-	// images
-	$unit_images = $data['node']['field_unit_images'];
-	$kk=0;
-	foreach($unit_images as $ui) {
-		if ($kk<8) {
-			$nn=$kk+1;
-			if ($kk!=7) {
-				$sql .= "'unit_image_".$nn."'='".addcslashes($ui['filepath'], "'")."', ";
-			} else {
-				$sql .= "'unit_image_".$nn."'='".addcslashes($ui['filepath'], "'")."'";
-			}
-		}
-		$kk++;
-	}
+	// unit images
+	if (isset($data['node']['field_unit_images'][0]['filepath'])) { 
+		$sql .= "'unit_image_1'='".addcslashes($data['node']['field_unit_images'][0]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'unit_image_1'='', ";
+	};
 	
-	if ($kk<8) {
-		for ($jj=$kk+1 ; $jj<=8 ; $jj++) {
-			if ($jj==8) {
-				$sql .= "'unit_image_". $jj ."'=''";		
-			} else {
-				$sql .= "'unit_image_". $jj ."'='', ";		
-			}
-		}
-	}
+	if (isset($data['node']['field_unit_images'][1]['filepath'])) { 
+		$sql .= "'unit_image_2'='".addcslashes($data['node']['field_unit_images'][1]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'unit_image_2'='', ";
+	};	
+
+	// more images
+	if (isset($data['node']['field_unit_more_images'][0]['filepath'])) { 
+		$sql .= "'unit_image_3'='".addcslashes($data['node']['field_unit_more_images'][0]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'unit_image_3'='', ";
+	};	
+
+	if (isset($data['node']['field_unit_more_images'][1]['filepath'])) { 
+		$sql .= "'unit_image_4'='".addcslashes($data['node']['field_unit_more_images'][1]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'unit_image_4'='', ";
+	};	
+
+	if (isset($data['node']['field_unit_more_images'][2]['filepath'])) { 
+		$sql .= "'unit_image_5'='".addcslashes($data['node']['field_unit_more_images'][2]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'unit_image_5'='', ";
+	};	
+
+	if (isset($data['node']['field_unit_more_images'][3]['filepath'])) { 
+		$sql .= "'unit_image_6'='".addcslashes($data['node']['field_unit_more_images'][3]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'unit_image_6'='', ";
+	};	
+
+	if (isset($data['node']['field_unit_more_images'][4]['filepath'])) { 
+		$sql .= "'unit_image_7'='".addcslashes($data['node']['field_unit_more_images'][4]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'unit_image_7'='', ";
+	};	
+
+	if (isset($data['node']['field_unit_more_images'][5]['filepath'])) { 
+		$sql .= "'unit_image_8'='".addcslashes($data['node']['field_unit_more_images'][5]['filepath'], "'")."' ";
+	} else {
+		$sql .= "'unit_image_8'='' ";
+	};	
+
 
 	$sql .= " WHERE ROWID='$rowid'";
 
@@ -381,32 +419,67 @@ function inbode_fusion_insert_unit( $data ) {
 	if ( stripos($uam,'balcony')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
 	if ( stripos($uam,'furnished')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
 	if ( stripos($uam,'garage')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
-	// images
-	$unit_images = $data['node']['field_unit_images'];
-	$kk=0;
-	foreach($unit_images as $ui) {
-		if ($kk<8) {
-			if ($kk!=7) {
-				$sql .= "'".addcslashes($ui['filepath'], "'")."', ";
-			} else {
-				$sql .= "'".addcslashes($ui['filepath'], "'")."'";
-			}
-		}
-		$kk++;
-	}
 	
-	if ($kk<8) {
-		for ($jj=$kk+1 ; $jj<=8 ; $jj++) {
-			if ($jj==8) {
-				$sql .= "''";		
-			} else {
-				$sql .= "'', ";		
-			}
-		}
-	}
+
+	// unit images
+	if (isset($data['node']['field_unit_images'][0]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_images'][0]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'', ";
+	};
+	
+	if (isset($data['node']['field_unit_images'][1]['filepath'])) { 
+		$sql .= "''".addcslashes($data['node']['field_unit_images'][1]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'', ";
+	};	
+
+	// more images
+	if (isset($data['node']['field_unit_more_images'][0]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][0]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'', ";
+	};	
+
+	if (isset($data['node']['field_unit_more_images'][1]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][1]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'', ";
+	};	
+
+	if (isset($data['node']['field_unit_more_images'][2]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][2]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'', ";
+	};	
+
+	if (isset($data['node']['field_unit_more_images'][3]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][3]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'', ";
+	};	
+
+	if (isset($data['node']['field_unit_more_images'][4]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][4]['filepath'], "'")."', ";
+	} else {
+		$sql .= "'', ";
+	};	
+
+	if (isset($data['node']['field_unit_more_images'][5]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][5]['filepath'], "'")."' ";
+	} else {
+		$sql .= "'' ";
+	};	
+
 
 	$sql .= ")";
+
 	$result = inbode_fusionquery($sql);
+
+/*
+	print $sql;
+	print_r($result);
+*/
 	
 	if ($result['info']['http_code']==200 && $result['info']['content_type']=='text/plain; charset=UTF-8' && isset($result['column_data'][1]['rowid'])) {
 		return($result['column_data'][1]['rowid']);

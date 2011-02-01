@@ -22,9 +22,9 @@
   <title>Inbode</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta http-equiv="content-type" content="text/html; charset=us-ascii">
-  <link type="text/css" href="/ui/css/custom-theme/jquery-ui-1.8.2.custom.css" rel=
-  "stylesheet">
+  <link type="text/css" href="/ui/css/custom-theme/jquery-ui-1.8.2.custom.css" rel="stylesheet">
   <link type="text/css" href="/ui/css/screen.css" rel="stylesheet">
+  <link type="text/css" href="/ui/css/jquery.fancybox-1.3.4.css" rel="stylesheet">  
   <script type="text/javascript" src="/ui/js/jquery-1.4.2.min.js"></script>
   <script type="text/javascript" src="/ui/js/jquery-ui-1.8.2.custom.min.js"></script>
   <script type="text/javascript" src="/ui/js/jquery.cookie.js"></script>
@@ -32,6 +32,9 @@
   <script type="text/javascript" src="/ui/js/jquery.checkbox.js"></script>
   <script type="text/javascript" src="http://code.google.com/apis/gears/gears_init.js"></script>
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+  <script type="text/javascript" src="/ui/js/jquery.fancybox-1.3.4.pack.js"></script>
+  <script type="text/javascript" src="/ui/js/jquery.easing-1.3.pack.js"></script>
+  <script type="text/javascript" src="/ui/js/jquery.mousewheel-3.0.4.pack.js"></script>
   <script type="text/javascript" src="/ui/js/inbode.js"></script>
   <script type="text/javascript">
 		google.load('gdata', '2.x', { packages: ['maps'] });
