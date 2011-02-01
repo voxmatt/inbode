@@ -327,9 +327,7 @@ inbode.util = {
   },
   swtch: function( nid, src ) {
   
-  	$('#bigimage_'+nid).fadeOut(function() {
-  		$(this).attr('src', src).fadeIn();
-  	});
+  	$('#bigimage_'+nid).attr('src', src);
   
   },
   fulllisting: function( unit_id ) {
@@ -393,7 +391,7 @@ inbode.util = {
 				'transitionOut'		: 'fade',
 				'speedIn'		:	400, 
 				'speedOut'		:	200, 
-				'overlayOpacity': 0.3,
+				'overlayOpacity': 0.1,
 				'overlayColor': '#000'
 //				inbode blue
 //				'overlayColor': '#1693a5'
