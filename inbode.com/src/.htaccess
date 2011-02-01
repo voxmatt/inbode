@@ -4,11 +4,11 @@
 #authgroupfile /dev/null
 #require user inbode
 
-#authtype basic
-#authname "Inbode"
-#authuserfile /usr/home/stegic/.htpasswd
-#authgroupfile /dev/null
-#require user inbode
+authtype basic
+authname "Inbode"
+authuserfile /usr/home/stegic/.htpasswd
+authgroupfile /dev/null
+require user inbode
 
 
 RewriteEngine On 
