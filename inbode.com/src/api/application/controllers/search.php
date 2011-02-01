@@ -48,7 +48,6 @@ class Search extends REST_Controller
 
 		// we used to do a spatial search on google maps using the google maps data api
 		// we are now better and smarter and use google fusion tables. yay us.
-		// fusion table with buildings and units is 417990
 		//$q = 'SELECT * FROM '.$tableid.' WHERE ST_INTERSECTS(\'latlng\', CIRCLE( LATLNG('.$latlng['lat'].','.$latlng['lng'].'), 80000) )';
 		$q = "SELECT * FROM $tableid WHERE 'status'='listed'" ;
 		$fusionresult = $this->inbode->fusionquery($q);		

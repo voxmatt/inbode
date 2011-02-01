@@ -1,11 +1,21 @@
-#php_flag  log_errors on
-#php_value error_log  /Users/ivan/TenSeven/code/inbode/inbode.com/php.log
+#authtype basic
+#authname "Inbode"
+#authuserfile /usr/home/inbode/.htpasswd
+#authgroupfile /dev/null
+#require user inbode
+
+#authtype basic
+#authname "Inbode"
+#authuserfile /usr/home/stegic/.htpasswd
+#authgroupfile /dev/null
+#require user inbode
+
 
 RewriteEngine On 
-#RewriteCond %{HTTP_HOST} !^www.ourclientssite.com [NC]
-#RewriteCond %{HTTP_HOST} !^localhost [NC]
-#RewriteCond %{HTTP_HOST} !^staging.ten7i.net [NC]
-#RewriteRule ^(.*)$ http://www.ourclientssite.com/$1 [R,L]
+RewriteCond %{HTTP_HOST} !^inbode.com [NC]
+RewriteCond %{HTTP_HOST} !^inbode [NC]
+RewriteCond %{HTTP_HOST} !^inbode.ten7i.net [NC]
+RewriteRule ^(.*)$ http://inbode.com/$1 [R,L]
 
 
 #
