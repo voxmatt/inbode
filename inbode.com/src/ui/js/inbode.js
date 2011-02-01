@@ -20,7 +20,7 @@
 var map;
 var results = new Array();
 var cookieexpiration = 365;
-
+var visibleinfowindow = new google.maps.InfoWindow({});
 // limit arrays (min, max, step)
 var price = new Array();
 var price_lower, price_upper;
@@ -327,7 +327,9 @@ inbode.util = {
   },
   swtch: function( nid, src ) {
   
-  	$('#bigimage_'+nid).attr('src', src);
+  	$('#bigimage_'+nid).fadeOut(function() {
+  		$(this).attr('src', src).fadeIn();
+  	});
   
   },
   fulllisting: function( unit_id ) {
@@ -387,9 +389,9 @@ inbode.util = {
     		'autoDimensions'	: false,
 				'width'         	: 660,
 				'height'        	: 660,
-				'transitionIn'		: 'elastic',
-				'transitionOut'		: 'elastic',
-				'speedIn'		:	600, 
+				'transitionIn'		: 'fade',
+				'transitionOut'		: 'fade',
+				'speedIn'		:	400, 
 				'speedOut'		:	200, 
 				'overlayOpacity': 0.3,
 				'overlayColor': '#000'
@@ -520,13 +522,23 @@ inbode.util = {
         mrkrhtml += '</div>';
         mrkrhtml += '<a href="/"><div id="t7_button"><h1><a href="/unit/'+item.unit_id+'">view full listing</a></h1></div></a>';
         mrkrhtml += '</div>';
+        
+        
         // create the info windows and listeners
-        var infoWindow = new google.maps.InfoWindow({
+        var infowindow = new google.maps.InfoWindow({
           content: mrkrhtml,
-          size: new google.maps.Size(270, 210)
+          size: new google.maps.Size(270, 210),
+          position: ll
         });
         // Add marker click event listener.
-        google.maps.event.addListener(mrkr, 'click', sl.openInfoWindow(infoWindow, mrkr));
+        google.maps.event.addListener(mrkr, 'click', function() {
+        	visibleinfowindow.close(map);        	
+        	infowindow.open(map);
+        	visibleinfowindow = infowindow;
+        });
+        
+        
+        
       });
       // record last location in a cookie		          
       $.cookie('last_latlng', '(' + data.latlng.lat + ',' + data.latlng.lng + ')', {
@@ -742,34 +754,5 @@ inbode.util = {
 		});    
     
     
-  }
-};
-var sl = {
-  map: null,
-  mapContainer: document.getElementById('mapContainer'),
-  sideContainer: document.getElementById('sideContainer'),
-  generateLink: document.getElementById('generateLink'),
-  markers: [],
-  visibleInfoWindow: null,
-  generateTriggerCallback: function (object, eventType) {
-    return function () {
-      google.maps.event.trigger(object, eventType);
-    };
-  },
-  openInfoWindow: function (infoWindow, marker) {
-    return function () {
-      // Close the last selected marker before opening this one.
-      if (sl.visibleInfoWindow) {
-        sl.visibleInfoWindow.close();
-      }
-      infoWindow.open(map, marker);
-      infoWindow.setContent();
-      sl.visibleInfoWindow = infoWindow;
-    };
-  },
-  clearMarkers: function () {
-    for (var n = 0, marker; marker = sl.markers[n]; n++) {
-      marker.setVisible(false);
-    }
   }
 };

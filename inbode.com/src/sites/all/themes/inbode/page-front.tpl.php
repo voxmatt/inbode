@@ -34,7 +34,6 @@
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript" src="/ui/js/jquery.fancybox-1.3.4.pack.js"></script>
   <script type="text/javascript" src="/ui/js/jquery.easing-1.3.pack.js"></script>
-  <script type="text/javascript" src="/ui/js/jquery.mousewheel-3.0.4.pack.js"></script>
   <script type="text/javascript" src="/ui/js/inbode.js"></script>
   <script type="text/javascript">
 		google.load('gdata', '2.x', { packages: ['maps'] });
