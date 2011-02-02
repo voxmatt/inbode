@@ -558,8 +558,10 @@ inbode.util = {
         
         // add marker click event listener
         google.maps.event.addListener(mrkr, 'click', function() {
+					// close the visible one
         	visibleinfowindow.close(map);        	
         	infowindow.open(map);
+        	// add some click history
         	if ($.cookie('click_history')) {
 	        	if ($.cookie('click_history').search(infowindow.position)==-1) {
 		        	$.cookie('click_history', $.cookie('click_history')+'|'+infowindow.position, { expires: cookieexpiration });	        	
@@ -573,6 +575,7 @@ inbode.util = {
         
         
       });
+      
       // record last location in a cookie		          
       $.cookie('last_latlng', '(' + data.latlng.lat + ',' + data.latlng.lng + ')', {
         expires: cookieexpiration
@@ -580,6 +583,7 @@ inbode.util = {
       $.cookie('last_location', data.location, {
         expires: cookieexpiration
       });
+      
       // center map at location							
       var l = new google.maps.LatLng(data.latlng.lat, data.latlng.lng);
       map.setCenter(l);
