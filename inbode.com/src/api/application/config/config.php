@@ -70,7 +70,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	$config['i_GApass'] = 'w1r3dmag';
 	// google token for client login
 	$config['i_GAtoken'] = 'DQAAAJUBAACXh_6YQC7wSnZEb1W3zZOr7pUwZ5UoFvMG9mGiP20GL5ikh6vR4rHp_0ADPCU_fc5PKDdi5NpS5VIysIbJAm-HSGXtxXRkAqqbb-2kgZoeCdNb6DygF0bTUtf-6PwWZqauY3ysFe-QOYyp5erz5Innrn1hseQsBOvkMCmVwUsedJq8x9D-rAiOlzIDL_TsYWmL6sQI08FuewPOk_OVbCIP8IZ05blm0CCFjze8of-ZhAs4xKNRpGGzzT1U7ml9MfMbDWVW_cBnsNVLIujuk8RDnlXMYDwihBIDMi924rEAc5_7bapwz_mF6p7RCGGsZ7tNzwmjNBC5G8h63m8OziduAsWYMSWJME37qsVmi13ADT3PD2pkGcvHZp9Z43V3uzZjkvdSsZicq-AqOlbfdGQ2cvmO7mqiYoCAK0tWIiOBHp8MaHiexeG9XF4s0IipV_zscHie4IALxY-qyKhsdLtWXSCPcgordPWXInesZVpQyaz0u09gUSi5sfQx94bH7abIGsE8UjluOQQZWJjzTR29gDHHFuzOHhrjpLcOflJ0Eg';
-	$config['i_InbodeBeta-BuildingsUnits'] = '417990';
+	$config['i_InbodeBeta-BuildingsUnits'] = '422613';
 	// to be used in the future
 	$config['i_InbodeBeta-Building'] = '000000';
 	$config['i_InbodeBeta-Unit'] = '000000';

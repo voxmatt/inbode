@@ -20,7 +20,7 @@
 var map;
 var results = new Array();
 var cookieexpiration = 365;
-
+var visibleinfowindow = new google.maps.InfoWindow({});
 // limit arrays (min, max, step)
 var price = new Array();
 var price_lower, price_upper;
@@ -208,12 +208,12 @@ $(document).ready(function () {
   
 });
 
-// inbode!
+// inbode yea
 inbode = {};
 
 inbode.favorite = {
   
-  starclick: function (id) {
+  starclick: function (id, position) {
   
   	if ( $('#'+id).attr('src')=='/ui/img/grey_star.png' ) {
 			// now a fave :)
@@ -223,12 +223,32 @@ inbode.favorite = {
   		} else {
 		    $.cookie( 'faves', '|'+id, { expires: cookieexpiration });
   		}
+
+	    $.each(results, function (i, item) {
+				if (item.marker.position==position) {
+					// thi is the marker whose icon we need to change!
+	        item.marker.setIcon('/ui/img/inbmrkr.png');
+	        item.marker.setShadow('/ui/img/inbmrkr_shadow.png');
+				}
+	    }); 
+
   	} else {
   		// no longer a fave :(
   		$('#'+id).attr('src', '/ui/img/grey_star.png');
   		$.cookie( 'faves', $.cookie('faves').replace( '|'+id, ''));
+
+	    $.each(results, function (i, item) {
+				if (item.marker.position==position) {
+					// thi is the marker whose icon we need to change!
+	        item.marker.setIcon();
+				}
+	    }); 
+
+
   	}
-  
+  	
+    
+      
   },
   
   starover: function (id) {
@@ -325,6 +345,83 @@ inbode.util = {
     
     
   },
+  swtch: function( nid, src ) {
+  
+  	$('#bigimage_'+nid).attr('src', src);
+  
+  },
+  fulllisting: function( unit_id ) {
+  	
+//  	alert(unit_id);
+  	
+  	window.location = '/unit/'+unid_id;
+  
+  },
+  fancybox: function( iid, nid ) {
+    
+    var bigimages = [];
+    var unit_name;
+    
+    // find the relevant urls and generate the html in the window that overlays
+    $.each(results, function (i, item) {
+			if (item.nid==nid) {
+				bigimages.push(item.unit_image_1);
+				bigimages.push(item.unit_image_2);
+				bigimages.push(item.unit_image_3);
+				bigimages.push(item.unit_image_4);
+				bigimages.push(item.unit_image_5);
+				bigimages.push(item.unit_image_6);
+				bigimages.push(item.unit_image_7);
+				bigimages.push(item.unit_image_8);
+				unit_name = item.unit_name;
+			}
+    });  	
+    
+    var imgtoshow = '';
+
+    switch(iid) {
+    	case 1:
+    		imgtoshow = bigimages[0];
+    		break;
+    	case 2:
+    		imgtoshow = bigimages[1];
+    		break;
+    	default:
+    }
+    
+    var html = '<div class="t7_gallery_pop">';
+    html += '<h2>'+unit_name+'</h2>';
+    html += '<img class="bigimage" id="bigimage_'+nid+'" src="'+imgtoshow+'" /><div class="t7_gallery_strip">';
+    
+    $.each(bigimages, function(j, jtem) {
+    	html += '<div class="t7_gallery_images"><a href="#"><img onclick="inbode.util.swtch(\''+nid+'\', \''+jtem+'\');" border="0" src="' + jtem + '" width="104" height="73" /></a></div>';
+    });
+    
+    html += '</div></div>';
+    
+    
+    
+		$.fancybox(
+			html,
+			{
+    		'autoDimensions'	: false,
+				'width'         	: 660,
+				'height'        	: 660,
+				'transitionIn'		: 'fade',
+				'transitionOut'		: 'fade',
+				'speedIn'		:	400, 
+				'speedOut'		:	200, 
+				'overlayOpacity': 0.1,
+				'overlayColor': '#000'
+//				inbode blue
+//				'overlayColor': '#1693a5'
+			}
+		);
+
+		
+
+	  
+  },
 	showfilters: function() {
 
   	// open up the filters if the cookie exists
@@ -368,11 +465,14 @@ inbode.util = {
           position: ll,
           map: map
         });
+        
         var inb = {
           "marker": mrkr,
           "beds": item.beds,
           "baths": item.baths,
           "price": item.price,
+          "unit_id": item.unit_id,
+          "unit_name": item.unit_name,
           "building_am_cats": item.building_am_cats,
           "building_am_dogs_small": item.building_am_dogs_small,
           "building_am_dogs_large": item.building_am_dogs_large,
@@ -386,9 +486,24 @@ inbode.util = {
           "available": item.available,
           "status": item.status,          
           "nid": item.nid,
+          "unit_image_1": item.unit_image_1,
+          "unit_image_2": item.unit_image_2,
+          "unit_image_3": item.unit_image_3,
+          "unit_image_4": item.unit_image_4,
+          "unit_image_5": item.unit_image_5,
+          "unit_image_6": item.unit_image_6,
+          "unit_image_7": item.unit_image_7,
+          "unit_image_8": item.unit_image_8,
           "visible": 1          
         };
         
+        // set marker if it's a favorite
+				if ( $.cookie('faves') != null ) {
+	        if ( $.cookie('faves').search(item.nid)>0) {
+		        mrkr.setIcon('/ui/img/inbmrkr.png');
+		        mrkr.setShadow('/ui/img/inbmrkr_shadow.png');
+	        }
+				}
         
         results.push(inb);
         // temp html
@@ -408,12 +523,11 @@ inbode.util = {
         }
         // price
         mrkrhtml += '$' + item.price + '</h1>';
+
         // images
-        if (item.images) {
-          $.each(item.images, function (j, img) {
-            mrkrhtml += '<div class="t7_apt_images"><img src="' + img + '" width="104" height="73" /></div>';
-          });
-        }
+        if (item.unit_image_1) { mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(1, \'' + item.nid + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>'; }
+        if (item.unit_image_2) { mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(2, \'' + item.nid + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>'; }
+
         // address
         mrkrhtml += '<div class="t7_bot">';
         mrkrhtml += '<div class="t7_text_left"><i>' + item.street + '</i></div>';
@@ -421,23 +535,43 @@ inbode.util = {
         
         if ($.cookie('faves')) {
 	        if ( $.cookie('faves').search(item.nid)>0 ) {
-		        mrkrhtml += '<img class="t7_star" id="fave_'+item.nid+'" src="/ui/img/yellow_star.png" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');">favorite</a>';        
+		        mrkrhtml += '<img class="t7_star" id="fave_'+item.nid+'" src="/ui/img/yellow_star.png" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\', \''+mrkr.position+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\', \''+mrkr.position+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');">favorite</a>';        
 	        } else {
-		        mrkrhtml += '<img class="t7_star" id="fave_'+item.nid+'" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');">favorite</a>';        
+		        mrkrhtml += '<img class="t7_star" id="fave_'+item.nid+'" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\', \''+mrkr.position+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\', \''+mrkr.position+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');">favorite</a>';        
 	        }
+	      } else {
+	        mrkrhtml += '<img class="t7_star" id="fave_'+item.nid+'" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\', \''+mrkr.position+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\', \''+mrkr.position+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');">favorite</a>';        
 	      }
         
         mrkrhtml += '</div>';
         mrkrhtml += '</div>';
-        mrkrhtml += '<a href="/"><div id="t7_button"><h1>view full listing</h1></div></a>';
+        mrkrhtml += '<a href="/"><div id="t7_button"><h1><a href="/unit/'+item.unit_id+'">view full listing</a></h1></div></a>';
         mrkrhtml += '</div>';
+        
+        
         // create the info windows and listeners
-        var infoWindow = new google.maps.InfoWindow({
+        var infowindow = new google.maps.InfoWindow({
           content: mrkrhtml,
-          size: new google.maps.Size(270, 210)
+          size: new google.maps.Size(270, 210),
+          position: ll
         });
+        
         // Add marker click event listener.
-        google.maps.event.addListener(mrkr, 'click', sl.openInfoWindow(infoWindow, mrkr));
+        google.maps.event.addListener(mrkr, 'click', function() {
+        	visibleinfowindow.close(map);        	
+        	infowindow.open(map);
+        	if ($.cookie('click_history')) {
+	        	if ($.cookie('click_history').search(infowindow.position)==-1) {
+		        	$.cookie('click_history', $.cookie('click_history')+'|'+infowindow.position, { expires: cookieexpiration });	        	
+	        	}
+        	} else {
+  	      	$.cookie('click_history', infowindow.position, { expires: cookieexpiration });
+        	}
+        	visibleinfowindow = infowindow;
+        });
+        
+        
+        
       });
       // record last location in a cookie		          
       $.cookie('last_latlng', '(' + data.latlng.lat + ',' + data.latlng.lng + ')', {
@@ -452,7 +586,7 @@ inbode.util = {
 			
       // loader off	
       $('#t7_ldr img').fadeOut(function() {
-      	inbode.util.showfilters();      
+      	inbode.util.showfilters();
       });
       
       // apply the filter
@@ -653,34 +787,5 @@ inbode.util = {
 		});    
     
     
-  }
-};
-var sl = {
-  map: null,
-  mapContainer: document.getElementById('mapContainer'),
-  sideContainer: document.getElementById('sideContainer'),
-  generateLink: document.getElementById('generateLink'),
-  markers: [],
-  visibleInfoWindow: null,
-  generateTriggerCallback: function (object, eventType) {
-    return function () {
-      google.maps.event.trigger(object, eventType);
-    };
-  },
-  openInfoWindow: function (infoWindow, marker) {
-    return function () {
-      // Close the last selected marker before opening this one.
-      if (sl.visibleInfoWindow) {
-        sl.visibleInfoWindow.close();
-      }
-      infoWindow.open(map, marker);
-      infoWindow.setContent();
-      sl.visibleInfoWindow = infoWindow;
-    };
-  },
-  clearMarkers: function () {
-    for (var n = 0, marker; marker = sl.markers[n]; n++) {
-      marker.setVisible(false);
-    }
   }
 };

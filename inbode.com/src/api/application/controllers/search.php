@@ -48,7 +48,6 @@ class Search extends REST_Controller
 
 		// we used to do a spatial search on google maps using the google maps data api
 		// we are now better and smarter and use google fusion tables. yay us.
-		// fusion table with buildings and units is 417990
 		//$q = 'SELECT * FROM '.$tableid.' WHERE ST_INTERSECTS(\'latlng\', CIRCLE( LATLNG('.$latlng['lat'].','.$latlng['lng'].'), 80000) )';
 		$q = "SELECT * FROM $tableid WHERE 'status'='listed'" ;
 		$fusionresult = $this->inbode->fusionquery($q);		
@@ -90,15 +89,19 @@ class Search extends REST_Controller
 				$f['building_am_dogs_small'] = $result['building_am_dogs_small'];
 				$f['building_am_dogs_large'] = $result['building_am_dogs_large'];
 				$f['building_am_pool'] = $result['building_am_pool'];
-				$building_images=array();
-				for ($bi = 1; $bi<=4 ; $bi++) {
-					if (isset($result['building_image_'.$bi])) {
-						if ($result['building_image_'.$bi]) {
-							$building_images[]=$result['building_image_'.$bi];						
-						}
-					}
-				}
-				$f['building_images']=$building_images;
+				
+				// building images some day too
+				$f['building_image_1'] = $result['building_image_1'];
+				if (substr($f['building_image_1'], 0, 1)!="/" && $result['building_image_1']) { $f['building_image_1']="/".$f['building_image_1'];}; 
+				
+				$f['building_image_2'] = $result['building_image_2'];
+				if (substr($f['building_image_2'], 0, 1)!="/" && $result['building_image_2']) { $f['building_image_2']="/".$f['building_image_2'];}; 
+				
+				$f['building_image_3'] = $result['building_image_3'];
+				if (substr($f['building_image_3'], 0, 1)!="/" && $result['building_image_3']) { $f['building_image_3']="/".$f['building_image_3'];}; 
+				
+				$f['building_image_4'] = $result['building_image_4'];
+				if (substr($f['building_image_4'], 0, 1)!="/" && $result['building_image_4']) { $f['building_image_4']="/".$f['building_image_4'];}; 
 
 				// unit specific				
 				$f['featureid'] = md5($result['building_id']."_".$result['unit_id']);
@@ -123,15 +126,31 @@ class Search extends REST_Controller
 				$f['unit_am_furnished'] = $result['unit_am_furnished'];
 				$f['unit_am_garage'] = $result['unit_am_garage'];
 				$f['status'] = $result['status'];
-				$unit_images=array();
-				for ($ui = 1; $ui<=8 ; $ui++) {
-					if (isset($result['unit_image_'.$ui])) {
-						if ($result['unit_image_'.$bi]) {
-							$unit_images[]=$result['unit_image_'.$bi];
-						}
-					}
-				}
-				$f['images']=$unit_images;
+				
+				// unit images
+				$f['unit_image_1'] = $result['unit_image_1'];
+				if (substr($f['unit_image_1'], 0, 1)!="/" && $result['unit_image_1']) { $f['unit_image_1']="/".$f['unit_image_1'];}; 
+
+				$f['unit_image_2'] = $result['unit_image_2'];
+				if (substr($f['unit_image_2'], 0, 1)!="/" && $result['unit_image_2']) { $f['unit_image_2']="/".$f['unit_image_2'];}; 
+
+				$f['unit_image_3'] = $result['unit_image_3'];
+				if (substr($f['unit_image_3'], 0, 1)!="/" && $result['unit_image_3']) { $f['unit_image_3']="/".$f['unit_image_3'];}; 
+
+				$f['unit_image_4'] = $result['unit_image_4'];
+				if (substr($f['unit_image_4'], 0, 1)!="/" && $result['unit_image_4']) { $f['unit_image_4']="/".$f['unit_image_4'];}; 
+
+				$f['unit_image_5'] = $result['unit_image_5'];
+				if (substr($f['unit_image_5'], 0, 1)!="/" && $result['unit_image_5']) { $f['unit_image_5']="/".$f['unit_image_5'];}; 
+
+				$f['unit_image_6'] = $result['unit_image_6'];
+				if (substr($f['unit_image_6'], 0, 1)!="/" && $result['unit_image_6']) { $f['unit_image_6']="/".$f['unit_image_6'];}; 
+
+				$f['unit_image_7'] = $result['unit_image_7'];
+				if (substr($f['unit_image_7'], 0, 1)!="/" && $result['unit_image_7']) { $f['unit_image_1']="/".$f['unit_image_7'];}; 
+
+				$f['unit_image_8'] = $result['unit_image_8'];
+				if (substr($f['unit_image_8'], 0, 1)!="/" && $result['unit_image_8']) { $f['unit_image_1']="/".$f['unit_image_8'];}; 
 
 				// backwards compatible
 				$f['description'] = $result['unit_description'];
