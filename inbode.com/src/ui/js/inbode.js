@@ -278,7 +278,7 @@ inbode.util = {
 		$('input[safari]:checkbox').checkbox({cls:'jquery-safari-checkbox'});
 		$('input:radio').checkbox({cls:'jquery-safari-checkbox'});
 	
-  
+  	// map options
     var options = {
       zoom: 12,
       disableDefaultUI: true,
@@ -351,11 +351,7 @@ inbode.util = {
   
   },
   fulllisting: function( unit_id ) {
-  	
-//  	alert(unit_id);
-  	
   	window.location = '/unit/'+unid_id;
-  
   },
   fancybox: function( iid, nid ) {
     
@@ -413,8 +409,6 @@ inbode.util = {
 				'speedOut'		:	200, 
 				'overlayOpacity': 0.1,
 				'overlayColor': '#000'
-//				inbode blue
-//				'overlayColor': '#1693a5'
 			}
 		);
 
@@ -497,6 +491,8 @@ inbode.util = {
           "visible": 1          
         };
         
+        results.push(inb);
+
         // set marker if it's a favorite
 				if ( $.cookie('faves') != null ) {
 	        if ( $.cookie('faves').search(item.nid)>0) {
@@ -505,22 +501,24 @@ inbode.util = {
 	        }
 				}
         
-        results.push(inb);
-        // temp html
+        // marker html
         var mrkrhtml = '<div class="t7_bubble">';
         mrkrhtml += '<h1>';
+        
         // beds
         if (item.beds == 1) {
           mrkrhtml += item.beds + ' bed ';
         } else {
           mrkrhtml += item.beds + ' beds ';
         }
+        
         // baths
         if (item.baths == 1) {
           mrkrhtml += item.baths + ' bath ';
         } else {
           mrkrhtml += item.baths + ' baths ';
         }
+        
         // price
         mrkrhtml += '$' + item.price + '</h1>';
 
@@ -533,6 +531,7 @@ inbode.util = {
         mrkrhtml += '<div class="t7_text_left"><i>' + item.street + '</i></div>';
         mrkrhtml += '<div class="t7_text_right">';
         
+        // favorites (we <3 cookies)
         if ($.cookie('faves')) {
 	        if ( $.cookie('faves').search(item.nid)>0 ) {
 		        mrkrhtml += '<img class="t7_star" id="fave_'+item.nid+'" src="/ui/img/yellow_star.png" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\', \''+mrkr.position+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\', \''+mrkr.position+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');">favorite</a>';        
@@ -543,6 +542,7 @@ inbode.util = {
 	        mrkrhtml += '<img class="t7_star" id="fave_'+item.nid+'" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\', \''+mrkr.position+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_'+item.nid+'\', \''+mrkr.position+'\');" onMouseOver="inbode.favorite.starover(\'fave_'+item.nid+'\');" onMouseOut="inbode.favorite.starout(\'fave_'+item.nid+'\');">favorite</a>';        
 	      }
         
+        // button it up
         mrkrhtml += '</div>';
         mrkrhtml += '</div>';
         mrkrhtml += '<a href="/"><div id="t7_button"><h1><a href="/unit/'+item.unit_id+'">view full listing</a></h1></div></a>';
@@ -556,7 +556,7 @@ inbode.util = {
           position: ll
         });
         
-        // Add marker click event listener.
+        // add marker click event listener
         google.maps.event.addListener(mrkr, 'click', function() {
         	visibleinfowindow.close(map);        	
         	infowindow.open(map);
