@@ -59,9 +59,8 @@
             
             global $user;
             
-            
-            if ($user->roles[2]) {
-            	print '<a href="/user/'.$user->uid.'/inbode">My account</a>';
+            if ( isset($user->roles[3]) || isset($user->roles[4]) || isset($user->roles[5])) {
+            	print '<a href="/user/'.$user->uid.'">My account</a>';
             } else {
             	print '<a href="/user/login">Sign in</a>';
             }
