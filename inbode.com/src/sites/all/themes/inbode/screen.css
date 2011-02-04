@@ -251,6 +251,9 @@ div.messages {
   font-weight: lighter;
   color: #000;
   font-size: 13px;
+ 	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 div.messages a {
@@ -258,18 +261,49 @@ div.messages a {
 }
 
 div.warning {
+	background-image: none;
   background-color: #C3DC1E;
+  font-weight: lighter;
   color: #000;
+  font-size: 13px;
+  border: 0px solid;
+ 	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+  padding: 10px;
 }
 
 div.error {
+  background-image: none;
   background-color: #A62A17;
+  font-weight: lighter;
   color: #fff;
+  font-size: 13px;
+  border: 0px solid;
+ 	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+  padding: 10px;
 }
 
 div.status {
+  background-image: none;
   background-color: #1693a5;
+  font-weight: lighter;
   color: #fff;
+  font-size: 13px;
+  border: 0px solid;
+ 	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+  padding: 10px;
+}
+
+.messages ul,
+.warning ul,
+.error ul,
+.status ul {
+	margin: 0;
 }
 
 /** admin menu font face override **/
@@ -309,12 +343,6 @@ fieldset, input, textarea {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 }
- .messages {
- 	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
- }
-
 fieldset legend {
 	padding: 0 10px 0 8px;
 }
