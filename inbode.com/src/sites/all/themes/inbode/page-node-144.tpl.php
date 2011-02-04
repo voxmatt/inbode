@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<?php
+
+if (
+
+	isset($user->roles[3]) ||  	// super admin
+	isset($user->roles[4]) || 	// building manager
+	isset($user->roles[5]) || 	// user
+	($user->uid==1)) {					// uid=1
+	// show the page
+	
+ ?><!DOCTYPE html>
 <html>
 <head>
 <!-- 
@@ -179,3 +189,14 @@
   </div>
 </body>
 </html>
+<?php
+
+	//
+} else {
+
+	// if we are anonymouse, redirect to home page
+
+	header('Location: /');
+};
+
+?>
