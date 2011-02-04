@@ -1,5 +1,5 @@
 <?php
-// $Id: location.module,v 1.222.2.32 2010/04/20 00:30:43 bdragon Exp $
+// $Id: location.module,v 1.222.2.39 2010/07/04 12:27:36 rooby Exp $
 
 /**
  * @file
@@ -96,6 +96,9 @@ function location_api_variant() {
 function location_perm() {
   return array(
     'submit latitude/longitude',
+    'view location directory',
+    'view node location table',
+    'view user location table',
   );
 }
 
@@ -195,6 +198,15 @@ function location_views_api() {
 }
 
 /**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function location_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
  * Process a location element.
  */
 function _location_expand_location($element) {
@@ -275,6 +287,7 @@ function _location_expand_location($element) {
       $element['locpick']['current'] = array(
         '#type' => 'fieldset',
         '#title' => t('Current coordinates'),
+        '#attributes' => array('class' => 'location-current-coordinates-fieldset'),
       );
       $element['locpick']['current']['current_latitude'] = array(
         '#type' => 'item',
@@ -590,7 +603,7 @@ function location_locationapi(&$obj, $op, $a3 = NULL, $a4 = NULL, $a5 = NULL) {
             '#title'          => t('Location name'),
             '#default_value'  => $obj,
             '#size'           => 64,
-            '#maxlength'      => 64,
+            '#maxlength'      => 255,
             '#description'    => t('e.g. a place of business, venue, meeting point'),
             '#attributes'     => NULL,
             '#required'       => ($a4 == 2),
@@ -602,7 +615,7 @@ function location_locationapi(&$obj, $op, $a3 = NULL, $a4 = NULL, $a5 = NULL) {
             '#title'          => t('Street'),
             '#default_value'  => $obj,
             '#size'           => 64,
-            '#maxlength'      => 64,
+            '#maxlength'      => 255,
             '#required'       => ($a4 == 2),
           );
 
@@ -613,7 +626,7 @@ function location_locationapi(&$obj, $op, $a3 = NULL, $a4 = NULL, $a5 = NULL) {
             '#title'          => t('Additional'),
             '#default_value'  => $obj,
             '#size'           => 64,
-            '#maxlength'      => 64,
+            '#maxlength'      => 255,
             // Required is forced OFF because this is technically part of street.
           );
 
@@ -623,7 +636,7 @@ function location_locationapi(&$obj, $op, $a3 = NULL, $a4 = NULL, $a5 = NULL) {
             '#title'          => t('City'),
             '#default_value'  => $obj,
             '#size'           => 64,
-            '#maxlength'      => 64,
+            '#maxlength'      => 255,
             '#description'    => NULL,
             '#attributes'     => NULL,
             '#required'       => ($a4 == 2),
@@ -636,7 +649,7 @@ function location_locationapi(&$obj, $op, $a3 = NULL, $a4 = NULL, $a5 = NULL) {
             '#type' => 'textfield',
             '#title' => t('State/Province'),
             '#autocomplete_path' => 'location/autocomplete/'. $country,
-            '#default_value' => $obj,
+            '#default_value' => variable_get('location_use_province_abbreviation', 1) ? $obj : location_province_name($country, $obj),
             '#size' => 64,
             '#maxlength' => 64,
             '#description' => NULL,
@@ -1499,6 +1512,9 @@ function template_preprocess_location(&$variables) {
     // $location['country'] is normalized in the previous line.
     $variables['template_files'][] = 'location-'. $location['country'];
   }
+
+  // Display either the code or the full name for the province.
+  $variables['province_print'] = variable_get('location_use_province_abbreviation', 1) ? $location['province'] : $location['province_name'];
 }
 
 /**
@@ -1572,7 +1588,7 @@ function location_settings($old = FALSE) {
     '#type' => 'select',
     '#title' => t('Maximum number of locations'),
     '#options' => drupal_map_assoc(range(0, 100)),
-    '#default_value' => isset($old['multiple']['max']) ? $old['multiple']['max'] : 0,
+    '#default_value' => isset($old['multiple']['max']) ? $old['multiple']['max'] : 1,
     '#description' => t('The maximum number of locations that can be associated.'),
   );
   // @@@ Dynamic location adding via ahah?
@@ -1580,7 +1596,7 @@ function location_settings($old = FALSE) {
     '#type' => 'select',
     '#title' => t('Number of locations that can be added at once'),
     '#options' => drupal_map_assoc(range(0, 100)),
-    '#default_value' => isset($old['multiple']['add']) ? $old['multiple']['add'] : 3,
+    '#default_value' => isset($old['multiple']['add']) ? $old['multiple']['add'] : 1,
     '#description' => t('The number of empty location forms to show when editing.'),
   );
   // Thought: What about prefilled names and fixed locations that way?
@@ -1724,4 +1740,23 @@ function location_display($settings, $locations) {
 function location_rss_item($location, $mode = 'simple') {
   require_once(drupal_get_path('module', 'location') .'/location.georss.inc');
   return _location_rss_item($location, $mode);
+}
+
+/**
+ * Returns a list of accuracy codes as defined by the Google Maps API.
+ * See http://code.google.com/apis/maps/documentation/reference.html#GGeoAddressAccuracy.
+ */
+function location_google_geocode_accuracy_codes() {
+  return array(
+    0 => t('Unknown location'),
+    1 => t('Country level accuracy'),
+    2 => t('Region (state, province, prefecture, etc.) level accuracy'),
+    3 => t('Sub-region (county, municipality, etc.) level accuracy'),
+    4 => t('Town (city, village) level accuracy'),
+    5 => t('Post code (zip code) level accuracy'),
+    6 => t('Street level accuracy'),
+    7 => t('Intersection level accuracy'),
+    8 => t('Address level accuracy'),
+    9 => t('Premise (building name, property name, shopping center, etc.) level accuracy'),
+  );
 }

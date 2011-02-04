@@ -1,5 +1,5 @@
 <?php
-// $Id: location.admin.inc,v 1.17.2.4 2010/04/29 13:28:10 rooby Exp $
+// $Id: location.admin.inc,v 1.17.2.6 2010/05/27 14:48:13 rooby Exp $
 
 /**
  * @file
@@ -37,6 +37,16 @@ function location_admin_settings() {
       1 => t('Enable the display of locations.')
     ),
     '#description'    => t('If you are interested in turning off locations and having a custom theme control their display, you may want to disable the display of locations so your theme can take that function.')
+  );
+
+  $form['location_use_province_abbreviation'] = array(
+    '#type' => 'radios',
+    '#title' => t('Province display'),
+    '#default_value' => variable_get('location_use_province_abbreviation', 1),
+    '#options' => array(
+      0 => t('Display full province name.'),
+      1 => t('Display province/state code.'),
+    ),
   );
 
   $form['location_usegmap'] = array(
@@ -148,6 +158,13 @@ function location_map_link_options_form() {
 function location_geocoding_options_form() {
   $form = array();
 
+  $form['location_geocode_google_minimum_accuracy'] = array(
+    '#type' => 'select',
+    '#title' => t('Google Maps geocoding minimum accuracy'),
+    '#options' => location_google_geocode_accuracy_codes(),
+    '#default_value' => variable_get('location_geocode_google_minimum_accuracy', '3'),
+    '#description' => t('The Google Maps geocoding API returns results with a given accuracy. Any responses below this minimum accuracy will be ignored. See a !accuracy_values_link.', array('!accuracy_values_link' => '<a href="http://code.google.com/apis/maps/documentation/reference.html#GGeoAddressAccuracy">description of these values</a>'))
+  );
   $form['countries'] = array();
 
   // First, we build two arrays to help us figure out on the fly whether a specific country is covered by a multi-country geocoder,
@@ -260,7 +277,7 @@ function location_geocoding_options_form_submit($form, &$form_state) {
   $general_geocoders_in_use = array();
 
   foreach ($form_state['values'] as $key => $value) {
-    if (substr($key, 0, 17) == 'location_geocode_') {
+    if (substr($key, 0, 17) == 'location_geocode_'  && $key != 'location_geocode_google_minimum_accuracy') {
       if (in_array($value, $general_geocoders)) {
         $general_geocoders_in_use[$value] = $value;
         variable_set($key, $value);
@@ -268,6 +285,7 @@ function location_geocoding_options_form_submit($form, &$form_state) {
     }
   }
 
+  variable_set('location_geocode_google_minimum_accuracy', $form_state['values']['location_geocode_google_minimum_accuracy']);
   variable_set('location_general_geocoders_in_use', $general_geocoders_in_use);
 }
 
@@ -293,6 +311,7 @@ function theme_location_map_link_options(&$form) {
 }
 
 function theme_location_geocoding_options(&$form) {
+  $output = drupal_render($form['location_geocode_google_minimum_accuracy']);
   $header = array(
     array('align' => 'center', 'data' => '<center>'. t('Country') .'</center>'),
     array('align' => 'center', 'data' => '<center>'. t('Options') .'</center>'),
@@ -312,7 +331,7 @@ function theme_location_geocoding_options(&$form) {
     );
     $rows[] = $row;
   }
-  $output = theme('table', $header, $rows);
+  $output .= theme('table', $header, $rows);
   foreach (element_children($form) as $key) {
     $output .= drupal_render($form[$key]);
   }

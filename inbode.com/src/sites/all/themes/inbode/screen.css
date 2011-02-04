@@ -244,12 +244,13 @@ h2 a:active {
 div.messages {
   background-image: none;
   background-color: white;
-  margin: 30px auto;
-  padding: 15px;
+  margin: 0px auto 20px auto;
+  padding: 10px;
   width: 550px;
   border: 0px solid;
   font-weight: lighter;
   color: #000;
+  font-size: 13px;
 }
 
 div.messages a {
@@ -326,4 +327,19 @@ input, textarea {
 label {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
+}
+
+tr.odd {
+	background-color: #e8e8e8;
+}
+tr.even {
+	background-color: #fff;
+}
+
+tr.odd td,
+tr.even td,
+tr th,
+tr th {
+	padding: 3px 5px;
+
 }
