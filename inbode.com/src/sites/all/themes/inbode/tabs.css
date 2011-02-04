@@ -27,7 +27,7 @@
     display: block;
     height: 24px;
     margin: 0;
-    padding: 0; /* width of tab-left.png */
+    padding: 0; 
     border-width: 0;
     font-weight: bold;
     text-decoration: none;
@@ -38,7 +38,7 @@
   ul.primary li a .tab
   {
     display: block;
-    height: 20px; /* 24px (parent) - 4px (padding) */
+    height: 20px; 
     margin: 0;
     padding: 4px 6px 4px 6px;
     border-width: 0;
@@ -89,12 +89,13 @@
 
   ul.secondary
   {
-    margin: 0;
-    padding: 0 0 0 5px;
-    border-bottom: 1px solid #c0c0c0;
+  	text-transform: lowercase;
+    margin: 5px 0 0 0;
+    padding: 0 0 0 20px;
     list-style: none;
     white-space: nowrap;
-    background: url(images/tab-secondary-bg.png) repeat-x left bottom;
+    border: 0px solid transparent;
+    font-size: 0.9em;
   }
 
   ul.secondary li
@@ -114,7 +115,9 @@
     border: 1px solid #c0c0c0;
     text-decoration: none;
     color: #777;
-    background: url(images/tab-secondary.png) repeat-x left -56px;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
   }
 
   ul.secondary a .tab
@@ -128,13 +131,19 @@
 
   ul.secondary a:hover
   {
-    background: url(images/tab-secondary.png) repeat-x left bottom;
+    border: 1px solid #e8e8e8;
+    color: #000;
+    background-color: #e8e8e8;
+
   }
 
   ul.secondary a.active,
   ul.secondary a.active:hover
   {
-    border: 1px solid #c0c0c0;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+    border: 1px solid #e8e8e8;
     color: #000;
-    background: url(images/tab-secondary.png) repeat-x left top;
+    background-color: #e8e8e8;
   }
