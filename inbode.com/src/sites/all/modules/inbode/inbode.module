@@ -24,7 +24,7 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 				// add the mofo to fusion, get the unique ROWID back
 				$rowid = inbode_fusion_insert_unit($data);				
 				if ( !inbode_update_rowid( $node->nid, $rowid ) ) {
-					watchdog('inbode', 'Inserted new unit '.$node->nid.' but failed to insert ROWID'.$rowid );
+					watchdog('inbode', 'Inserted new unit '.$node->nid.' but failed to insert ROWID '.$rowid );
 					drupal_set_message('Your unit was added, but with an error. Please <a href="/node/'.$node->nid.'/edit">re-save your unit data</a>.', 'error');
 				} else {
 					watchdog('inbode', 'Inserted new unit '.$node->nid.' with ROWID '.$rowid );
@@ -349,6 +349,7 @@ function inbode_fusion_update_unit( $rowid, $data ) {
 	if ($result['info']['http_code']==200 && $result['info']['content_type']=='text/plain' && isset($result['response'])) {
 		return 1;
 	} else {
+		watchdog('inbode', 'Error! Result from fusion query sql ['.$sql.'] was ['. serialize($result).']');
 		return 0;
 	}
 
@@ -429,7 +430,7 @@ function inbode_fusion_insert_unit( $data ) {
 	};
 	
 	if (isset($data['node']['field_unit_images'][1]['filepath'])) { 
-		$sql .= "''".addcslashes($data['node']['field_unit_images'][1]['filepath'], "'")."', ";
+		$sql .= "'".addcslashes($data['node']['field_unit_images'][1]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'', ";
 	};	
@@ -484,6 +485,7 @@ function inbode_fusion_insert_unit( $data ) {
 	if ($result['info']['http_code']==200 && $result['info']['content_type']=='text/plain; charset=UTF-8' && isset($result['column_data'][1]['rowid'])) {
 		return($result['column_data'][1]['rowid']);
 	} else {
+		watchdog('inbode', 'Error! Result from fusion query sql ['.$sql.'] was ['. serialize($result).']');
 		return 0;
 	}
 
@@ -501,9 +503,11 @@ function inbode_fusion_delete_unit( $rowid ) {
 		if ($result['response']=='OK') {
 			return 1;		
 		} else {
+			watchdog('inbode', 'Error! Result from fusion query: '. serialize($result));
 			return 0;
 		}
 	} else {
+		watchdog('inbode', 'Error! Result from fusion query: '. serialize($result));
 		return 0;
 	}
 
