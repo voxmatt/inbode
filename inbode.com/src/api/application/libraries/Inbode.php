@@ -114,20 +114,26 @@ class Inbode {
 		$uri_geocode = $CI->config->item('i_geocodeuri') . '&address=' . urlencode($address);
   	$r = $this->request($uri_geocode, 'GET', NULL, NULL);
   	
+		// json decode the response from google
+		$geor = json_decode($r['response']);    		
+
   	// get the lat & lon from the response
   	if ($r['status'] == 'ok' && $r['info']['http_code'] == '200') {    	
-  		$geor = json_decode($r['response']);    		
   		if ($geor->status == 'OK') {    		
   			$lat = $geor->results[0]->geometry->location->lat;
   			$lng = $geor->results[0]->geometry->location->lng;    		
-  		}    	
+  		} else {
+  			
+  		}
   	}
   	
   	if (isset($lat) && isset($lng)) {
-	  	return array('lat'=>$lat, 'lng'=>$lng);
+	  	$ret = array('lat'=>$lat, 'lng'=>$lng, 'status'=>'OK');
   	} else {
-	  	return array('lat'=>0, 'lng'=>0);
+	  	$ret = array('lat'=>0, 'lng'=>0, 'status'=>$geor->status);
   	}
+  	
+  	return $ret;
 
 	}
 	

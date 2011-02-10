@@ -43,9 +43,15 @@ class Search extends REST_Controller
 		$box = $this->uri->segment(4, 0);
 		
 		// geocode the location
-		// really should have some sort of caching here for locations that have already been geocoded
 		$latlng = $this->inbode->geocode($location);
-
+		
+		if ($latlng['status']=='OVER_QUERY_LIMIT') {
+			// minneapolis!
+			$latlng['lat'] = 44.979965;
+			$latlng['lng'] = -93.263836;
+			$location = "(Minneapolis, MN)";
+		}
+		
 		// we used to do a spatial search on google maps using the google maps data api
 		// we are now better and smarter and use google fusion tables. yay us.
 		//$q = 'SELECT * FROM '.$tableid.' WHERE ST_INTERSECTS(\'latlng\', CIRCLE( LATLNG('.$latlng['lat'].','.$latlng['lng'].'), 80000) )';
