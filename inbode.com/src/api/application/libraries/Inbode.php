@@ -123,7 +123,11 @@ class Inbode {
   		}    	
   	}
   	
-  	return array('lat'=>$lat, 'lng'=>$lng);
+  	if (isset($lat) && isset($lng)) {
+	  	return array('lat'=>$lat, 'lng'=>$lng);
+  	} else {
+	  	return array('lat'=>0, 'lng'=>0);
+  	}
 
 	}
 	
