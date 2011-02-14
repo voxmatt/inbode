@@ -1,3 +1,5 @@
+/* @override http://inbode.ten7i.net/sites/all/themes/inbode/screen.css?v */
+
 /*
          _       __              __   
         (_)___  / /_  ____  ____/ /__ 
@@ -148,6 +150,9 @@ h2 a:active {
   width: 400px;
   margin-top: 40px;
 }
+#t7_greeting a{
+  color: #fff;
+}
 
 
 /** units and buildings **/
@@ -219,6 +224,65 @@ h2 a:active {
 	margin: 0px;
 	clear: both;
 }
+
+/** building/unit add pages **/
+.form-required {
+	display: none;
+}
+
+ /* floating all .form-items was too broad, so I had to individually select the forms here */
+#edit-field-unit-building-nid-nid-wrapper, #edit-field-unit-status-value-wrapper, #edit-title-wrapper, #edit-field-unit-bedroom-value-wrapper, #edit-field-unit-bathroom-value-wrapper, #edit-field-unit-price-0-wrapper, #edit-field-unit-price-0-amount-wrapper, #edit-field-unit-available-0-value-wrapper, #edit-field-unit-area-0-value-wrapper, #edit-field-unit-description-0-value, #edit-field-unit-description-0-value-wrapper {
+	float: left;
+	padding: 10px;
+	margin: 0;
+}
+#edit-field-unit-bedroom-value, #edit-field-unit-bathroom-value {
+	margin-top: 5px;
+}
+#edit-field-unit-price-0-currency-wrapper {
+	display: none;
+}
+#edit-title-wrapper {
+	width: 200px;
+}
+#edit-field-unit-status-value-wrapper {
+	margin-right: 700px;
+}
+#edit-field-unit-price-0-amount-wrapper {
+	margin: 0;
+	padding: 0;
+}
+#edit-field-unit-price-0-amount, #edit-field-unit-area-0-value {
+	width: 50px;	
+}
+#edit-field-unit-area-0-value-wrapper {
+	margin-right: 400px;
+}
+#edit-field-unit-description-0-value-wrapper label {
+	margin: -10px 0 5px 0;
+}
+#edit-field-unit-description-0-value.form-textarea.resizable.textarea-processed {
+	height: 100px;
+}
+#edit-field-unit-description-0-value-wrapper {
+	margin-right: 10px;
+}
+.form-checkboxes {
+	margin: 0;
+	padding: 0;
+}
+div.container-inline-date.date-clear-block {
+	height: 50px;	
+}
+
+#edit-field-unit-available-0-value-wrapper {
+	width: 700px;
+}
+
+fieldset.location {
+	float: none;
+}
+
 
 /** footer **/
 #t7_footer {

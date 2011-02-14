@@ -4,6 +4,10 @@ body#t7_craigslist{
 	background: url(../img/gradient.png) repeat-x #259eb0;
 }
 
+a {
+	text-decoration: none;
+}
+
 #logo{
 	position: absolute;
 	top: 8px;
@@ -84,8 +88,8 @@ body#t7_craigslist{
 
 #t7_white_box table{
 	margin-left: 10px;
-	margin-top: 15px;
-	margin-bottom: 20px;
+	margin-top: 25px;
+	margin-bottom: 25px;
 }
 
 #t7_white_box table tr {
@@ -163,3 +167,32 @@ body#t7_craigslist{
 	margin: 0;
 }
 
+#t7_touch #t7_white_box ul.images li{
+	margin: 5px 10px 15px 10px;
+}
+
+#t7_touch #t7_white_box ul.images li a img{
+	border: none;
+}
+
+#t7_touch #t7_white_box ul.images li.nav{
+	margin: 22px 10px 15px 10px;
+}
+
+#t7_touch #t7_white_box ul.images li.details{
+	color: #ffffff;
+	width: 67px;
+	height: 44px;
+	padding: 15px;
+	background: url(../img/unit_details.jpg) no-repeat;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	margin: 0px 10px 15px 10px;
+}
+
+#t7_touch #t7_white_box ul.images li.details h3{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	margin: 0;
+	text-align: center;
+}
