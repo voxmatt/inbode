@@ -240,7 +240,13 @@ inbode.favorite = {
 	    $.each(results, function (i, item) {
 				if (item.marker.position==position) {
 					// thi is the marker whose icon we need to change!
-	        item.marker.setIcon();
+	        if ( $.cookie('click_history').search(position)>0) {
+		        item.marker.setIcon('/ui/img/inbmrkr-grey.png');
+	        } else {
+  	        item.marker.setIcon();
+	        }
+
+
 				}
 	    }); 
 
@@ -449,6 +455,7 @@ inbode.util = {
     var searchurl = '/api/search/location/' + encodeURI($('#t7_city').val());
     // now perform a request to storelocator to find the stores around this location
     $.getJSON(searchurl, function (data) {
+
       var mrkr;
       results = [];
       // loop thru all results and create markers on the map
@@ -493,6 +500,13 @@ inbode.util = {
         
         results.push(inb);
 
+        // set marker click history
+				if ( $.cookie('click_history') != null ) {
+	        if ( $.cookie('click_history').search(ll)>0) {
+		        mrkr.setIcon('/ui/img/inbmrkr-grey.png');
+		        mrkr.setShadow('/ui/img/inbmrkr_shadow.png');
+	        }
+				}
         // set marker if it's a favorite
 				if ( $.cookie('faves') != null ) {
 	        if ( $.cookie('faves').search(item.nid)>0) {
@@ -505,6 +519,9 @@ inbode.util = {
         var mrkrhtml = '<div class="t7_bubble">';
         mrkrhtml += '<h1>';
         
+        // price
+        mrkrhtml += '$' + item.price + '&nbsp;';
+
         // beds
         if (item.beds == 1) {
           mrkrhtml += item.beds + ' bed ';
@@ -519,8 +536,8 @@ inbode.util = {
           mrkrhtml += item.baths + ' baths ';
         }
         
-        // price
-        mrkrhtml += '$' + item.price + '</h1>';
+        mrkrhtml += '</h1>';
+
 
         // images
         if (item.unit_image_1) { mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(1, \'' + item.nid + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>'; }
@@ -569,7 +586,13 @@ inbode.util = {
         	} else {
   	      	$.cookie('click_history', infowindow.position, { expires: cookieexpiration });
         	}
+        	// make the marker grey now pls
+					if ( this.getIcon()!='/ui/img/inbmrkr.png') {
+		        this.setIcon('/ui/img/inbmrkr-grey.png');				
+					}
+
         	visibleinfowindow = infowindow;
+
         });
         
         

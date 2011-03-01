@@ -62,17 +62,17 @@ if (
 
         <div class="logo_search">
         	<div id="t7_mapleft">
-        		<a href="http://blog.inbode.com/">Blog</a>
+        		<a href="http://blog.inbode.com/">blog</a>
         	</div>
           <div id="t7_signin">
 						<?php 
             
             global $user;
             
-            if ( isset($user->roles[3]) || isset($user->roles[4]) || isset($user->roles[5])) {
-            	print '<a href="/user/'.$user->uid.'">My account</a>';
+            if ( isset($user->roles[3]) || isset($user->roles[4]) || isset($user->roles[5]) || $user->uid==1 ) {
+            	print '<a href="/user/'.$user->uid.'">my account</a>';
             } else {
-            	print '<a href="/user/login">Sign in</a>';
+            	print '<a href="/user/login">sign in</a>';
             }
             
             

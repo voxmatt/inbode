@@ -424,3 +424,21 @@ tr th {
 	border-top-left-radius: 6px 6px;
 	border-top-right-radius: 6px 6px;
 	}
+
+
+#field_building_images_values .description,
+#field_unit_images_values .description,
+#field-unit-more-images-items .description {
+	display: none;
+	visibility: hidden;
+}
+
+
+.form-required {
+	display: none;
+	visibility: hidden;
+}
+
+.widget-preview {
+	width:300px;
+}
