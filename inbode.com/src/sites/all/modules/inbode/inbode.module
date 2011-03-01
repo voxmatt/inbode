@@ -216,6 +216,7 @@ function inbode_fusion_update_unit( $rowid, $data ) {
 
 	// sanity check!
 	if (!isset($rowid) || !is_numeric($rowid)) {
+		watchdog('inbode', 'Error! $rowid was not set or not numeric ['.$rowid.']');
 		return 0;
 	}
 	
@@ -699,6 +700,21 @@ function inbode_menu() {
     'type' => MENU_LOCAL_TASK,
     );
      
+		// craigslist
+	  $items['user/%user/inbode/craigslist/%node/%node'] = array(
+	    'page callback' => 'inbode_craigslist',
+	    'page arguments' => array(1, 4, 5),
+	    'access callback' => '_inbode_access',
+	    'access arguments' => array(1),
+	  );
+	  
+	  // craigslist preview
+	  $items['user/%user/inbode/craigslist/preview/%node/%node'] = array(
+	    'page callback' => 'inbode_craigslist_preview',
+	    'page arguments' => array(1, 5, 6),
+	    'access callback' => '_inbode_craigslist',
+	  );
+     
     return $items;
     
 }
@@ -707,6 +723,173 @@ function inbode_menu() {
 // permissions
 function inbode_perm() {
   return array('view inbode summary');
+}
+
+// craigslist generation page preview
+function inbode_craigslist_preview($usr, $bd, $nd) {
+
+	global $base_url;
+
+	$ph = '';
+	$ph .= '<div id="t7_price">';
+	$ph .= '<h1>$'.intval($nd->field_unit_price[0]['amount']).' '.$nd->field_unit_bedroom[0]['value'].'bed '.$nd->field_unit_bathroom[0]['value'].'bath</h1>';
+	$ph .= '<div class="contact">';
+	$ph .= '<h3><a style="text-decoration:none;color:#fff;" href="mailto:'.$usr->mail.'">';
+	$ph .= 'contact landlord';
+	$ph .= '</a></h3>';
+	$ph .= '</div>';
+	$ph .= '</div>';
+	$ph .= '<div id="t7_address">';
+	$ph .= '<h1>'.$nd->title.'</h1>';
+	$ph .= '<ul>';
+	$ph .= '<li>'.$bd->field_building_address[0]['street'].'</li>';
+	$ph .= '<li>available '. strtolower( date( 'F j, Y' , strtotime($nd->field_unit_available[0]['value'])) ).'</li>';
+	$ph .= '<li>'.$nd->field_unit_area[0]['value'].' square feet</li>';
+	$ph .= '</ul>';
+	$ph .= '</div>';
+	$ph .= '<table>';
+	$ph .= '<tr>';
+	$ph .= '<td>';
+	
+	if (isset($nd->field_unit_amenities[0]['value'])) {
+		$ph .= '<h2>unit info:</h2>';
+	}
+	
+	$ph .= '</td>';
+	$ph .= '<td>';
+	
+	if (isset($nd->field_unit_amenities[0]['value'])) {
+		$ph .= '<ul>';
+		foreach($nd->field_unit_amenities as $am) {
+			$ph .= '<li>'.$am['value'].'</li>';
+		}
+		$ph .= '</ul>';	
+	}
+	
+	$ph .= '</td>';
+	$ph .= '<td>	';
+	$ph .= '<p></p>';
+	$ph .= '</td>';
+	$ph .= '</tr>';
+	$ph .= '<tr><td height="20"></td></tr>';
+	$ph .= '<tr>';
+	$ph .= '<td>';
+	if (isset($bd->field_building_amenities[0]['value'])) {
+		$ph .= '<h2>bldg info:</h2>';
+	}
+	$ph .= '</td>';
+	$ph .= '<td>';
+	if (isset($bd->field_building_amenities[0]['value'])) {
+		$ph .= '<ul>';
+		foreach($bd->field_building_amenities as $am) {
+			$ph .= '<li>'.$am['value'].'</li>';
+		}
+		$ph .= '</ul>';
+	}
+	$ph .= '</td>';
+	$ph .= '<td>';
+	$ph .= '<p>'.$nd->field_unit_description[0]['value'].'</p>';
+	$ph .= '</td>';
+	$ph .= '</tr>';
+	$ph .= '</table>';
+	$ph .= '<ul class="images">';
+	
+
+	foreach($nd->field_unit_images as $uis) {
+
+		$ph .= "\n";
+		$ph .= '<li><img src="'.$base_url.'/'.$uis['filepath'].'" width="210" /></li>';
+	
+	}
+
+
+	// now the google map
+	$latlng = $bd->field_building_address[0]['latitude'].",".$bd->field_building_address[0]['longitude'];
+	$ph .= "<li><img src='http://maps.google.com/maps/api/staticmap?center=".$latlng."&zoom=14&size=210x157&maptype=roadmap&markers=color:0x259eb0|".$latlng."&sensor=false"."' width='210' height='157' /></li>";
+
+	$ph .= '</ul>';
+
+	return $ph;
+
+}
+
+// craigslist generation page
+function inbode_craigslist($usr, $bd, $nd) {
+
+	// $usr is the user object
+	// $bd is the building node object
+	// $nd is the unit node object
+	global $base_url;
+/*
+	print_r($usr);
+	print_r($bd);
+	print_r($nd);
+*/
+	
+	// $clurl will be the dynamically changing url for craigslist posting, hard code it now
+	$clurl = 'https://post.craigslist.org/min/H/apa/hnp';
+	//  inbode_request($uri = NULL, $type = 'GET', $params = NULL, $headers = NULL) {
+
+	$clret = inbode_request($clurl);
+	
+	if ($clret['status']=='ok') {
+	
+		$clpage = $clret['response'];
+
+		// here's where we auto populate our shit!!
+		
+		// description
+		$clpreview = inbode_request($base_url."/user/".$usr->uid."/inbode/craigslist/preview/".$bd->nid."/".$nd->nid."");
+		$clpage = str_ireplace('</textarea>', $clpreview['response'].'</textarea>', $clpage);
+
+		// title
+		$p_postingtitle = strpos($clpage, "Posting Title:");
+		$p_postingtitle_value = strpos($clpage, 'value=""', $p_postingtitle);		
+		$clpage = substr_replace($clpage, 'value="'.$nd->title.'"', $p_postingtitle_value, 8);
+
+		// rent amount
+		$p_rent = strpos($clpage, "Rent:");
+		$p_rent_value = strpos($clpage, 'value=""', $p_rent);		
+		$clpage = substr_replace($clpage, 'value="'.intval($nd->field_unit_price[0]['amount']).'"', $p_rent_value, 8);
+		
+		// specific location
+		$p_specificlocation = strpos($clpage, "Specific Location:");
+		$p_specificlocation_value = strpos($clpage, 'value=""', $p_specificlocation);		
+		$clpage = substr_replace($clpage, 'value="'.$bd->field_building_address[0]['city'].'"', $p_specificlocation_value, 8);
+		
+		// street
+		$p_street = strpos($clpage, "Street:</span><small>(number not necessary)");
+		$p_street_value = strpos($clpage, 'value=""', $p_street);		
+		$clpage = substr_replace($clpage, 'value="'.$bd->field_building_address[0]['street'].'"', $p_street_value, 8);
+		
+		// city
+		$p_city = strpos($clpage, "City:");
+		$p_city_value = strpos($clpage, 'value=""', $p_city);		
+		$clpage = substr_replace($clpage, 'value="'.$bd->field_building_address[0]['city'].'"', $p_city_value, 8);
+		
+		// state
+		$p_state = strpos($clpage, "State:");
+		$p_state_value = strpos($clpage, 'value=""', $p_state);		
+		$clpage = substr_replace($clpage, 'value="'.$bd->field_building_address[0]['province'].'"', $p_state_value, 8);
+		
+		// emails dont work because craigslist does some fancy JS
+		// from email
+		// $clpage = str_ireplace('value="Your email address"', 'value="'.$usr->mail.'"', $clpage);		
+		// confirmemail
+		// $clpage = str_ireplace('value="Type email address again"', 'value="'.$usr->mail.'"', $clpage);
+		
+
+
+		print($clpage);
+	
+	} else {
+	
+		return "<h3>There was an error generating your Craigslist listing, please try again later.</h3>";
+	
+	}
+	
+	
+
 }
 
 
@@ -748,6 +931,8 @@ function inbode_summary($account) {
 	      	if ( $unit["field_unit_building_nid"]==$building["nid"] ) {
 	      	
 			      $out .= "\n\t<div class=\"unit\">\n\t";
+			      $out .= "<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/preview/".$building["nid"]."/".$unit["nid"]."\">P</a>&nbsp;";
+			      $out .= "<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/".$building["nid"]."/".$unit["nid"]."\">CL</a>&nbsp;";
 			      $out .= "<a href=\"/node/".$unit["nid"]."/edit?destination=user/".$account->uid."/inbode\">".$unit["title"]."</a>&nbsp;&nbsp;";
 			      $out .= $unit["field_unit_bedroom_value"]."&nbsp;bed&nbsp;&nbsp;";
 			      $out .= $unit["field_unit_bathroom_value"]."&nbsp;bath&nbsp;&nbsp;";
@@ -793,6 +978,10 @@ function _inbode_access($account) {
 	  );
 }
 
+function _inbode_craigslist($account) {
+	return 1;
+}
+
 
 // all buildings that belong to this user
 function __inbode_get_properties( $uid ) {
@@ -830,6 +1019,5 @@ function inbode_update_rowid( $nid, $featureid ) {
 	}
 
 }
-
 
 

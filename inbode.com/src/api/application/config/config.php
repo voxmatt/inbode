@@ -31,7 +31,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// google account password	
 	$config['i_GApass'] = 'w1r3dmag';
 	// google token for client login
-	$config['i_GAtoken'] = 'DQAAAJUBAACXh_6YQC7wSnZEb1W3zZOr7pUwZ5UoFvMG9mGiP20GL5ikh6vR4rHp_0ADPCU_fc5PKDdi5NpS5VIysIbJAm-HSGXtxXRkAqqbb-2kgZoeCdNb6DygF0bTUtf-6PwWZqauY3ysFe-QOYyp5erz5Innrn1hseQsBOvkMCmVwUsedJq8x9D-rAiOlzIDL_TsYWmL6sQI08FuewPOk_OVbCIP8IZ05blm0CCFjze8of-ZhAs4xKNRpGGzzT1U7ml9MfMbDWVW_cBnsNVLIujuk8RDnlXMYDwihBIDMi924rEAc5_7bapwz_mF6p7RCGGsZ7tNzwmjNBC5G8h63m8OziduAsWYMSWJME37qsVmi13ADT3PD2pkGcvHZp9Z43V3uzZjkvdSsZicq-AqOlbfdGQ2cvmO7mqiYoCAK0tWIiOBHp8MaHiexeG9XF4s0IipV_zscHie4IALxY-qyKhsdLtWXSCPcgordPWXInesZVpQyaz0u09gUSi5sfQx94bH7abIGsE8UjluOQQZWJjzTR29gDHHFuzOHhrjpLcOflJ0Eg';
+	$config['i_GAtoken'] = 'DQAAAJ8BAAD_iDEUDg77F8rmBLZxkTQrUenastqFcUT73A-DgTyPE2dBKActL7hEqcOJ4Bn4EOY0sJJkKarzn9fcAjKIIBsCSTh36_nJJfSxxAhQGbQuckbc9TS0N7W2ZuHbAQ-nAT3XM3W3HOMe8jPWxD7Lz1gH2RrIeFG5losmnZzecXDxpNQz9Jxw-KaldOmMSa0rnf8q6yOQdfhr8BN7DTNac81EwamEJWVWnfHIlV9IlKo7fC_ejXbAKybjID0kxRENY-S9WCNWpeOX08cmdMUkygEmM6_-EAyMWvyXCTG9x99BzZMHddmH9FM3GmQ-GHUjwCNg-vekYhEbeO_f3DlFasRfasQXJSWHAJ2UsxVsJ9BsciRGXThL2jgBsEhn_aAaMaNiV5ov4ly1KDDCV7-4JYBgfWvbID87lmvNYPD0OO14TPUWYXCE8ma_PYZMOgxhKFuDFo2k2W_NlbC5cSF26_ruRX-nizIlm7fulPrd3VQ-wtInQXrkunjEthcBLNqY324b3t_niRgEkgSzBM99siqfkhpfp40_Vkm-eofMhdhp_A';
 	$config['i_InbodeBeta-BuildingsUnits'] = '417990';
 	// to be used in the future
 	$config['i_InbodeBeta-Building'] = '000000';
@@ -69,7 +69,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// google account password	
 	$config['i_GApass'] = 'w1r3dmag';
 	// google token for client login
-	$config['i_GAtoken'] = 'DQAAAJUBAACXh_6YQC7wSnZEb1W3zZOr7pUwZ5UoFvMG9mGiP20GL5ikh6vR4rHp_0ADPCU_fc5PKDdi5NpS5VIysIbJAm-HSGXtxXRkAqqbb-2kgZoeCdNb6DygF0bTUtf-6PwWZqauY3ysFe-QOYyp5erz5Innrn1hseQsBOvkMCmVwUsedJq8x9D-rAiOlzIDL_TsYWmL6sQI08FuewPOk_OVbCIP8IZ05blm0CCFjze8of-ZhAs4xKNRpGGzzT1U7ml9MfMbDWVW_cBnsNVLIujuk8RDnlXMYDwihBIDMi924rEAc5_7bapwz_mF6p7RCGGsZ7tNzwmjNBC5G8h63m8OziduAsWYMSWJME37qsVmi13ADT3PD2pkGcvHZp9Z43V3uzZjkvdSsZicq-AqOlbfdGQ2cvmO7mqiYoCAK0tWIiOBHp8MaHiexeG9XF4s0IipV_zscHie4IALxY-qyKhsdLtWXSCPcgordPWXInesZVpQyaz0u09gUSi5sfQx94bH7abIGsE8UjluOQQZWJjzTR29gDHHFuzOHhrjpLcOflJ0Eg';
+	$config['i_GAtoken'] = 'DQAAAJ8BAAD_iDEUDg77F8rmBLZxkTQrUenastqFcUT73A-DgTyPE2dBKActL7hEqcOJ4Bn4EOY0sJJkKarzn9fcAjKIIBsCSTh36_nJJfSxxAhQGbQuckbc9TS0N7W2ZuHbAQ-nAT3XM3W3HOMe8jPWxD7Lz1gH2RrIeFG5losmnZzecXDxpNQz9Jxw-KaldOmMSa0rnf8q6yOQdfhr8BN7DTNac81EwamEJWVWnfHIlV9IlKo7fC_ejXbAKybjID0kxRENY-S9WCNWpeOX08cmdMUkygEmM6_-EAyMWvyXCTG9x99BzZMHddmH9FM3GmQ-GHUjwCNg-vekYhEbeO_f3DlFasRfasQXJSWHAJ2UsxVsJ9BsciRGXThL2jgBsEhn_aAaMaNiV5ov4ly1KDDCV7-4JYBgfWvbID87lmvNYPD0OO14TPUWYXCE8ma_PYZMOgxhKFuDFo2k2W_NlbC5cSF26_ruRX-nizIlm7fulPrd3VQ-wtInQXrkunjEthcBLNqY324b3t_niRgEkgSzBM99siqfkhpfp40_Vkm-eofMhdhp_A';
 	$config['i_InbodeBeta-BuildingsUnits'] = '422613';
 	// to be used in the future
 	$config['i_InbodeBeta-Building'] = '000000';
@@ -107,8 +107,8 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// google account password	
 	$config['i_GApass'] = 'w1r3dmag';
 	// google token for client login
-	$config['i_GAtoken'] = 'DQAAAJUBAACXh_6YQC7wSnZEb1W3zZOr7pUwZ5UoFvMG9mGiP20GL5ikh6vR4rHp_0ADPCU_fc5PKDdi5NpS5VIysIbJAm-HSGXtxXRkAqqbb-2kgZoeCdNb6DygF0bTUtf-6PwWZqauY3ysFe-QOYyp5erz5Innrn1hseQsBOvkMCmVwUsedJq8x9D-rAiOlzIDL_TsYWmL6sQI08FuewPOk_OVbCIP8IZ05blm0CCFjze8of-ZhAs4xKNRpGGzzT1U7ml9MfMbDWVW_cBnsNVLIujuk8RDnlXMYDwihBIDMi924rEAc5_7bapwz_mF6p7RCGGsZ7tNzwmjNBC5G8h63m8OziduAsWYMSWJME37qsVmi13ADT3PD2pkGcvHZp9Z43V3uzZjkvdSsZicq-AqOlbfdGQ2cvmO7mqiYoCAK0tWIiOBHp8MaHiexeG9XF4s0IipV_zscHie4IALxY-qyKhsdLtWXSCPcgordPWXInesZVpQyaz0u09gUSi5sfQx94bH7abIGsE8UjluOQQZWJjzTR29gDHHFuzOHhrjpLcOflJ0Eg';
-	$config['i_InbodeBeta-BuildingsUnits'] = '417990';
+	$config['i_GAtoken'] = 'DQAAAJ8BAAD_iDEUDg77F8rmBLZxkTQrUenastqFcUT73A-DgTyPE2dBKActL7hEqcOJ4Bn4EOY0sJJkKarzn9fcAjKIIBsCSTh36_nJJfSxxAhQGbQuckbc9TS0N7W2ZuHbAQ-nAT3XM3W3HOMe8jPWxD7Lz1gH2RrIeFG5losmnZzecXDxpNQz9Jxw-KaldOmMSa0rnf8q6yOQdfhr8BN7DTNac81EwamEJWVWnfHIlV9IlKo7fC_ejXbAKybjID0kxRENY-S9WCNWpeOX08cmdMUkygEmM6_-EAyMWvyXCTG9x99BzZMHddmH9FM3GmQ-GHUjwCNg-vekYhEbeO_f3DlFasRfasQXJSWHAJ2UsxVsJ9BsciRGXThL2jgBsEhn_aAaMaNiV5ov4ly1KDDCV7-4JYBgfWvbID87lmvNYPD0OO14TPUWYXCE8ma_PYZMOgxhKFuDFo2k2W_NlbC5cSF26_ruRX-nizIlm7fulPrd3VQ-wtInQXrkunjEthcBLNqY324b3t_niRgEkgSzBM99siqfkhpfp40_Vkm-eofMhdhp_A';
+	$config['i_InbodeBeta-BuildingsUnits'] = '517005';
 	// to be used in the future
 	$config['i_InbodeBeta-Building'] = '000000';
 	$config['i_InbodeBeta-Unit'] = '000000';
@@ -145,8 +145,8 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// google account password	
 	$config['i_GApass'] = 'w1r3dmag';
 	// google token for client login
-	$config['i_GAtoken'] = 'DQAAAJUBAACXh_6YQC7wSnZEb1W3zZOr7pUwZ5UoFvMG9mGiP20GL5ikh6vR4rHp_0ADPCU_fc5PKDdi5NpS5VIysIbJAm-HSGXtxXRkAqqbb-2kgZoeCdNb6DygF0bTUtf-6PwWZqauY3ysFe-QOYyp5erz5Innrn1hseQsBOvkMCmVwUsedJq8x9D-rAiOlzIDL_TsYWmL6sQI08FuewPOk_OVbCIP8IZ05blm0CCFjze8of-ZhAs4xKNRpGGzzT1U7ml9MfMbDWVW_cBnsNVLIujuk8RDnlXMYDwihBIDMi924rEAc5_7bapwz_mF6p7RCGGsZ7tNzwmjNBC5G8h63m8OziduAsWYMSWJME37qsVmi13ADT3PD2pkGcvHZp9Z43V3uzZjkvdSsZicq-AqOlbfdGQ2cvmO7mqiYoCAK0tWIiOBHp8MaHiexeG9XF4s0IipV_zscHie4IALxY-qyKhsdLtWXSCPcgordPWXInesZVpQyaz0u09gUSi5sfQx94bH7abIGsE8UjluOQQZWJjzTR29gDHHFuzOHhrjpLcOflJ0Eg';
-	$config['i_InbodeBeta-BuildingsUnits'] = '417990';
+	$config['i_GAtoken'] = 'DQAAAJ8BAAD_iDEUDg77F8rmBLZxkTQrUenastqFcUT73A-DgTyPE2dBKActL7hEqcOJ4Bn4EOY0sJJkKarzn9fcAjKIIBsCSTh36_nJJfSxxAhQGbQuckbc9TS0N7W2ZuHbAQ-nAT3XM3W3HOMe8jPWxD7Lz1gH2RrIeFG5losmnZzecXDxpNQz9Jxw-KaldOmMSa0rnf8q6yOQdfhr8BN7DTNac81EwamEJWVWnfHIlV9IlKo7fC_ejXbAKybjID0kxRENY-S9WCNWpeOX08cmdMUkygEmM6_-EAyMWvyXCTG9x99BzZMHddmH9FM3GmQ-GHUjwCNg-vekYhEbeO_f3DlFasRfasQXJSWHAJ2UsxVsJ9BsciRGXThL2jgBsEhn_aAaMaNiV5ov4ly1KDDCV7-4JYBgfWvbID87lmvNYPD0OO14TPUWYXCE8ma_PYZMOgxhKFuDFo2k2W_NlbC5cSF26_ruRX-nizIlm7fulPrd3VQ-wtInQXrkunjEthcBLNqY324b3t_niRgEkgSzBM99siqfkhpfp40_Vkm-eofMhdhp_A';
+	$config['i_InbodeBeta-BuildingsUnits'] = '517005';
 	// to be used in the future
 	$config['i_InbodeBeta-Building'] = '000000';
 	$config['i_InbodeBeta-Unit'] = '000000';

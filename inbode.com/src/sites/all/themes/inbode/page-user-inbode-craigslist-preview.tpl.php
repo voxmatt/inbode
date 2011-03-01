@@ -6,7 +6,6 @@ body { margin:0;padding:0;}
 	padding: 0;
 	background: url(http://inbode.ten7i.net/ui/climg/gradient.png) repeat-x #259eb0;
 	width:100%;
-	height:100%;
 }
 
 #logo{
@@ -200,6 +199,7 @@ body { margin:0;padding:0;}
 
 </style>
 
+
 <table id="t7_craigslist"><tr><td>
 	
 	<div id="logo"><img src="http://inbode.ten7i.net/ui/climg/inbode.png" width="172" height="56" /></div>
@@ -209,82 +209,8 @@ body { margin:0;padding:0;}
 		
 		<div id="t7_white_box">
 			
-			<div id="t7_price">
-				<h1>$860 2bed 1bath</h1>
-				
-				<div class="contact">
-					<a href="/">
-					<h3>contact landlord</h3>
-					</a>
-				</div>
-			
-			</div>
-			
-			<div id="t7_address">
-				<h1>Unit 102</h1>
-				<ul>
-					<li>2509 dupont ave s</li>
-					<li>available june 11, 2010</li>
-					<li>650 square feet</li>
-				</ul>
-			</div>
-		
-			<table>
-			<tr>
-					<td>
-					<h2>unit info:</h2>
-					</td>
-					
-					<td>
-					<ul>
-						<li>in-unit laundry</li>
-						<li>disposal</li>
-						<li>balcony</li>
-						<li>cats OK</li>
-						<li>dogs OK</li>
-					</ul>
-					</td>
-					
-					
-					<td>	
-					<p>This apartment has everything you could ever want!  Full chef's kitchen, spacious bathroom, and 2 bedrooms. Look out your window to a beautiful view of uptown. And Mueller park is right around the corner - perfect for dog owners! What more could you want?</p>
-					<p>You should move fast because this apartment won't last for long. Electricity is included in the monthly bill. Contact the landlord today to apply to this amazing apartment.</p>
-					</td>
-					
-			</tr>
-			
-			<tr><td height="20"></td></tr>
-			
-			<tr>
-					<td>
-					<h2>bldg info:</h2>
-					</td>
-					
-					<td>
-					<ul>
-						<li>garage</li>
-						<li>pool</li>
-					</ul>
-					</td>
-					
-					<td>
-					<p>1509 Dupont is a historic building that was erected in the 1920s. The common areas feature original woodwork and spacious hallways. The pool was added in the 1990s and is beautifully maintained. With a pool like this, your place will always be where people want to hand out</p>
-				
-					<p>This building is run by the Hornig Company--voted best apartment owners in the Twin Cities.</p>
-					</td>
-			</tr>
-			</table>
-			
-							
-					<ul class="images">
-						<li><img src="img/apt_pic_20.jpg" width="210" height="157" /></li>
-						<li><img src="img/apt_pic_22.jpg" width="210" height="157" /></li>
-						<li><img src="img/apt_pic_24.jpg" width="210" height="157" /></li>
-						<li><img src="img/apt_pic_29.jpg" width="210" height="157" /></li>
-						<li><img src="img/apt_pic_30.jpg" width="210" height="157" /></li>
-						<li><img src="img/apt_pic_31.jpg" width="210" height="157" /></li>
-					</ul>
-		
+
+		<?php print $content; ?>
 			
 		
 		</div>
