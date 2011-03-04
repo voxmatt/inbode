@@ -5,104 +5,160 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 <title>Inbode</title>
 
-		<link type="text/css" href="css/custom.css" rel="stylesheet" />	
-</head>
-
-
-<body id="t7_touch">
+	<link type="text/css" href="css/custom.css" rel="stylesheet" />	
+	<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.jcarousel.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>	
+	<script type="text/javascript">
+	/**
+	 * We use the initCallback callback
+	 * to assign functionality to the controls
+	 */
+	function mycarousel_initCallback(carousel) {
+	    jQuery('.jcarousel-control a').bind('click', function() {
+	        carousel.scroll(jQuery.jcarousel.intval(jQuery(this).text()));
+	        return false;
+	    });
 	
-		
+	    jQuery('.jcarousel-scroll select').bind('change', function() {
+	        carousel.options.scroll = jQuery.jcarousel.intval(this.options[this.selectedIndex].value);
+	        return false;
+	    });
+	
+	    jQuery('#mycarousel-next').bind('click', function() {
+	        carousel.next();
+	        
+	        return false;
+	    });
+	
+	    jQuery('#mycarousel-prev').bind('click', function() {
+	        carousel.prev();
+	        return false;
+	    });
+	    
+	};
+	
+	// Ride the carousel...
+	jQuery(document).ready(function() {
+	    jQuery("#mycarousel").jcarousel({
+	        scroll: 1
+	    });
+
+	
+		    
+	});
+	
+	
+	</script>
+</head>
+<body id="t7_touch">
 	<div id="t7_white_box_container">
 		<div id="t7_white_box_top"></div>
-		
 		<div id="t7_white_box">
+		
+			<!-- 
+				container for image swap out 
+											 -->
+			<div id="t7_swapout_contain">
 			
-			<div id="t7_price">
-				<h1>$860 2bed 1bath</h1>
-				
-				<div class="contact">
-					<a href="/">
-					<h3>contact landlord</h3>
-					</a>
+				<div id="t7-item-1" class="t7_swapout">
+					<div id="t7_price">
+						<h1>$860 2bed 1bath</h1>
+						<div class="contact">
+							<a href="/"></a>
+						</div><!-- .contact end -->
+					</div><!-- #t7_price end -->
+					<div id="t7_address">
+						<h1>Unit 102</h1>
+						<ul>
+							<li>2509 dupont ave s</li>
+							<li>available june 11, 2010</li>
+							<li>650 square feet</li>
+						</ul>
+					</div><!-- #t7_address end -->	
+					<table>
+						<tr>
+							<td>
+								<h2>unit info:</h2>
+							</td>					
+							<td>
+								<ul>
+									<li>in-unit laundry</li>
+									<li>disposal</li>
+									<li>balcony</li>
+									<li>cats OK</li>
+									<li>dogs OK</li>
+								</ul>
+							</td>
+							<td>	
+								<p>This apartment has everything you could ever want!  Full chef's kitchen, spacious bathroom, and 2 bedrooms. Look out your window to a beautiful view of uptown. And Mueller park is right around the corner - perfect for dog owners! What more could you want?</p>
+								<p>You should move fast because this apartment won't last for long. Electricity is included in the monthly bill. Contact the landlord today to apply to this amazing apartment.</p>
+							</td>				
+						</tr>
+						<tr><td height="20"></td></tr>
+						<tr>
+							<td>
+								<h2>bldg info:</h2>
+							</td>					
+							<td>
+								<ul>
+									<li>garage</li>
+									<li>pool</li>
+								</ul>
+							</td>
+							<td>
+								<p>1509 Dupont is a historic building that was erected in the 1920s. The common areas feature original woodwork and spacious hallways. The pool was added in the 1990s and is beautifully maintained. With a pool like this, your place will always be where people want to hand out</p>
+								<p>This building is run by the Hornig Company--voted best apartment owners in the Twin Cities.</p>
+							</td>
+						</tr>
+					</table>
+				</div><!-- .t7_swapout END -->
+				<div id="t7-item-2" class="t7_swapout">
+					<img src="http://placehold.it/700x470/2d9dad/&text=2" />
 				</div>
-			
-			</div>
-			
-			<div id="t7_address">
-				<h1>Unit 102</h1>
-				<ul>
-					<li>2509 dupont ave s</li>
-					<li>available june 11, 2010</li>
-					<li>650 square feet</li>
-				</ul>
-			</div>
-		
-			<table>
-			<tr>
-					<td>
-					<h2>unit info:</h2>
-					</td>
-					
-					<td>
-					<ul>
-						<li>in-unit laundry</li>
-						<li>disposal</li>
-						<li>balcony</li>
-						<li>cats OK</li>
-						<li>dogs OK</li>
-					</ul>
-					</td>
-					
-					
-					<td>	
-					<p>This apartment has everything you could ever want!  Full chef's kitchen, spacious bathroom, and 2 bedrooms. Look out your window to a beautiful view of uptown. And Mueller park is right around the corner - perfect for dog owners! What more could you want?</p>
-					<p>You should move fast because this apartment won't last for long. Electricity is included in the monthly bill. Contact the landlord today to apply to this amazing apartment.</p>
-					</td>
-					
-			</tr>
-			
-			<tr><td height="20"></td></tr>
-			
-			<tr>
-					<td>
-					<h2>bldg info:</h2>
-					</td>
-					
-					<td>
-					<ul>
-						<li>garage</li>
-						<li>pool</li>
-					</ul>
-					</td>
-					
-					<td>
-					<p>1509 Dupont is a historic building that was erected in the 1920s. The common areas feature original woodwork and spacious hallways. The pool was added in the 1990s and is beautifully maintained. With a pool like this, your place will always be where people want to hand out</p>
+				<div id="t7-item-3" class="t7_swapout">
+					<img src="http://placehold.it/700x470/2d9dad/&text=3" />
+				</div>				
+				<div id="t7-item-4" class="t7_swapout">
+					<img src="http://placehold.it/700x470/2d9dad/&text=4" />
+				</div>
+				<div id="t7-item-5" class="t7_swapout">
+					<img src="http://placehold.it/700x470/2d9dad/&text=5" />
+				</div>
+				<div id="t7-item-6" class="t7_swapout">
+					<img src="http://placehold.it/700x470/2d9dad/&text=6" />
+				</div>
+				<div id="t7-item-7" class="t7_swapout">
+					<img src="http://placehold.it/700x470/2d9dad/&text=7" />
+				</div>
+				<div id="t7-item-8" class="t7_swapout">
+					<img src="http://placehold.it/700x470/2d9dad/&text=8" />
+				</div>
 				
-					<p>This building is run by the Hornig Company--voted best apartment owners in the Twin Cities.</p>
-					</td>
-			</tr>
-			</table>
-			
-							
-					<ul class="images">
-						<li class="nav"><a href="/"><img src="img/prev.jpg" width="28" height="28" /></a></li>
-						
-						<li class="details"><h3>unit details</h3></li>
-						<li><img src="img/apt_pic_03.jpg" width="82" height="61" /></li>
-						<li><img src="img/apt_pic_05.jpg" width="82" height="61" /></li>
-						<li><img src="img/apt_pic_07.jpg" width="47" height="61" /></li>
-						<li><img src="img/apt_pic_09.jpg" width="83" height="61" /></li>
-						<li><img src="img/apt_pic_11.jpg" width="82" height="61" /></li>
-						
-						<li class="nav"><a href="/"><img src="img/next.jpg" width="30" height="30" /></a></li>
-					</ul>
+				
+				
+				
+				
+				
+				
+			</div><!-- .t7_swapout_contain END -->
+			<div id="mycarousel" class="jcarousel-skin-tango">
+			    <ul class="images">
+					<li><img id="t7-thumb-1" class="t7-thumb-image" src="http://placehold.it/82x61/&text=details" /></li>
+					<li><img id="t7-thumb-2" class="t7-thumb-image" src="img/apt_pic_03.jpg" width="82" height="61" /></li>
+					<li><img id="t7-thumb-3" class="t7-thumb-image" src="http://placehold.it/82x61/2d9dad/&text=unit%details" /></li>
+					<li><img id="t7-thumb-4" class="t7-thumb-image" src="img/apt_pic_05.jpg" width="82" height="61" /></li>
+					<li><img  id="t7-thumb-5" class="t7-thumb-image" src="img/apt_pic_07.jpg" width="47" height="61" /></li>
+					<li><img  id="t7-thumb-6" class="t7-thumb-image" src="http://placehold.it/82x61/2d9dad/&text=unit%details" /></li>
+					<li><img id="t7-thumb-7" class="t7-thumb-image" src="img/apt_pic_09.jpg" width="83" height="61" /></li>
+					<li><img id="t7-thumb-8" class="t7-thumb-image" src="img/apt_pic_11.jpg" width="82" height="61" /></li>
+			    </ul>
+				<div class="jcarousel-prev jcarousel-prev-horizontal" style="display: block;" disabled="false"></div>
+				<div class="jcarousel-next jcarousel-next-horizontal" style="display: block;" disabled="false"></div>
+			</div><!-- #mycarousel END -->			
 		
-			
-		
-		</div>
-		
+		</div><!-- #t7_white_box END -->
 		<div id="t7_white_box_bot"></div>
-	</div>
-
+	</div><!-- #t7_white_box_container END -->
 </body>
 </html>
