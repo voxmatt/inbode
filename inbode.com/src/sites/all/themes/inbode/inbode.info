@@ -11,6 +11,7 @@ stylesheets[all][]   = inbode.css
 stylesheets[print][] = print.css
 stylesheets[all][]   = zen.css
 stylesheets[all][]   = screen.css
+stylesheets[all][]   = morestyles.css
 
 ; conditional-stylesheets[if IE][all][] = ie.css
 conditional-stylesheets[if IE 6][all][] = screen.ie6.css
