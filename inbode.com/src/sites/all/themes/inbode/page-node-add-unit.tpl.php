@@ -53,7 +53,7 @@
 
 
 		<!-- main content container -->
-		<div id="t7_container">
+		<div id="t7_container" class="unit-entry">
 
 
 			<!-- main content -->
