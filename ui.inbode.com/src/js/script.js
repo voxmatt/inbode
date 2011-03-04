@@ -22,6 +22,12 @@ $(document).ready( function()
 		$(this).css('cursor','default');	
 	})
 
+
+
+
+	
+	
+	
 	
 });
 

@@ -44,6 +44,19 @@ body#t7_craigslist{
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	margin-top: 10px;
 }
+#t7_price .t7_fav_share {
+	text-align: center;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	color: #636363;
+	}
+#t7_price .t7_fav_share a:link {color: #636363;}
+#t7_price .t7_fav_share a:visited {color: #636363;}
+#t7_price .t7_fav_share a:hover {color: #636363;text-decoration: none;}
+#t7_price .t7_fav_share a:active {color: #636363;}
+
+
+
 
 #t7_price .contact h3{
 	font-weight: normal;
