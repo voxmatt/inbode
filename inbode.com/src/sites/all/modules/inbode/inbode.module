@@ -729,85 +729,256 @@ function inbode_perm() {
 function inbode_craigslist_preview($usr, $bd, $nd) {
 
 	global $base_url;
+	
+	$ph  = '';
+	$ph .= '<!-- ------------------ MAINCONTAINER TABLE ------------------ -->';
+	$ph .= '<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%"><!-- MAINCONTAINER START -->';
+	$ph .= '	<tr>';
+	$ph .= '		<td height="100%" width="100%" background="http://inbode.ten7i.net/ui/climg/gradient.png">';
 
-	$ph = '';
-	$ph .= '<div id="t7_price">';
-	$ph .= '<h1>$'.intval($nd->field_unit_price[0]['amount']).' '.$nd->field_unit_bedroom[0]['value'].'bed '.$nd->field_unit_bathroom[0]['value'].'bath</h1>';
-	$ph .= '<div class="contact">';
-	$ph .= '<h3><a style="text-decoration:none;color:#fff;" href="mailto:'.$usr->mail.'">';
-	$ph .= 'contact landlord';
-	$ph .= '</a></h3>';
-	$ph .= '</div>';
-	$ph .= '</div>';
-	$ph .= '<div id="t7_address">';
-	$ph .= '<h1>'.$nd->title.'</h1>';
-	$ph .= '<ul>';
-	$ph .= '<li>'.$bd->field_building_address[0]['street'].'</li>';
-	$ph .= '<li>available '. strtolower( date( 'F j, Y' , strtotime($nd->field_unit_available[0]['value'])) ).'</li>';
-	$ph .= '<li>'.$nd->field_unit_area[0]['value'].' square feet</li>';
-	$ph .= '</ul>';
-	$ph .= '</div>';
-	$ph .= '<table>';
-	$ph .= '<tr>';
-	$ph .= '<td>';
+	$ph .= '			<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%"><!-- SECOND CONTAINER START -->';
+
+	$ph .= '				<tr> <!-- logo row START -->';
+	$ph .= '					<td valign="top" width="100%" height="56">';
+	$ph .= '						<!-- ------------------ _title_ ------------------ -->';
+	$ph .= '						<table border="0" cellpadding="10" cellspacing="0" width="100%"><!-- LOGO START -->';
+	$ph .= '							<tr>';
+	$ph .= '								<td height="56" align="right"><img src="http://inbode.ten7i.net/ui/climg/inbode.png" width="172" height="56" /></td>';
+	$ph .= '							</tr>';
+	$ph .= '						</table><!-- LOGO END -->';
+	$ph .= '					</td>	';
+	$ph .= '				</tr>';
+	
+	
+	$ph .= '				<!-- ------------------ INSIDE CONTAINER ------------------ -->';
+	$ph .= '				<tr>';
+	$ph .= '					<td valign="top" width="100%"><!-- inside TD START -->';
+
+	$ph .= '						<table border="0" cellpadding="0" cellspacing="0" align="center" width="802" style="margin: 0 auto;">';
+	$ph .= '							<!-- ------ top image ------ -->';
+	$ph .= '							<tr>';
+	$ph .= '								<td valign="top" width="802">';
+	$ph .= '									<img src="http://inbode.ten7i.net/ui/climg/white_box_top.png" />';
+	$ph .= '								</td>';
+	$ph .= '							</tr>';
+	
+	$ph .= '							<tr><!-- inside container that adds outside "padding/margin" -->';
+	$ph .= '								<td valign="top" width="802" background="http://inbode.ten7i.net/ui/climg/white_box_mid.png">';
+
+	$ph .= '									<!-- ------------------ Yet another table -->';
+	$ph .= '									<table border="0" cellpadding="0" cellspacing="0" width="802" height="" style="">';
+	$ph .= '												<tr>';
+	$ph .= '													<td colspan="3" width="802" valign="top" style="margin:0;padding:0;">';
+	$ph .= '													</td>';
+	$ph .= '												</tr>';
+
+	$ph .= '												<tr><!-- title/price start -->';
+	$ph .= '													<td valign="top" width="71" style="margin:0;padding:0;"></td>';
+	$ph .= '													<!-- ------ title/price ------ -->';
+	$ph .= '													<td valign="top" width="660" style="margin:0;padding:0;">';
+	$ph .= '														<table border="0" cellpadding="0" cellspacing="0" width="660" height="100%">';
+	$ph .= '															<tr>';
+	$ph .= '																<td width="330" align="left" valign="top" style="margin:0;padding:0;">';
+	$ph .= '																	<font face="Arial" color="#464646" size="5"><p style="color:font-weight: lighter;">'.$nd->title.'</p></font>';
+	$ph .= '																</td>';
+	$ph .= '																';
+	$ph .= '																<td width="330" align="right" valign="top" style="margin:0;padding:0;">';
+	$ph .= '																	<font face="Arial" color="#464646" size="5"><p style="font-weight: lighter;">$'.intval($nd->field_unit_price[0]['amount']).' '.$nd->field_unit_bedroom[0]['value'].'bed '.$nd->field_unit_bathroom[0]['value'].'bath</p></font>';
+	$ph .= '																</td>';
+	$ph .= '															</tr>';
+	$ph .= '														</table>';
+	$ph .= '													</td>';
+	$ph .= '													<td valign="top" width="71"></td>';
+	$ph .= '												</tr><!-- title/price end -->';
+	
+	$ph .= '												<tr><!-- address/contact start -->';
+	$ph .= '													<td valign="top" width="71" style="margin:0;padding:0;"></td>';
+	$ph .= '													<!-- ------ address/contact ------ -->';
+	$ph .= '													<td valign="top" width="660" style="margin:0;padding:0;">';
+	$ph .= '														<table border="0" cellpadding="0" cellspacing="0" width="660" height="100%">';
+	$ph .= '															<tr>';
+	$ph .= '																<td width="330" align="left" valign="top" style="margin:0;padding:0;">';
+	$ph .= '																	<font face="Arial" color="#636363"><p style="font-size: 13px;margin:0;padding:0;">'.$bd->field_building_address[0]['street'].'<br>available '. strtolower( date( 'F j, Y' , strtotime($nd->field_unit_available[0]['value'])) ).'<br>'.$nd->field_unit_area[0]['value'].' square feet</p></font>';
+	$ph .= '																</td>';
+	$ph .= '																<td height="34" align="right" valign="top" style="margin:0;padding:0;">';
+	$ph .= '																		<a href="mailto:'.$usr->mail.'">';
+	$ph .= '																			<img src="http://inbode.ten7i.net/ui/climg/button.jpg" border="0" style="margin-top:0;padding-top:0;" height="34" width="189">';
+	$ph .= '																		</a>';
+	$ph .= '																</td>';
+	$ph .= '															</tr>';
+	$ph .= '														</table>';
+	$ph .= '													</td>';
+	$ph .= '													<td valign="top" width="71"></td>';
+	$ph .= '												</tr><!-- address/contact end -->';
+	
+	$ph .= '												<tr><!-- unit info start -->';
+	$ph .= '													<td valign="top" width="71" style="margin:0;padding:0;"></td>';
+	$ph .= '													<!-- ------ unit info ------ -->';
+	$ph .= '													<td valign="top" width="660" style="margin:0;padding:0;">';
+	$ph .= '														<table border="0" cellpadding="0" cellspacing="0" width="660" height="100%">';
+	$ph .= '															<tr>';
+	$ph .= '																<td align="left" valign="middle" width="92">';
+	$ph .= '																	<font face="Arial" color="#187987" ><p style="font-size: 13px;"><strong>unit info:</strong></p></font>';
+	$ph .= '																</td>';
+	$ph .= '																';
+	$ph .= '																<td align="left" valign="middle" width="142">';
+	$ph .= '';
 	
 	if (isset($nd->field_unit_amenities[0]['value'])) {
-		$ph .= '<h2>unit info:</h2>';
-	}
-	
-	$ph .= '</td>';
-	$ph .= '<td>';
-	
-	if (isset($nd->field_unit_amenities[0]['value'])) {
-		$ph .= '<ul>';
+		$ph .= '<font face="Arial" color="#636363"><p style="font-size: 13px;">';
 		foreach($nd->field_unit_amenities as $am) {
-			$ph .= '<li>'.$am['value'].'</li>';
+			$ph .= '- '.$am['value'].'<br>';
 		}
-		$ph .= '</ul>';	
+		$ph .= '</p></font>';
 	}
-	
-	$ph .= '</td>';
-	$ph .= '<td>	';
-	$ph .= '<p></p>';
-	$ph .= '</td>';
-	$ph .= '</tr>';
-	$ph .= '<tr><td height="20"></td></tr>';
-	$ph .= '<tr>';
-	$ph .= '<td>';
+
+	$ph .= '																</td>';
+	$ph .= '																';
+	$ph .= '																<td align="left" valign="middle" width="448">';
+	$ph .= '																	<font face="Arial" color="#636363"><p style="font-size: 13px;">'.$nd->field_unit_description[0]['value'].'</p></font>';
+	$ph .= '																</td>';
+	$ph .= '															</tr>';
+	$ph .= '														</table>';
+	$ph .= '													</td>';
+	$ph .= '													<td valign="top" width="71"></td>';
+	$ph .= '												</tr><!-- unit info end -->						';
+
+	$ph .= '												<tr><!-- bldg info start -->';
+	$ph .= '													<td valign="top" width="71" style="margin:0;padding:0;"></td>';
+	$ph .= '													<!-- ------ bldg info ------ -->';
+	$ph .= '													<td valign="top" width="660" style="margin:0;padding:0;">';
+	$ph .= '														<table border="0" cellpadding="0" cellspacing="0" width="660" height="100%">';
+	$ph .= '															<tr>';
+	$ph .= '																<td align="left" valign="middle" width="92">';
+	$ph .= '																	<font face="Arial" color="#187987" ><p style="font-size: 13px;"><strong>bldg info:</strong></p>';
+	$ph .= '																</td>';
+	$ph .= '																<td align="left" valign="middle" width="142">';
+
 	if (isset($bd->field_building_amenities[0]['value'])) {
-		$ph .= '<h2>bldg info:</h2>';
-	}
-	$ph .= '</td>';
-	$ph .= '<td>';
-	if (isset($bd->field_building_amenities[0]['value'])) {
-		$ph .= '<ul>';
+		$ph .= '<font face="Arial" color="#636363"><p style="font-size: 13px;">';
 		foreach($bd->field_building_amenities as $am) {
-			$ph .= '<li>'.$am['value'].'</li>';
+			$ph .= '- '.$am['value'].'<br>';
 		}
-		$ph .= '</ul>';
-	}
-	$ph .= '</td>';
-	$ph .= '<td>';
-	$ph .= '<p>'.$nd->field_unit_description[0]['value'].'</p>';
-	$ph .= '</td>';
-	$ph .= '</tr>';
-	$ph .= '</table>';
-	$ph .= '<ul class="images">';
-	
-
-	foreach($nd->field_unit_images as $uis) {
-
-		$ph .= "\n";
-		$ph .= '<li><img src="'.$base_url.'/'.$uis['filepath'].'" width="210" /></li>';
-	
+		$ph .= '</p></font>';
 	}
 
+	$ph .= '																</td>';
+	$ph .= '																<td align="left" valign="middle" width="448">';
+	$ph .= '																	<font face="Arial" color="#636363"><p style="font-size: 13px;">'.$nd->field_building_description[0]['value'].'</p>';
+	$ph .= '																</td>';
+	$ph .= '															</tr>';
+	$ph .= '														</table>';
+	$ph .= '													</td>';
+	$ph .= '													<td valign="top" width="71"></td>';
+	$ph .= '												</tr><!-- bldg info end -->	';
 
-	// now the google map
-	$latlng = $bd->field_building_address[0]['latitude'].",".$bd->field_building_address[0]['longitude'];
-	$ph .= "<li><img src='http://maps.google.com/maps/api/staticmap?center=".$latlng."&zoom=14&size=210x157&maptype=roadmap&markers=color:0x259eb0|".$latlng."&sensor=false"."' width='210' height='157' /></li>";
+	$ph .= '												<!-- ------------------ horizontal rule ------------------ -->';
+	$ph .= '												<tr>';
+	$ph .= '													<td colspan="3" valign="top" width="802" height="10" align="center">';
+	$ph .= '													</td>';
+	$ph .= '												</tr>									';
+	$ph .= '												<tr>';
+	$ph .= '													<td colspan="3" valign="top" width="802" align="center">';
+	$ph .= '														<img src="http://placehold.it/690x1">';
+	$ph .= '													</td>';
+	$ph .= '												</tr>';
+	$ph .= '												<tr>';
+	$ph .= '													<td colspan="3" valign="top" width="802" height="15" align="center">';
+	$ph .= '													</td>';
+	$ph .= '												</tr>	';
+	$ph .= '												';
+	$ph .= '																				';
 
-	$ph .= '</ul>';
+	$num_imgs = 1;
+	foreach( $nd->field_unit_images as $ui) {
+		if ( isset($ui['filepath']) ) {
+			$num_imgs++;
+		}
+	}
+	$num_rows = ceil($num_imgs/3);
+
+
+	for ($r=1 ; $r<=$num_rows ; $r++) {
+
+		$ph .= '												<tr><!-- photo row 1 start -->';
+		$ph .= '													<td valign="top" width="71" style="margin:0;padding:0;"></td>';
+		$ph .= '													<!-- ------ photo row ------ -->';
+		$ph .= '													<td valign="top" width="660" style="margin:0;padding:0;">';
+		$ph .= '														<table border="0" cellpadding="0" cellspacing="0" width="660" height="100%">';
+		$ph .= '															<tr>';
+	
+		for ($ri=1 ; $ri<=3 ; $ri++) {
+	
+			$rimg = (($r-1)*3)+$ri;
+		
+			if ( isset( $nd->field_unit_images[$rimg]['filepath'] ) ) {
+		
+				$ph .= '																<td align="left" valign="middle" width="220">';
+				$ph .= '																	<img src="'.$base_url.'/'.$nd->field_unit_images[$rimg]['filepath'].'" width="210">';
+				$ph .= '																</td>';
+		
+			} else {
+		
+				$ph .= '																<td align="left" valign="middle" width="220">';
+			
+				if ($r==$num_rows && isset( $nd->field_unit_images[$rimg-1]['filepath'] ) ) {
+			
+					$latlng = $bd->field_building_address[0]['latitude'].",".$bd->field_building_address[0]['longitude'];
+					$ph .= '<img src="http://maps.google.com/maps/api/staticmap?center='.$latlng.'&zoom=14&size=210x157&maptype=roadmap&markers=color:0x259eb0|'.$latlng.'&sensor=false" width="210" height="157" />';
+			
+				}
+			
+				$ph .= '																</td>';
+		
+			}
+	
+		}
+	
+		$ph .= '															</tr>';
+		$ph .= '														</table>';
+		$ph .= '													</td>';
+		$ph .= '													<td valign="top" width="71"></td>';
+		$ph .= '												</tr><!-- photo row end -->			';
+		
+		$ph .= '												<!-- ------------------ horizontal space ------------------ -->';
+		$ph .= '												<tr>';
+		$ph .= '													<td colspan="3" valign="top" width="802" height="10" align="center">';
+		$ph .= '													</td>';
+		$ph .= '												</tr>';
+	
+	}
+
+
+	$ph .= '									</table><!-- 				Table								 -->';
+
+	$ph .= '								</td><!-- 						----							 -->';
+	$ph .= '							</tr><!-- inside container that adds outside "padding/margin"  END   -->';
+	
+	$ph .= '							<!-- ------ bottom image ------ -->';
+	$ph .= '							<tr>';
+	$ph .= '								<td valign="top" width="802">';
+	$ph .= '									<img src="http://inbode.ten7i.net/ui/climg/white_box_bot.png" />';
+	$ph .= '								</td>';
+	$ph .= '							</tr>';
+	$ph .= '						</table><!--  END -->';
+
+	$ph .= '					</td><!-- inside TD END -->';
+	$ph .= '				</tr> <!-- inside container end -->';
+	
+	$ph .= '			</table><!-- SECOND CONTAINER END -->';
+
+	$ph .= '		</td>';
+	$ph .= '	</tr>';
+	$ph .= '</table><!-- MAINCONTAINER END -->';
+
+	$ph = str_ireplace("\t", "", $ph);
+	$ph = str_ireplace("<table", "\n<table", $ph);
+	$ph = str_ireplace("<table", "\n<table", $ph);
+	$ph = str_ireplace("<tr", "\n\t<tr", $ph);
+	$ph = str_ireplace("</tr", "\n\t</tr", $ph);
+	$ph = str_ireplace("<td", "\n\t\t<td", $ph);
+	$ph = str_ireplace("</td", "\n\t\t</td", $ph);
+	$ph = str_ireplace("<!--", "\n<!--", $ph);
 
 	return $ph;
 
