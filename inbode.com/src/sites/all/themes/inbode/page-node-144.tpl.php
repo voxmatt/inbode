@@ -70,7 +70,7 @@ if (
             global $user;
             
             if ( isset($user->roles[3]) || isset($user->roles[4]) || isset($user->roles[5]) || $user->uid==1 ) {
-            	print '<a href="/user/'.$user->uid.'">my account</a>';
+            	print '<a href="/user/'.$user->uid.'/inbode">my account</a>';
             } else {
             	print '<a href="/user/login">sign in</a>';
             }
