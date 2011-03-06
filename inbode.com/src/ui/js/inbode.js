@@ -109,11 +109,24 @@ $(document).ready(function() {
     if (unithash) {
         inbode.util.resetfilter();
     }
+    
+    // search box
+    $('#t7_city').focus(function() {
+    	if ($(this).val()==='City or Zip') {
+    		$(this).val('');
+    	}
+    });
+    $('#t7_city').blur(function() {
+    	if ($(this).val()==='') {
+    		$(this).val('City or Zip');
+    	}
+    });
 
     // initialize inbode!
     inbode.util.init();
     $('#t7_city').keypress(function(e) {
         if (e.keyCode === 13) {
+            visibleinfowindow.close(map);
             inbode.util.search();
         }
     });
@@ -278,7 +291,8 @@ inbode.favorite = {
             }
 
             $.each(results, function(i, item) {
-                if (item.marker.position === position) {
+            
+                if (item.marker.position == position) {
                     // thi is the marker whose icon we need to change!
                     item.marker.setIcon('/ui/img/inbmrkr.png');
                     item.marker.setShadow('/ui/img/inbmrkr_shadow.png');
@@ -291,7 +305,8 @@ inbode.favorite = {
             $.cookie('faves', $.cookie('faves').replace('|' + id, ''));
 
             $.each(results, function(i, item) {
-                if (item.marker.position === position) {
+
+                if (item.marker.position == position) {
                     // thi is the marker whose icon we need to change!
                     if ($.cookie('click_history').search(position) > 0) {
                         item.marker.setIcon('/ui/img/inbmrkr-grey.png');
@@ -507,7 +522,8 @@ inbode.util = {
 			      animation: google.maps.Animation.DROP      
         });
 
-				var mrkrhtml = inbode.util.markerhtml(data.items[0], mrkr);
+				var item = data.items[0];
+				var mrkrhtml = inbode.util.markerhtml(item, mrkr);
 
         // create the info windows and listeners
         var infowindow = new google.maps.InfoWindow({
@@ -515,6 +531,21 @@ inbode.util = {
             size: new google.maps.Size(270, 210),
             position: loci
         });
+
+        // set marker click history
+        if ($.cookie('click_history') !== null) {
+            if ($.cookie('click_history').search(loci) > 0) {
+                mrkr.setIcon('/ui/img/inbmrkr-grey.png');
+                mrkr.setShadow('/ui/img/inbmrkr_shadow.png');
+            }
+        }
+        // set marker if it's a favorite
+        if ($.cookie('faves') !== null) {
+            if ($.cookie('faves').search(item.nid) > 0) {
+                mrkr.setIcon('/ui/img/inbmrkr.png');
+                mrkr.setShadow('/ui/img/inbmrkr_shadow.png');
+            }
+        }
 
         // add marker click event listener
         google.maps.event.addListener(mrkr, 'click', function() {
@@ -538,11 +569,42 @@ inbode.util = {
                 this.setIcon('/ui/img/inbmrkr-grey.png');
             }
 
-            visibleinfowindow = infowindow;
-
         });
 
+				// open automatically on the map
 			  infowindow.open(map);
+        visibleinfowindow = infowindow;
+        
+        results = [];
+        // set the results array so other things work too
+        var inb = {
+            "marker": mrkr,
+            "beds": item.beds,
+            "baths": item.baths,
+            "price": item.price,
+            "unit_id": item.unit_id,
+            "unit_name": item.unit_name,
+            "building_am_cats": item.building_am_cats,
+            "building_am_dogs_small": item.building_am_dogs_small,
+            "building_am_dogs_large": item.building_am_dogs_large,
+            "building_am_pool": item.building_am_pool,
+            "unit_am_laundry": item.unit_am_laundry,
+            "unit_am_dishwasher": item.unit_am_dishwasher,
+            "unit_am_disposal": item.unit_am_disposal,
+            "unit_am_balcony": item.unit_am_balcony,
+            "unit_am_furnished": item.unit_am_furnished,
+            "unit_am_garage": item.unit_am_garage,
+            "available": item.available,
+            "status": item.status,
+            "nid": item.nid,
+            "unit_image_1": item.unit_image_1,
+            "unit_image_2": item.unit_image_2,
+            "unit_image_3": item.unit_image_3,
+            "unit_image_4": item.unit_image_4,
+            "visible": 1
+        };
+
+        results.push(inb);        
 				
         $('#t7_ldr img').fadeOut();
               
