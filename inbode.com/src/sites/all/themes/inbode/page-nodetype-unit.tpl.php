@@ -38,6 +38,14 @@
 			    $("#mycarousel").jcarousel({
 			        scroll: 1
 			    });
+			    
+					var h = document.location.hash.replace('#', '');
+					
+					if (h) {
+						$('#mycarousel li').removeClass('thumb-selected');
+						$('#t7-thumb-'+h).parent().addClass('thumb-selected');
+						$('#t7-thumb-'+h).click();
+					}
 			
 			});
 

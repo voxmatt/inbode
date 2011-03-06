@@ -361,10 +361,16 @@ inbode.util = {
   },
   fancybox: function( iid, unit_id ) {
     
+    var uu = '/unit/'+unit_id;
+
+		if (iid) {
+			uu = uu + '#' + iid;
+		}
+		    
 		$.fancybox(
 			{
 				'type'	: 'iframe',
-				'href'	: '/unit/'+unit_id,
+				'href'	: uu,
     		'autoDimensions'	: false,
 				'width'         	: 728,
 				'height'        	: 606,
@@ -499,8 +505,8 @@ inbode.util = {
 
 
         // images
-        if (item.unit_image_1) { mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(1, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>'; }
-        if (item.unit_image_2) { mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(2, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>'; }
+        if (item.unit_image_1) { mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(2, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>'; }
+        if (item.unit_image_2) { mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(3, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>'; }
 
         // address
         mrkrhtml += '<div class="t7_bot">';
@@ -521,7 +527,7 @@ inbode.util = {
         // button it up
         mrkrhtml += '</div>';
         mrkrhtml += '</div>';
-        mrkrhtml += '<div id="t7_button"><h1><a href="#" onclick="inbode.util.fancybox(0, \'' + item.unit_id + '\');">view full listing</a></h1></div>';
+        mrkrhtml += '<div id="t7_button"><h1><a href="#" onclick="inbode.util.fancybox(1, \'' + item.unit_id + '\');">view full listing</a></h1></div>';
         mrkrhtml += '</div>';
         
         
