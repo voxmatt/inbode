@@ -446,14 +446,6 @@ inbode.util = {
           "available": item.available,
           "status": item.status,          
           "nid": item.nid,
-          "unit_image_1": item.unit_image_1,
-          "unit_image_2": item.unit_image_2,
-          "unit_image_3": item.unit_image_3,
-          "unit_image_4": item.unit_image_4,
-          "unit_image_5": item.unit_image_5,
-          "unit_image_6": item.unit_image_6,
-          "unit_image_7": item.unit_image_7,
-          "unit_image_8": item.unit_image_8,
           "visible": 1          
         };
         
