@@ -486,11 +486,132 @@ inbode.util = {
         });
     },
 
+
+    showunit: function(unitid) {
+
+      $('#t7_ldr img').fadeIn();
+
+      // url for query
+      var uniturl = '/api/search/unit/' + unitid;
+      // now perform a request to inbode api
+      $.getJSON(uniturl, function(data) {
+
+	      var l = data.latlng.replace('(', '').replace(')', '');
+	      ll = l.split(',');
+	      var loci = new google.maps.LatLng(ll[0], ll[1]);
+	      map.setCenter(loci);
+
+        mrkr = new google.maps.Marker({
+            position: loci,
+            map: map,
+			      animation: google.maps.Animation.DROP      
+        });
+
+				var mrkrhtml = inbode.util.markerhtml(data.items[0], mrkr);
+
+        // create the info windows and listeners
+        var infowindow = new google.maps.InfoWindow({
+            content: mrkrhtml,
+            size: new google.maps.Size(270, 210),
+            position: loci
+        });
+
+        // add marker click event listener
+        google.maps.event.addListener(mrkr, 'click', function() {
+            // close the visible one
+            visibleinfowindow.close(map);
+            infowindow.open(map);
+            // add some click history
+            if ($.cookie('click_history')) {
+                if ($.cookie('click_history').search(infowindow.position) === -1) {
+                    $.cookie('click_history', $.cookie('click_history') + '|' + infowindow.position, {
+                        expires: cookieexpiration
+                    });
+                }
+            } else {
+                $.cookie('click_history', infowindow.position, {
+                    expires: cookieexpiration
+                });
+            }
+            // make the marker grey now pls
+            if (this.getIcon() !== '/ui/img/inbmrkr.png') {
+                this.setIcon('/ui/img/inbmrkr-grey.png');
+            }
+
+            visibleinfowindow = infowindow;
+
+        });
+
+				
+        $('#t7_ldr img').fadeOut();
+              
+      });
+
+
+    },
+
+		markerhtml: function(item, mrkr) {
+		
+	    var mrkrhtml = '<div class="t7_bubble">';
+	    mrkrhtml += '<h1>';
+	    
+	    // price
+	    mrkrhtml += '$' + item.price + '&nbsp;';
+	
+	    // beds
+	    if (item.beds === 1) {
+	        mrkrhtml += item.beds + ' bed ';
+	    } else {
+	        mrkrhtml += item.beds + ' beds ';
+	    }
+	
+	    // baths
+	    if (item.baths === 1) {
+	        mrkrhtml += item.baths + ' bath ';
+	    } else {
+	        mrkrhtml += item.baths + ' baths ';
+	    }
+	
+	    mrkrhtml += '</h1>';
+	
+	    // images
+	    if (item.unit_image_1) {
+	        mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(2, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>';
+	    }
+	    if (item.unit_image_2) {
+	        mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(3, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>';
+	    }
+	
+	    // address
+	    mrkrhtml += '<div class="t7_bot">';
+	    mrkrhtml += '<div class="t7_text_left"><i>' + item.street + '</i></div>';
+	    mrkrhtml += '<div class="t7_text_right">';
+	
+	    // favorites (we <3 cookies)
+	    if ($.cookie('faves')) {
+	        if ($.cookie('faves').search(item.nid) > 0) {
+	            mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/yellow_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>';
+	        } else {
+	            mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>';
+	        }
+	    } else {
+	        mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>';
+	    }
+	
+	    // button it up
+	    mrkrhtml += '</div>';
+	    mrkrhtml += '</div>';
+	    mrkrhtml += '<div id="t7_button"><h1><a href="#" onclick="inbode.util.fancybox(1, \'' + item.unit_id + '\');">view full listing</a></h1></div>';
+	    mrkrhtml += '</div>';
+	    return mrkrhtml;
+		
+		},
+
     search: function() {
         $('#t7_ldr img').fadeIn();
         // url for query
         var searchurl = '/api/search/location/' + encodeURI($('#t7_city').val());
-        // now perform a request to storelocator to find the stores around this location
+        // now perform a request to inbode api
         $.getJSON(searchurl, function(data) {
 
             var mrkr;
@@ -549,58 +670,7 @@ inbode.util = {
                 }
 
                 // marker html
-                var mrkrhtml = '<div class="t7_bubble">';
-                mrkrhtml += '<h1>';
-
-                // price
-                mrkrhtml += '$' + item.price + '&nbsp;';
-
-                // beds
-                if (item.beds === 1) {
-                    mrkrhtml += item.beds + ' bed ';
-                } else {
-                    mrkrhtml += item.beds + ' beds ';
-                }
-
-                // baths
-                if (item.baths === 1) {
-                    mrkrhtml += item.baths + ' bath ';
-                } else {
-                    mrkrhtml += item.baths + ' baths ';
-                }
-
-                mrkrhtml += '</h1>';
-
-
-                // images
-                if (item.unit_image_1) {
-                    mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(2, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>';
-                }
-                if (item.unit_image_2) {
-                    mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(3, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>';
-                }
-
-                // address
-                mrkrhtml += '<div class="t7_bot">';
-                mrkrhtml += '<div class="t7_text_left"><i>' + item.street + '</i></div>';
-                mrkrhtml += '<div class="t7_text_right">';
-
-                // favorites (we <3 cookies)
-                if ($.cookie('faves')) {
-                    if ($.cookie('faves').search(item.nid) > 0) {
-                        mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/yellow_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>';
-                    } else {
-                        mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>';
-                    }
-                } else {
-                    mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>';
-                }
-
-                // button it up
-                mrkrhtml += '</div>';
-                mrkrhtml += '</div>';
-                mrkrhtml += '<div id="t7_button"><h1><a href="#" onclick="inbode.util.fancybox(1, \'' + item.unit_id + '\');">view full listing</a></h1></div>';
-                mrkrhtml += '</div>';
+								var mrkrhtml = inbode.util.markerhtml(item, mrkr);
 
 
                 // create the info windows and listeners
@@ -662,12 +732,6 @@ inbode.util = {
 
 
         });
-    },
-
-    showunit: function(unitid) {
-
-
-
     },
 
     resetfilter: function() {
