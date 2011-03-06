@@ -173,5 +173,148 @@ class Search extends REST_Controller
 		$this->response($return, 200);
 	
 	}	
+
+
+	function unit_get() {
+	
+		// libs and help
+		$this->load->database();
+		$this->load->library('inbode');
+	
+		// some vars
+		$mapid = $this->config->item('i_mid');
+		$tableid = $this->config->item('i_InbodeBeta-BuildingsUnits');
+		$records = 0;
+	
+		// get the unit id
+		$unit_id = $this->uri->segment(3, 0);		
+
+		// google fusion, please may we have some detail?
+		$q = "SELECT * FROM $tableid WHERE 'unit_id'='$unit_id'" ;
+		$fusionresult = $this->inbode->fusionquery($q);		
+		
+		if ( isset($fusionresult['count'])) {
+	 		$records = $fusionresult['count'];	
+		} 
+
+		$results = array();
+		
+		if ($fusionresult['info']['http_code']==200 && $fusionresult['info']['content_type']=='text/plain; charset=UTF-8' && $records>0 && isset($fusionresult['column_data'])) {
+			// got back some sort of result
+			$results = $fusionresult['column_data'];
+		}
+		
+		$items = array();
+
+		// if there are results, return them 
+		if ($records>0 && isset($results)) {
+		
+			// loop thru all results from fusion tables
+			foreach($results as $result) {
+				unset($f);
+				$f = array();
+				// building specific
+				$ll=explode(',',$result['latlng']);
+				$f['lat'] = $ll[0];
+				$f['lng'] = $ll[1];
+				$f['building_id'] = $result['building_id'];
+				$f['building_name'] = $result['building_name'];
+				$f['building_description'] = $result['building_description'];
+				$f['street'] = $result['street'];
+				$f['additional'] = $result['street2'];
+				$f['city'] = $result['city'];
+				$f['province'] = $result['province'];
+				$f['postal_code'] = $result['postal_code'];
+				$f['country'] = $result['country'];
+				$f['building_am_cats'] = $result['building_am_cats'];
+				$f['building_am_dogs_small'] = $result['building_am_dogs_small'];
+				$f['building_am_dogs_large'] = $result['building_am_dogs_large'];
+				$f['building_am_pool'] = $result['building_am_pool'];
+				
+				// building images some day too
+				$f['building_image_1'] = $result['building_image_1'];
+				if (substr($f['building_image_1'], 0, 1)!="/" && $result['building_image_1']) { $f['building_image_1']="/".$f['building_image_1'];}; 
+				
+				$f['building_image_2'] = $result['building_image_2'];
+				if (substr($f['building_image_2'], 0, 1)!="/" && $result['building_image_2']) { $f['building_image_2']="/".$f['building_image_2'];}; 
+				
+				$f['building_image_3'] = $result['building_image_3'];
+				if (substr($f['building_image_3'], 0, 1)!="/" && $result['building_image_3']) { $f['building_image_3']="/".$f['building_image_3'];}; 
+				
+				$f['building_image_4'] = $result['building_image_4'];
+				if (substr($f['building_image_4'], 0, 1)!="/" && $result['building_image_4']) { $f['building_image_4']="/".$f['building_image_4'];}; 
+
+				// unit specific				
+				$f['featureid'] = md5($result['building_id']."_".$result['unit_id']);
+				$f['nid'] = $result['building_id']."_".$result['unit_id'];
+				$f['beds'] = $result['bedrooms'];
+				$f['baths'] = $result['bathrooms'];
+				$f['price'] = (int) $result['price'];
+				$f['currency'] = $result['currency'];
+				$f['area'] = $result['area'];
+				if ($result['available_date']) {
+					$f['available'] = date( 'n/j/y', strtotime($result['available_date']) );			
+				} else {
+					$f['available'] = 0;							
+				}
+				$f['unit_id'] = $result['unit_id'];
+				$f['unit_name'] = $result['unit_name'];
+				$f['unit_description'] = $result['unit_description'];
+				$f['unit_am_laundry'] = $result['unit_am_laundry'];
+				$f['unit_am_dishwasher'] = $result['unit_am_dishwasher'];
+				$f['unit_am_disposal'] = $result['unit_am_disposal'];
+				$f['unit_am_balcony'] = $result['unit_am_balcony'];
+				$f['unit_am_furnished'] = $result['unit_am_furnished'];
+				$f['unit_am_garage'] = $result['unit_am_garage'];
+				$f['status'] = $result['status'];
+				
+				// unit images
+				$f['unit_image_1'] = $result['unit_image_1'];
+				if (substr($f['unit_image_1'], 0, 1)!="/" && $result['unit_image_1']) { $f['unit_image_1']="/".$f['unit_image_1'];}; 
+
+				$f['unit_image_2'] = $result['unit_image_2'];
+				if (substr($f['unit_image_2'], 0, 1)!="/" && $result['unit_image_2']) { $f['unit_image_2']="/".$f['unit_image_2'];}; 
+
+				$f['unit_image_3'] = $result['unit_image_3'];
+				if (substr($f['unit_image_3'], 0, 1)!="/" && $result['unit_image_3']) { $f['unit_image_3']="/".$f['unit_image_3'];}; 
+
+				$f['unit_image_4'] = $result['unit_image_4'];
+				if (substr($f['unit_image_4'], 0, 1)!="/" && $result['unit_image_4']) { $f['unit_image_4']="/".$f['unit_image_4'];}; 
+
+				$f['unit_image_5'] = $result['unit_image_5'];
+				if (substr($f['unit_image_5'], 0, 1)!="/" && $result['unit_image_5']) { $f['unit_image_5']="/".$f['unit_image_5'];}; 
+
+				$f['unit_image_6'] = $result['unit_image_6'];
+				if (substr($f['unit_image_6'], 0, 1)!="/" && $result['unit_image_6']) { $f['unit_image_6']="/".$f['unit_image_6'];}; 
+
+				$f['unit_image_7'] = $result['unit_image_7'];
+				if (substr($f['unit_image_7'], 0, 1)!="/" && $result['unit_image_7']) { $f['unit_image_1']="/".$f['unit_image_7'];}; 
+
+				$f['unit_image_8'] = $result['unit_image_8'];
+				if (substr($f['unit_image_8'], 0, 1)!="/" && $result['unit_image_8']) { $f['unit_image_1']="/".$f['unit_image_8'];}; 
+
+				// backwards compatible
+				$f['description'] = $result['unit_description'];
+
+				$location = $f['city'].", ".$f['province'];
+				$latlng = $result['latlng'];
+
+				$items[]=$f;
+
+			}
+
+		}
+
+		
+		// return some results, empty even		
+		if ($records) {
+			$return = array('status'=>'ok', 'location'=>$location, 'latlng'=>$latlng, 'count'=>$records, 'items'=>$items);					
+		} else {
+			$return = array('status'=>'ok', 'location'=>null, 'latlng'=>null, 'count'=>0, 'items'=>null);		
+		
+		}
+		$this->response($return, 200);
+	
+	}	
 	
 }

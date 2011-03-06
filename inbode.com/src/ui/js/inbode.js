@@ -81,6 +81,11 @@ datez[1] = zm + "/" + zd + "/" + y;
 // now ready
 $(document).ready(function () {
 
+	// if we see a request for an individual unit, reset filters
+  if (unithash) {
+  	inbode.util.resetfilter();
+	}
+
   // initialize inbode!
   inbode.util.init();
   $('#t7_city').keypress(function (e) {
@@ -298,59 +303,69 @@ inbode.util = {
       scaleControl: true
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), options);
-    if ($.cookie('last_latlng') && $.cookie('last_location')) {
-      var l = $.cookie('last_latlng').replace('(', '').replace(')', '');
-      ll = l.split(',');
-      var loci = new google.maps.LatLng(ll[0], ll[1]);
-      map.setCenter(loci);
-      $('#t7_city').val($.cookie('last_location'));
-      inbode.util.search();
-    } else {
-      var loc;
-      var mpls = new google.maps.LatLng(44.979965, -93.263836);
-      var nyc = new google.maps.LatLng(40.743209, -74.004378);
-      // create a map and set it to minneapolis by default so it renders
-      map.setCenter(mpls);
-      $("#t7_city").val("Minneapolis, MN, USA");
-      // try to find the user's location if they'll let us
-      // w3c preferred
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-          map.setCenter(loc);
-          inbode.util.setloc(loc);
-        }, function () {
-          // set a cookie, default to Minneapolis!!
-          $.cookie('last_latlng', mpls, { expires: cookieexpiration });
-          $.cookie('last_location', 'Minneapolis, MN, USA', { expires: cookieexpiration });
-          inbode.util.search();
-        });
-        // google gears
-      } else if (google.gears) {
-        var geo = google.gears.factory.create('beta.geolocation');
-        geo.getCurrentPosition(function (position) {
-          loc = new google.maps.LatLng(position.latitude, position.longitude);
-          map.setCenter(loc);
-          inbode.util.setloc(loc);
-        }, function () {
-          // set a cookie, default to Minneapolis!!
-          $.cookie('last_latlng', mpls, { expires: cookieexpiration });
-          $.cookie('last_location', 'Minneapolis, MN, USA', { expires: cookieexpiration });
-          inbode.util.search();
-        });
-        // oops, no support
-      } else {
-        // set a cookie, default to Minneapolis!!
-        $.cookie('last_latlng', mpls, {
-          expires: cookieexpiration
-        });
-        $.cookie('last_location', 'Minneapolis, MN, USA', {
-          expires: cookieexpiration
-        });
-        inbode.util.search();
-      }
-    }
+
+		// if this is a request for one specific unit, treat it differently    
+	  if (unithash) {
+	  
+	  	alert('unit request, reset the filters already!');
+
+
+		} else {
     
+	    if ($.cookie('last_latlng') && $.cookie('last_location')) {
+	      var l = $.cookie('last_latlng').replace('(', '').replace(')', '');
+	      ll = l.split(',');
+	      var loci = new google.maps.LatLng(ll[0], ll[1]);
+	      map.setCenter(loci);
+	      $('#t7_city').val($.cookie('last_location'));
+	      inbode.util.search();
+	    } else {
+	      var loc;
+	      var mpls = new google.maps.LatLng(44.979965, -93.263836);
+	      var nyc = new google.maps.LatLng(40.743209, -74.004378);
+	      // create a map and set it to minneapolis by default so it renders
+	      map.setCenter(mpls);
+	      $("#t7_city").val("Minneapolis, MN, USA");
+	      // try to find the user's location if they'll let us
+	      // w3c preferred
+	      if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(function (position) {
+	          loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	          map.setCenter(loc);
+	          inbode.util.setloc(loc);
+	        }, function () {
+	          // set a cookie, default to Minneapolis!!
+	          $.cookie('last_latlng', mpls, { expires: cookieexpiration });
+	          $.cookie('last_location', 'Minneapolis, MN, USA', { expires: cookieexpiration });
+	          inbode.util.search();
+	        });
+	        // google gears
+	      } else if (google.gears) {
+	        var geo = google.gears.factory.create('beta.geolocation');
+	        geo.getCurrentPosition(function (position) {
+	          loc = new google.maps.LatLng(position.latitude, position.longitude);
+	          map.setCenter(loc);
+	          inbode.util.setloc(loc);
+	        }, function () {
+	          // set a cookie, default to Minneapolis!!
+	          $.cookie('last_latlng', mpls, { expires: cookieexpiration });
+	          $.cookie('last_location', 'Minneapolis, MN, USA', { expires: cookieexpiration });
+	          inbode.util.search();
+	        });
+	        // oops, no support
+	      } else {
+	        // set a cookie, default to Minneapolis!!
+	        $.cookie('last_latlng', mpls, {
+	          expires: cookieexpiration
+	        });
+	        $.cookie('last_location', 'Minneapolis, MN, USA', {
+	          expires: cookieexpiration
+	        });
+	        inbode.util.search();
+	      }
+	    }
+	    
+		}
     
   },
   fancybox: function( iid, unit_id ) {
@@ -392,6 +407,7 @@ inbode.util = {
 			inbode.util.open_more_filters();      
   	}	
 	},
+	
   setloc: function (latlng) {
     var geocoder;
     geocoder = new google.maps.Geocoder();
@@ -408,6 +424,7 @@ inbode.util = {
       }
     });
   },
+  
   search: function () {
     $('#t7_ldr img').fadeIn();
     // url for query
@@ -572,10 +589,40 @@ inbode.util = {
       });
       
       // apply the filter
-      inbode.util.filter();
+      inbode.util.filter();    
       
       
     });
+  },
+  
+  unit: function(unitid) {
+  
+
+  
+  },
+  
+  resetfilter: function() {
+
+		price_lower=price[0];
+    $.cookie('price_lower', price_lower, { expires: cookieexpiration });
+		price_upper=price[1];
+    $.cookie('price_upper', price_upper, { expires: cookieexpiration });
+
+		beds_lower=beds[0];
+    $.cookie('beds_lower', beds_lower, { expires: cookieexpiration });
+		beds_upper=beds[1];
+    $.cookie('beds_upper', beds_upper, { expires: cookieexpiration });
+
+		baths_lower=baths[0];
+    $.cookie('baths_lower', baths_lower, { expires: cookieexpiration });
+		baths_upper=baths[1];
+    $.cookie('baths_upper', baths_upper, { expires: cookieexpiration });
+  
+	  $('#amenities .jquery-safari-checkbox').each( function() {
+	    $.cookie( $(this).attr('id'), false, { expires: cookieexpiration });
+	  });
+
+
   },
   
   open_filters: function() {
