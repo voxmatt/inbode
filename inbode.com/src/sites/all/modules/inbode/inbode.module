@@ -895,6 +895,11 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 			$num_imgs++;
 		}
 	}
+	foreach( $nd->field_unit_more_images as $ui) {
+		if ( isset($ui['filepath']) ) {
+			$num_imgs++;
+		}
+	}
 	$num_rows = ceil($num_imgs/3);
 
 

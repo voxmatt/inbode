@@ -58,22 +58,21 @@ class Inbode {
 		if ($ret['info']['content_type']=='text/plain; charset=UTF-8' && $ret['info']['http_code']=='200') {
 
 		  $response = $ret['response'];
-		  // get the response into an array of lines (responses are always csv from google, tables of data)
-			$lines = explode("\n", $response);
-			
+			$data = $this->str_getcsv($response, ',', '"' );
+
 			// now loop thru each line, and create an array to return with a header row
-			$records=count($lines);
-			
+			$records=count($data);
+						
 			if ($records>1) {
 
 				$i=0;
-
-				foreach ($lines as $line) {
-					$cols = $this->str_getcsv($line);		
-					if ($line) {
-						// loop thru each of the cols, either header or data
-						$k=0;
-						foreach($cols as $col) {
+				
+				foreach ($data as $row) {
+				
+					$k = 0;
+				
+					foreach ($row as $col) {
+					
 							if ($i==0) {
 								// first line of response are the column names
 								$ra['column_name']['name'.$k] = $col;				
@@ -81,11 +80,12 @@ class Inbode {
 								// on to the data
 								$ra['column_data'][$i][$ra['column_name']['name'.$k]] = $col;				
 							}
-							$k++;
-						}				
-						// increment			
-						$i++;		
-					}	
+							$k++;						
+					
+					}
+					
+					$i++;
+				
 				}
 
 				$ra['count'] = $i-1;
@@ -198,12 +198,15 @@ class Inbode {
 	}
 
 	function str_getcsv($input, $delimiter=',', $enclosure='"', $escape=null, $eol=null) { 
-	  $temp=fopen("php://memory", "rw");
-	  fwrite($temp, $input);
-	  fseek($temp, 0);
-	  $r=fgetcsv($temp, 4096, $delimiter, $enclosure);
-	  fclose($temp);
-	  return $r;
+	  $temp=fopen("php://memory", "rw"); 
+	  fwrite($temp, $input); 
+	  fseek($temp, 0); 
+	  $r = array(); 
+	  while (($data = fgetcsv($temp, 4096, $delimiter, $enclosure)) !== false) { 
+	    $r[] = $data; 
+	  } 
+	  fclose($temp); 
+	  return $r; 
 	} 
 
 	function xml2array($contents, $get_attributes=1, $priority = 'tag') { 

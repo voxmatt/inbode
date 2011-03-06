@@ -57,7 +57,7 @@ class Search extends REST_Controller
 		//$q = 'SELECT * FROM '.$tableid.' WHERE ST_INTERSECTS(\'latlng\', CIRCLE( LATLNG('.$latlng['lat'].','.$latlng['lng'].'), 80000) )';
 		$q = "SELECT * FROM $tableid WHERE 'status'='listed'" ;
 		$fusionresult = $this->inbode->fusionquery($q);		
-
+		
 		if ( isset($fusionresult['count'])) {
 	 		$records = $fusionresult['count'];	
 		} 
