@@ -21,6 +21,8 @@ var map;
 var results = new Array();
 var cookieexpiration = 365;
 var visibleinfowindow = new google.maps.InfoWindow({});
+// requesting a specific unit?
+var unithash = document.location.hash.replace('#', '');
 // limit arrays (min, max, step)
 var price = new Array();
 var price_lower, price_upper;
@@ -350,14 +352,6 @@ inbode.util = {
     }
     
     
-  },
-  swtch: function( nid, src ) {
-  
-  	$('#bigimage_'+nid).attr('src', src);
-  
-  },
-  fulllisting: function( unit_id ) {
-  	window.location = '/unit/'+unid_id;
   },
   fancybox: function( iid, unit_id ) {
     
