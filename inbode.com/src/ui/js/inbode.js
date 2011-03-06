@@ -512,14 +512,15 @@ inbode.util = {
         // create the info windows and listeners
         var infowindow = new google.maps.InfoWindow({
             content: mrkrhtml,
-            size: new google.maps.Size(270, 210)
+            size: new google.maps.Size(270, 210),
+            position: loci
         });
 
         // add marker click event listener
         google.maps.event.addListener(mrkr, 'click', function() {
             // close the visible one
             visibleinfowindow.close(map);
-            infowindow.open(map, mrkr);
+            infowindow.open(map);
             // add some click history
             if ($.cookie('click_history')) {
                 if ($.cookie('click_history').search(infowindow.position) === -1) {
@@ -541,7 +542,7 @@ inbode.util = {
 
         });
 
-			  infowindow.open(map,mrkr);
+			  infowindow.open(map);
 				
         $('#t7_ldr img').fadeOut();
               
@@ -676,14 +677,15 @@ inbode.util = {
                 // create the info windows and listeners
                 var infowindow = new google.maps.InfoWindow({
                     content: mrkrhtml,
-                    size: new google.maps.Size(270, 210)
+                    size: new google.maps.Size(270, 210),
+                    position: ll
                 });
 
                 // add marker click event listener
                 google.maps.event.addListener(mrkr, 'click', function() {
                     // close the visible one
                     visibleinfowindow.close(map);
-                    infowindow.open(map, mrkr);
+                    infowindow.open(map);
                     // add some click history
                     if ($.cookie('click_history')) {
                         if ($.cookie('click_history').search(infowindow.position) === -1) {
