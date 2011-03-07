@@ -603,7 +603,6 @@ inbode.util = {
             });
 
             // open automatically on the map
-            infowindow.open(map);
             visibleinfowindow = infowindow;
 
             results = [];
@@ -639,7 +638,9 @@ inbode.util = {
             results.push(inb);
             
             // pop up the lightbox
-            inbode.util.fancybox(1, item.unit_id);
+            infowindow.open(map);
+
+            //inbode.util.fancybox(1, item.unit_id);
             
             
 						// done working, show user
@@ -687,8 +688,7 @@ inbode.util = {
         mrkrhtml += '<div class="t7_text_left"><i>' + item.street + '</i></div>';
         mrkrhtml += '<div class="t7_text_right">';
 
-        var uurl = document.URL + '#' + item.unit_id;
-        uurl = uurl.replace('##', '#');
+        var uurl = 'http://' + document.domain + '/home#' + item.unit_id;
 
         // favorites (we <3 cookies)
         if ($.cookie('faves')) {
