@@ -292,6 +292,7 @@ body {
 	height: 180px;
 	padding: 10px 10px 0;
 	width: 240px;
+	overflow: hidden;
 }
 
 .t7_bubble a {
@@ -358,7 +359,7 @@ body {
 	margin: 5px;
 }
 
-#t7_button {
+.t7_button {
     background-image: url("/ui/img/button.jpg");
     float: left;
     height: 34px;
@@ -366,7 +367,7 @@ body {
     width: 241px;
 }
 
-#t7_button h1 {
+.t7_button h1 {
 	color: #fff;
 	font-family: 'helvetica neue', helvetica, arial, sans-serf;
 	font-size: 16px;
@@ -377,12 +378,12 @@ body {
 	text-decoration: none;
 }
 
-#t7_button:active {
+.t7_button:active {
 	position: relative;
 	top: 1px;
 }
 
-#t7_button a {
+.t7_button a {
 	color: #fff;
 	text-decoration: none;
 }
@@ -711,4 +712,16 @@ input:focus, a {
 	white-space: nowrap;
 	overflow: hidden;
 	display: block;
+}
+
+
+input.getlink {
+	width: 60px;
+	height: 15px;
+	border: 1px solid #999;
+	margin: 0;
+	padding: 0;
+	color: #636363;
+	font-family: 'helvetica neue', helvetica, arial, sans-serif;
+	font-size: 11px;
 }

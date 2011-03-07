@@ -79,11 +79,11 @@ var dayspan = 100;
 var now = new Date();
 var yr = now.getFullYear() + "";
 var y = yr.substring(2);
-zm = now.getMonth() + 1;
+var zm = now.getMonth() + 1;
 if (zm < 10) {
     zm = '0' + zm;
 }
-zd = now.getDate();
+var zd = now.getDate();
 if (zd < 10) {
     zd = '0' + zd;
 }
@@ -109,17 +109,17 @@ $(document).ready(function() {
     if (unithash) {
         inbode.util.resetfilter();
     }
-    
+
     // search box
     $('#t7_city').focus(function() {
-    	if ($(this).val()==='City or Zip') {
-    		$(this).val('');
-    	}
+        if ($(this).val() === 'City or Zip') {
+            $(this).val('');
+        }
     });
     $('#t7_city').blur(function() {
-    	if ($(this).val()==='') {
-    		$(this).val('City or Zip');
-    	}
+        if ($(this).val() === '') {
+            $(this).val('City or Zip');
+        }
     });
 
     // initialize inbode!
@@ -291,7 +291,7 @@ inbode.favorite = {
             }
 
             $.each(results, function(i, item) {
-            
+
                 if (item.marker.position == position) {
                     // thi is the marker whose icon we need to change!
                     item.marker.setIcon('/ui/img/inbmrkr.png');
@@ -335,6 +335,14 @@ inbode.favorite = {
 };
 
 inbode.util = {
+
+    getlink: function(unit_id) {
+
+        $('#gl_' + unit_id).toggle();
+        $('#glin_' + unit_id).toggle();
+        $('#glin_' + unit_id + ' input').select();
+
+    },
 
     init: function() {
 
@@ -388,7 +396,6 @@ inbode.util = {
             } else {
                 var loc;
                 var mpls = new google.maps.LatLng(44.979965, -93.263836);
-                var nyc = new google.maps.LatLng(40.743209, -74.004378);
                 // create a map and set it to minneapolis by default so it renders
                 map.setCenter(mpls);
                 $("#t7_city").val("Minneapolis, MN, USA");
@@ -504,171 +511,180 @@ inbode.util = {
 
     showunit: function(unitid) {
 
-      $('#t7_ldr img').fadeIn();
+        $('#t7_ldr img').fadeIn();
 
-      // url for query
-      var uniturl = '/api/search/unit/' + unitid;
-      // now perform a request to inbode api
-      $.getJSON(uniturl, function(data) {
+        // url for query
+        var uniturl = '/api/search/unit/' + unitid;
+        // now perform a request to inbode api
+        $.getJSON(uniturl, function(data) {
 
-	      var l = data.latlng.replace('(', '').replace(')', '');
-	      ll = l.split(',');
-	      var loci = new google.maps.LatLng(ll[0], ll[1]);
-	      map.setCenter(loci);
+            var l = data.latlng.replace('(', '').replace(')', '');
+            ll = l.split(',');
+            var loci = new google.maps.LatLng(ll[0], ll[1]);
+            map.setCenter(loci);
 
-        mrkr = new google.maps.Marker({
-            position: loci,
-            map: map,
-			      animation: google.maps.Animation.DROP      
-        });
+            mrkr = new google.maps.Marker({
+                position: loci,
+                map: map,
+                animation: google.maps.Animation.DROP
+            });
 
-				var item = data.items[0];
-				var mrkrhtml = inbode.util.markerhtml(item, mrkr);
+            var item = data.items[0];
+            var mrkrhtml = inbode.util.markerhtml(item, mrkr);
 
-        // create the info windows and listeners
-        var infowindow = new google.maps.InfoWindow({
-            content: mrkrhtml,
-            size: new google.maps.Size(270, 210),
-            position: loci
-        });
+            // create the info windows and listeners
+            var infowindow = new google.maps.InfoWindow({
+                content: mrkrhtml,
+                size: new google.maps.Size(270, 210),
+                position: loci
+            });
 
-        // set marker click history
-        if ($.cookie('click_history') !== null) {
-            if ($.cookie('click_history').search(loci) > 0) {
-                mrkr.setIcon('/ui/img/inbmrkr-grey.png');
-                mrkr.setShadow('/ui/img/inbmrkr_shadow.png');
+            // set marker click history
+            if ($.cookie('click_history') !== null) {
+                if ($.cookie('click_history').search(loci) > 0) {
+                    mrkr.setIcon('/ui/img/inbmrkr-grey.png');
+                    mrkr.setShadow('/ui/img/inbmrkr_shadow.png');
+                }
             }
-        }
-        // set marker if it's a favorite
-        if ($.cookie('faves') !== null) {
-            if ($.cookie('faves').search(item.nid) > 0) {
-                mrkr.setIcon('/ui/img/inbmrkr.png');
-                mrkr.setShadow('/ui/img/inbmrkr_shadow.png');
+            // set marker if it's a favorite
+            if ($.cookie('faves') !== null) {
+                if ($.cookie('faves').search(item.nid) > 0) {
+                    mrkr.setIcon('/ui/img/inbmrkr.png');
+                    mrkr.setShadow('/ui/img/inbmrkr_shadow.png');
+                }
             }
-        }
 
-        // add marker click event listener
-        google.maps.event.addListener(mrkr, 'click', function() {
-            // close the visible one
-            visibleinfowindow.close(map);
-            infowindow.open(map);
-            // add some click history
-            if ($.cookie('click_history')) {
-                if ($.cookie('click_history').search(infowindow.position) === -1) {
-                    $.cookie('click_history', $.cookie('click_history') + '|' + infowindow.position, {
+            // add marker click event listener
+            google.maps.event.addListener(mrkr, 'click', function() {
+                // close the visible one
+                visibleinfowindow.close(map);
+                infowindow.open(map);
+                // add some click history
+                if ($.cookie('click_history')) {
+                    if ($.cookie('click_history').search(infowindow.position) === -1) {
+                        $.cookie('click_history', $.cookie('click_history') + '|' + infowindow.position, {
+                            expires: cookieexpiration
+                        });
+                    }
+                } else {
+                    $.cookie('click_history', infowindow.position, {
                         expires: cookieexpiration
                     });
                 }
-            } else {
-                $.cookie('click_history', infowindow.position, {
-                    expires: cookieexpiration
-                });
-            }
-            // make the marker grey now pls
-            if (this.getIcon() !== '/ui/img/inbmrkr.png') {
-                this.setIcon('/ui/img/inbmrkr-grey.png');
-            }
+                // make the marker grey now pls
+                if (this.getIcon() !== '/ui/img/inbmrkr.png') {
+                    this.setIcon('/ui/img/inbmrkr-grey.png');
+                }
+
+            });
+
+            // open automatically on the map
+            infowindow.open(map);
+            visibleinfowindow = infowindow;
+
+            results = [];
+            // set the results array so other things work too
+            var inb = {
+                "marker": mrkr,
+                "beds": item.beds,
+                "baths": item.baths,
+                "price": item.price,
+                "unit_id": item.unit_id,
+                "unit_name": item.unit_name,
+                "building_am_cats": item.building_am_cats,
+                "building_am_dogs_small": item.building_am_dogs_small,
+                "building_am_dogs_large": item.building_am_dogs_large,
+                "building_am_pool": item.building_am_pool,
+                "unit_am_laundry": item.unit_am_laundry,
+                "unit_am_dishwasher": item.unit_am_dishwasher,
+                "unit_am_disposal": item.unit_am_disposal,
+                "unit_am_balcony": item.unit_am_balcony,
+                "unit_am_furnished": item.unit_am_furnished,
+                "unit_am_garage": item.unit_am_garage,
+                "available": item.available,
+                "status": item.status,
+                "nid": item.nid,
+                "unit_image_1": item.unit_image_1,
+                "unit_image_2": item.unit_image_2,
+                "unit_image_3": item.unit_image_3,
+                "unit_image_4": item.unit_image_4,
+                "visible": 1
+            };
+
+						// update results array
+            results.push(inb);
+            
+            // pop up the lightbox
+            inbode.util.fancybox(1, item.unit_id);
+            
+            
+						// done working, show user
+            $('#t7_ldr img').fadeOut();
 
         });
-
-				// open automatically on the map
-			  infowindow.open(map);
-        visibleinfowindow = infowindow;
-        
-        results = [];
-        // set the results array so other things work too
-        var inb = {
-            "marker": mrkr,
-            "beds": item.beds,
-            "baths": item.baths,
-            "price": item.price,
-            "unit_id": item.unit_id,
-            "unit_name": item.unit_name,
-            "building_am_cats": item.building_am_cats,
-            "building_am_dogs_small": item.building_am_dogs_small,
-            "building_am_dogs_large": item.building_am_dogs_large,
-            "building_am_pool": item.building_am_pool,
-            "unit_am_laundry": item.unit_am_laundry,
-            "unit_am_dishwasher": item.unit_am_dishwasher,
-            "unit_am_disposal": item.unit_am_disposal,
-            "unit_am_balcony": item.unit_am_balcony,
-            "unit_am_furnished": item.unit_am_furnished,
-            "unit_am_garage": item.unit_am_garage,
-            "available": item.available,
-            "status": item.status,
-            "nid": item.nid,
-            "unit_image_1": item.unit_image_1,
-            "unit_image_2": item.unit_image_2,
-            "unit_image_3": item.unit_image_3,
-            "unit_image_4": item.unit_image_4,
-            "visible": 1
-        };
-
-        results.push(inb);        
-				
-        $('#t7_ldr img').fadeOut();
-              
-      });
 
 
     },
 
-		markerhtml: function(item, mrkr) {
-		
-	    var mrkrhtml = '<div class="t7_bubble">';
-	    mrkrhtml += '<h1>';
-	    
-	    // price
-	    mrkrhtml += '$' + item.price + '&nbsp;';
-	
-	    // beds
-	    if (item.beds === 1) {
-	        mrkrhtml += item.beds + ' bed ';
-	    } else {
-	        mrkrhtml += item.beds + ' beds ';
-	    }
-	
-	    // baths
-	    if (item.baths === 1) {
-	        mrkrhtml += item.baths + ' bath ';
-	    } else {
-	        mrkrhtml += item.baths + ' baths ';
-	    }
-	
-	    mrkrhtml += '</h1>';
-	
-	    // images
-	    if (item.unit_image_1) {
-	        mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(2, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>';
-	    }
-	    if (item.unit_image_2) {
-	        mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(3, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>';
-	    }
-	
-	    // address
-	    mrkrhtml += '<div class="t7_bot">';
-	    mrkrhtml += '<div class="t7_text_left"><i>' + item.street + '</i></div>';
-	    mrkrhtml += '<div class="t7_text_right">';
-	
-	    // favorites (we <3 cookies)
-	    if ($.cookie('faves')) {
-	        if ($.cookie('faves').search(item.nid) > 0) {
-	            mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/yellow_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>';
-	        } else {
-	            mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>';
-	        }
-	    } else {
-	        mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>';
-	    }
-	
-	    // button it up
-	    mrkrhtml += '</div>';
-	    mrkrhtml += '</div>';
-	    mrkrhtml += '<div id="t7_button"><h1><a href="#" onclick="inbode.util.fancybox(1, \'' + item.unit_id + '\');">view full listing</a></h1></div>';
-	    mrkrhtml += '</div>';
-	    return mrkrhtml;
-		
-		},
+    markerhtml: function(item, mrkr) {
+
+        var mrkrhtml = '<div class="t7_bubble">';
+        mrkrhtml += '<h1>';
+
+        // price
+        mrkrhtml += '$' + item.price + '&nbsp;';
+
+        // beds
+        if (item.beds === 1) {
+            mrkrhtml += item.beds + ' bed ';
+        } else {
+            mrkrhtml += item.beds + ' beds ';
+        }
+
+        // baths
+        if (item.baths === 1) {
+            mrkrhtml += item.baths + ' bath ';
+        } else {
+            mrkrhtml += item.baths + ' baths ';
+        }
+
+        mrkrhtml += '</h1>';
+
+        // images
+        if (item.unit_image_1) {
+            mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(2, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>';
+        }
+        if (item.unit_image_2) {
+            mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(3, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>';
+        }
+
+        // address
+        mrkrhtml += '<div class="t7_bot">';
+        mrkrhtml += '<div class="t7_text_left"><i>' + item.street + '</i></div>';
+        mrkrhtml += '<div class="t7_text_right">';
+
+        var uurl = document.URL + '#' + item.unit_id;
+        uurl = uurl.replace('##', '#');
+
+        // favorites (we <3 cookies)
+        if ($.cookie('faves')) {
+            if ($.cookie('faves').search(item.nid) > 0) {
+                mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/yellow_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>&nbsp;&nbsp;<a href="#" onClick="inbode.util.getlink(\'' + item.unit_id + '\');" id="gl_' + item.unit_id + '">get link</a><span  style="display:none;" id="glin_' + item.unit_id + '"><input class="getlink" type="text" value="' + uurl + '" /> <a href="#" onClick="inbode.util.getlink(\'' + item.unit_id + '\');">x</a></span>';
+            } else {
+                mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>&nbsp;&nbsp;<a href="#" onClick="inbode.util.getlink(\'' + item.unit_id + '\');" id="gl_' + item.unit_id + '">get link</a><span  style="display:none;" id="glin_' + item.unit_id + '"><input class="getlink" type="text" value="' + uurl + '" /> <a href="#" onClick="inbode.util.getlink(\'' + item.unit_id + '\');">x</a></span>';
+            }
+        } else {
+            mrkrhtml += '<img class="t7_star" id="fave_' + item.nid + '" src="/ui/img/grey_star.png" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');" /> <a href="#" onClick="inbode.favorite.starclick(\'fave_' + item.nid + '\', \'' + mrkr.position + '\');" onMouseOver="inbode.favorite.starover(\'fave_' + item.nid + '\');" onMouseOut="inbode.favorite.starout(\'fave_' + item.nid + '\');">favorite</a>&nbsp;&nbsp;<a href="#" onClick="inbode.util.getlink(\'' + item.unit_id + '\');" id="gl_' + item.unit_id + '">get link</a><span  style="display:none;" id="glin_' + item.unit_id + '"><input class="getlink" type="text" value="' + uurl + '" /> <a href="#" onClick="inbode.util.getlink(\'' + item.unit_id + '\');">x</a></span>';
+        }
+
+        // button it up
+        mrkrhtml += '</div>';
+        mrkrhtml += '</div>';
+        mrkrhtml += '<div class="t7_button"><h1><a href="#" onclick="inbode.util.fancybox(1, \'' + item.unit_id + '\');">view full listing</a></h1></div>';
+        mrkrhtml += '</div>';
+        return mrkrhtml;
+
+    },
 
     search: function() {
         $('#t7_ldr img').fadeIn();
@@ -733,7 +749,7 @@ inbode.util = {
                 }
 
                 // marker html
-								var mrkrhtml = inbode.util.markerhtml(item, mrkr);
+                var mrkrhtml = inbode.util.markerhtml(item, mrkr);
 
 
                 // create the info windows and listeners
@@ -962,19 +978,19 @@ inbode.util = {
         // and so the 'idc' and 'chkd' value will override anything we come into contact with
         amenities = [];
         $('#amenities .jquery-safari-checkbox').each(function(i) {
-					var am;
-          if ($(this).attr('id') === idc) {
-              am = {
-                  "var": $(this).attr('id'),
-                  "chk": chkd
-              };
-          } else {
-              am = {
-                  "var": $(this).attr('id'),
-                  "chk": $(this).is(':checked')
-              };
-          }
-          amenities.push(am);
+            var am;
+            if ($(this).attr('id') === idc) {
+                am = {
+                    "var": $(this).attr('id'),
+                    "chk": chkd
+                };
+            } else {
+                am = {
+                    "var": $(this).attr('id'),
+                    "chk": $(this).is(':checked')
+                };
+            }
+            amenities.push(am);
         });
 
 
@@ -994,36 +1010,36 @@ inbode.util = {
 
 
 /*
-					if (item.var &&)
-					var amenity = item.var;
-					alert("amenity busy with:"+amenity);
-					for amenity item.var, go thru the results object
-					only switch items off if they are already on and match!
-					$.each(results, function (j, jtem) {
-					alert(jtem.visible+") nid: "+jtem.nid+ " has "+amenity+"="+jtem.amenity);
-					if (jtem.visible) {
-					if (item.chk==1 && jtem.amenity!=item.chk) {
-					jtem.visible = 0;
-					}
-					example:
-					item.var = 'building_am_cats'
-					item.chk = 1
-					
-					}
-					});
-					if (item.var) {
-					alert(item.var+":"+item.chk);
-					  	item.building_am_cats==building_am_cats &&
-					  	item.building_am_dogs_small==building_am_dogs_small &&
-					  	item.building_am_dogs_small==building_am_dogs_small &&
-					  	item.building_am_dogs_large==building_am_dogs_large &&
-					  	item.building_am_pool==building_am_pool &&
-					  	item.unit_am_laundry==unit_am_laundry &&
-					  	item.unit_am_dishwasher==unit_am_dishwasher &&
-					  	item.unit_am_disposal==unit_am_disposal &&
-					  	item.unit_am_balcony==unit_am_balcony &&
-					  	item.unit_am_furnished==unit_am_furnished &&
-					  	item.unit_am_garage==unit_am_garage
+if (item.var &&)
+var amenity = item.var;
+alert("amenity busy with:"+amenity);
+for amenity item.var, go thru the results object
+only switch items off if they are already on and match!
+$.each(results, function (j, jtem) {
+alert(jtem.visible+") nid: "+jtem.nid+ " has "+amenity+"="+jtem.amenity);
+if (jtem.visible) {
+if (item.chk==1 && jtem.amenity!=item.chk) {
+jtem.visible = 0;
+}
+example:
+item.var = 'building_am_cats'
+item.chk = 1
+
+}
+});
+if (item.var) {
+alert(item.var+":"+item.chk);
+item.building_am_cats==building_am_cats &&
+item.building_am_dogs_small==building_am_dogs_small &&
+item.building_am_dogs_small==building_am_dogs_small &&
+item.building_am_dogs_large==building_am_dogs_large &&
+item.building_am_pool==building_am_pool &&
+item.unit_am_laundry==unit_am_laundry &&
+item.unit_am_dishwasher==unit_am_dishwasher &&
+item.unit_am_disposal==unit_am_disposal &&
+item.unit_am_balcony==unit_am_balcony &&
+item.unit_am_furnished==unit_am_furnished &&
+item.unit_am_garage==unit_am_garage
 */
 
         });
