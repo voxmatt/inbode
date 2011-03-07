@@ -1,4 +1,7 @@
-<!DOCTYPE html
+<?php 
+	$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);
+	$faveid = 'fave_'.$bd->nid."_".$node->nid;	
+?><!DOCTYPE html
 	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language; ?>" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>">
@@ -8,11 +11,14 @@
 
 		<link type="text/css" href="/ui/css/unit.css" rel="stylesheet" />	
 		<script type="text/javascript" src="/ui/js/jquery-1.4.2.min.js"></script>
+	  <script type="text/javascript" src="/ui/js/jquery.cookie.js"></script>
 		<script type="text/javascript" src="/ui/js/jquery.jcarousel.js"></script>
 
 
 
 		<script>
+
+			var cookieexpiration = 365;
 
 			$(document).ready(function() {
 
@@ -46,8 +52,68 @@
 						$('#t7-thumb-'+h).parent().addClass('thumb-selected');
 						$('#t7-thumb-'+h).click();
 					}
-			
+					
+          if ($.cookie('faves').search('<?php echo $faveid; ?>') > 0) {
+          
+          	$('#favestar').attr('src', '/sites/all/themes/inbode/images/unit/yellow_star.png');
+          
+          }
+          
+								
 			});
+
+
+			inbode = {};
+			
+			inbode.util = {
+			
+				getlink: function() {
+				
+	        $('#gl').toggle();
+	        $('#glin').toggle();
+	        $('#glin input').select();
+	
+				}
+			
+			}
+			
+			inbode.favorite = {
+			
+			  starclick: function(id) {
+			  
+			    if ($('#favestar').attr('src') === '/sites/all/themes/inbode/images/unit/grey_star.png') {
+			
+			        // now a fave :)
+			        $('#favestar').attr('src', '/sites/all/themes/inbode/images/unit/yellow_star.png');
+			        if ($.cookie('faves')) {
+			            $.cookie('faves', $.cookie('faves') + '|' + id, {
+			                expires: cookieexpiration,
+			                path: '/'
+			            });
+			        } else {
+			            $.cookie('faves', '|' + id, {
+			                expires: cookieexpiration,
+			                path: '/'
+			            });
+			        }
+			
+			
+			    } else {
+			        // no longer a fave :(
+			        $('#favestar').attr('src', '/sites/all/themes/inbode/images/unit/grey_star.png');
+			        $.cookie('faves', $.cookie('faves').replace('|' + id, ''), {
+	              expires: cookieexpiration,
+	              path: '/'
+			        });
+			    }
+			
+			  }
+			
+			};
+
+
+
+
 
 		</script>
 		
@@ -59,12 +125,6 @@
 
 		<div id="t7_white_box">
 		
-		<?php
-		
-		
-			$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);
-		
-		?>
 		
 			<!-- 
 				container for image swap out 
@@ -78,7 +138,11 @@
 							<a href="#"><img border="0" src="/sites/all/themes/inbode/images/unit/button.jpg" /></a>
 						</div><!-- .contact end -->
 						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
-							<img src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a class="t7_fav_link" href="#">favorite</a> &nbsp;<a href="#">get link</a></div>
+							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
+								
+								global $base_url;
+							
+							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span></div>
 					</div><!-- #t7_price end -->
 					<div id="t7_address">
 						<h1><?php print $title; ?></h1>

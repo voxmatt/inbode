@@ -227,3 +227,14 @@ skin.css (line 33)
   background-position: center top;
   background-repeat: no-repeat;
 }
+
+input.getlink {
+	width: 100px;
+	height: 15px;
+	border: 1px solid #999;
+	margin: 0;
+	padding: 0;
+	color: #636363;
+	font-family: 'helvetica neue', helvetica, arial, sans-serif;
+	font-size: 11px;
+}

@@ -155,7 +155,8 @@ $(document).ready(function() {
 
             date_lower = mnow + "/" + dnow + "/" + ynow.substring(2);
             $.cookie('date_lower', date_lower, {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
             $("#date-from").html(date_lower);
 
@@ -172,7 +173,8 @@ $(document).ready(function() {
             ynow = nows2.getFullYear() + '';
             date_upper = mnow + "/" + dnow + "/" + ynow.substring(2);
             $.cookie('date_upper', date_upper, {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
             $("#date-to").html(date_upper);
 
@@ -195,10 +197,12 @@ $(document).ready(function() {
             }
             inbode.util.filter();
             $.cookie('price_lower', ui.values[0], {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
             $.cookie('price_upper', ui.values[1], {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
 
         }
@@ -219,10 +223,12 @@ $(document).ready(function() {
             }
             inbode.util.filter();
             $.cookie('beds_lower', ui.values[0], {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
             $.cookie('beds_upper', ui.values[1], {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
         }
     });
@@ -242,10 +248,12 @@ $(document).ready(function() {
             }
             inbode.util.filter();
             $.cookie('baths_lower', ui.values[0], {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
             $.cookie('baths_upper', ui.values[1], {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
         }
     });
@@ -254,7 +262,8 @@ $(document).ready(function() {
     $('#amenities .jquery-safari-checkbox').click(function() {
         inbode.util.filter($(this).attr('id'), !$(this).is(':checked'));
         $.cookie($(this).attr('id'), !$(this).is(':checked'), {
-            expires: cookieexpiration
+            expires: cookieexpiration,
+            path: '/'
         });
     });
 
@@ -282,11 +291,13 @@ inbode.favorite = {
             $('#' + id).attr('src', '/ui/img/yellow_star.png');
             if ($.cookie('faves')) {
                 $.cookie('faves', $.cookie('faves') + '|' + id, {
-                    expires: cookieexpiration
+                    expires: cookieexpiration,
+                    path: '/'
                 });
             } else {
                 $.cookie('faves', '|' + id, {
-                    expires: cookieexpiration
+                    expires: cookieexpiration,
+                    path: '/'
                 });
             }
 
@@ -302,7 +313,10 @@ inbode.favorite = {
         } else {
             // no longer a fave :(
             $('#' + id).attr('src', '/ui/img/grey_star.png');
-            $.cookie('faves', $.cookie('faves').replace('|' + id, ''));
+            $.cookie('faves', $.cookie('faves').replace('|' + id, ''), {
+		          expires: cookieexpiration,
+		          path: '/'
+            });
 
             $.each(results, function(i, item) {
 
@@ -409,10 +423,12 @@ inbode.util = {
                     }, function() {
                         // set a cookie, default to Minneapolis!!
                         $.cookie('last_latlng', mpls, {
-                            expires: cookieexpiration
+                            expires: cookieexpiration,
+						                path: '/'
                         });
                         $.cookie('last_location', 'Minneapolis, MN, USA', {
-                            expires: cookieexpiration
+                            expires: cookieexpiration,
+						                path: '/'
                         });
                         inbode.util.search();
                     });
@@ -426,10 +442,12 @@ inbode.util = {
                     }, function() {
                         // set a cookie, default to Minneapolis!!
                         $.cookie('last_latlng', mpls, {
-                            expires: cookieexpiration
+                            expires: cookieexpiration,
+						                path: '/'
                         });
                         $.cookie('last_location', 'Minneapolis, MN, USA', {
-                            expires: cookieexpiration
+                            expires: cookieexpiration,
+						                path: '/'
                         });
                         inbode.util.search();
                     });
@@ -437,10 +455,12 @@ inbode.util = {
                 } else {
                     // set a cookie, default to Minneapolis!!
                     $.cookie('last_latlng', mpls, {
-                        expires: cookieexpiration
+                        expires: cookieexpiration,
+				                path: '/'
                     });
                     $.cookie('last_location', 'Minneapolis, MN, USA', {
-                        expires: cookieexpiration
+                        expires: cookieexpiration,
+				                path: '/'
                     });
                     inbode.util.search();
                 }
@@ -496,10 +516,12 @@ inbode.util = {
             if (status === google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
                     $.cookie('last_latlng', latlng, {
-                        expires: cookieexpiration
+                        expires: cookieexpiration,
+				                path: '/'
                     });
                     $.cookie('last_location', results[1].formatted_address, {
-                        expires: cookieexpiration
+                        expires: cookieexpiration,
+				                path: '/'
                     });
                     $('#t7_city').val(results[1].formatted_address);
                     inbode.util.search();
@@ -563,12 +585,14 @@ inbode.util = {
                 if ($.cookie('click_history')) {
                     if ($.cookie('click_history').search(infowindow.position) === -1) {
                         $.cookie('click_history', $.cookie('click_history') + '|' + infowindow.position, {
-                            expires: cookieexpiration
+                            expires: cookieexpiration,
+						                path: '/'
                         });
                     }
                 } else {
                     $.cookie('click_history', infowindow.position, {
-                        expires: cookieexpiration
+                        expires: cookieexpiration,
+				                path: '/'
                     });
                 }
                 // make the marker grey now pls
@@ -768,12 +792,14 @@ inbode.util = {
                     if ($.cookie('click_history')) {
                         if ($.cookie('click_history').search(infowindow.position) === -1) {
                             $.cookie('click_history', $.cookie('click_history') + '|' + infowindow.position, {
-                                expires: cookieexpiration
+                                expires: cookieexpiration,
+								                path: '/'
                             });
                         }
                     } else {
                         $.cookie('click_history', infowindow.position, {
-                            expires: cookieexpiration
+                            expires: cookieexpiration,
+						                path: '/'
                         });
                     }
                     // make the marker grey now pls
@@ -791,10 +817,12 @@ inbode.util = {
 
             // record last location in a cookie
             $.cookie('last_latlng', '(' + data.latlng.lat + ',' + data.latlng.lng + ')', {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
             $.cookie('last_location', data.location, {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
 
             // center map at location
@@ -817,34 +845,41 @@ inbode.util = {
 
         price_lower = price[0];
         $.cookie('price_lower', price_lower, {
-            expires: cookieexpiration
+            expires: cookieexpiration,
+            path: '/'
         });
         price_upper = price[1];
         $.cookie('price_upper', price_upper, {
-            expires: cookieexpiration
+            expires: cookieexpiration,
+            path: '/'
         });
 
         beds_lower = beds[0];
         $.cookie('beds_lower', beds_lower, {
-            expires: cookieexpiration
+            expires: cookieexpiration,
+            path: '/'
         });
         beds_upper = beds[1];
         $.cookie('beds_upper', beds_upper, {
-            expires: cookieexpiration
+            expires: cookieexpiration,
+            path: '/'
         });
 
         baths_lower = baths[0];
         $.cookie('baths_lower', baths_lower, {
-            expires: cookieexpiration
+            expires: cookieexpiration,
+            path: '/'
         });
         baths_upper = baths[1];
         $.cookie('baths_upper', baths_upper, {
-            expires: cookieexpiration
+            expires: cookieexpiration,
+            path: '/'
         });
 
         $('#amenities .jquery-safari-checkbox').each(function() {
             $.cookie($(this).attr('id'), false, {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
         });
 
@@ -890,7 +925,8 @@ inbode.util = {
             }
 
             $.cookie('filters_visible', '1', {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
 
 
@@ -902,10 +938,12 @@ inbode.util = {
             $("a.trigger_2").removeClass("active").addClass("inactive");
 
             $.cookie('filters_visible', '0', {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
             $.cookie('more_filters_visible', '0', {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
 
         }
@@ -925,7 +963,8 @@ inbode.util = {
                 $("#date-to").html(datez[1]);
             }
             $.cookie('more_filters_visible', '1', {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
 
         } else {
@@ -933,7 +972,8 @@ inbode.util = {
             $("a.trigger_2").removeClass("active").addClass("inactive");
 
             $.cookie('more_filters_visible', '0', {
-                expires: cookieexpiration
+                expires: cookieexpiration,
+                path: '/'
             });
         }
 
