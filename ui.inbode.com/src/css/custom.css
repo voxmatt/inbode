@@ -176,7 +176,11 @@ a {
 }
 
 #t7_touch #t7_white_box ul.images li.nav{
+<<<<<<< HEAD
 	margin: 22px 10px 15px 10px;
+=======
+	margin: 15px 10px 15px 10px;
+>>>>>>> 095419b74c849e57e407d414e1bfd65111ad15ad
 }
 
 #t7_touch #t7_white_box ul.images li.details{

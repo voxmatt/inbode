@@ -1,4 +1,8 @@
-/* @override http://inbode.ten7i.net/sites/all/themes/inbode/screen.css?v */
+/* @override 
+	http://inbode.ten7i.net/sites/all/themes/inbode/screen.css?v
+	http://inbode.ten7i.net/sites/all/themes/inbode/screen.css?8
+	http://inbode.com/sites/all/themes/inbode/screen.css?G
+*/
 
 /*
          _       __              __   
@@ -111,7 +115,7 @@ h2 a:active {
 /** container **/
 #t7_container {
 	text-align : left;
-	padding: 25px 0 0 0;
+	padding: 25px 0 0 20px;
 	margin: 0px auto;
 	width: 960px;
 }
@@ -125,7 +129,7 @@ h2 a:active {
 	clear: both;
 	background-image: url(images/header-bg.png);
 	background-repeat: repeat-x;
-	
+	padding-left: 20px;
 }
 #t7_header {
 	height: 110px;
@@ -230,46 +234,65 @@ h2 a:active {
 	display: none;
 }
 
- /* floating all .form-items was too broad, so I had to individually select the forms here */
+
 #edit-field-unit-building-nid-nid-wrapper, #edit-field-unit-status-value-wrapper, #edit-title-wrapper, #edit-field-unit-bedroom-value-wrapper, #edit-field-unit-bathroom-value-wrapper, #edit-field-unit-price-0-wrapper, #edit-field-unit-price-0-amount-wrapper, #edit-field-unit-available-0-value-wrapper, #edit-field-unit-area-0-value-wrapper, #edit-field-unit-description-0-value, #edit-field-unit-description-0-value-wrapper {
 	float: left;
 	padding: 10px;
 	margin: 0;
 }
+
+input#edit-title.form-text.required {
+	width: 80px;
+}
+
+.location.collapsible.collapsed {
+	display: none;
+}
+
 #edit-field-unit-bedroom-value, #edit-field-unit-bathroom-value {
 	margin-top: 5px;
 }
 #edit-field-unit-price-0-currency-wrapper {
 	display: none;
 }
-#edit-title-wrapper {
-	width: 200px;
-}
 #edit-field-unit-status-value-wrapper {
 	margin-right: 700px;
+	margin-bottom: 40px;
 }
 #edit-field-unit-price-0-amount-wrapper {
 	margin: 0;
 	padding: 0;
 }
 #edit-field-unit-price-0-amount, #edit-field-unit-area-0-value {
-	width: 50px;	
+	width: 50px;
 }
-#edit-field-unit-area-0-value-wrapper {
+#edit-field-unit-area-0-value {
 	margin-right: 400px;
+	}
+#edit-field-unit-available-0-value-wrapper {
+	
 }
 #edit-field-unit-description-0-value-wrapper label {
 	margin: -10px 0 5px 0;
 }
 #edit-field-unit-description-0-value.form-textarea.resizable.textarea-processed {
 	height: 100px;
+	width: 400px;
 }
 #edit-field-unit-description-0-value-wrapper {
 	margin-right: 10px;
 }
-.form-checkboxes {
-	margin: 0;
-	padding: 0;
+.form-checkboxes label {
+	margin: 0 0 0 10px;
+	padding: 0px 10px 0 0;
+}
+div.form-checkboxes {
+	width: 400px;
+	margin-right: 400px;
+}
+
+#field_unit_images_values {
+	margin-top: 50px;
 }
 div.container-inline-date.date-clear-block {
 	height: 50px;	
@@ -282,7 +305,9 @@ div.container-inline-date.date-clear-block {
 fieldset.location {
 	float: none;
 }
-
+#edit-preview {
+	display: none;
+}
 
 /** footer **/
 #t7_footer {
@@ -438,6 +463,9 @@ tr th {
 
 
 /* user login styles */
+	#user-login {
+		margin-left: 20px;
+	}
 	#user-login input.form-text
 	{
 		border-bottom-left-radius: 4px 4px;
