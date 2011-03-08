@@ -38,7 +38,8 @@
 
 }
 #t7_add_contain {
-
+	position: relative;
+	margin-top: 60px;
 }
 #t7_add_contain #t7_content {
 	width: 865px;
@@ -63,8 +64,10 @@
 #t7_add_contain #edit-field-building-images-2-filefield-upload,
 #t7_add_contain #edit-field-building-images-3-filefield-upload, 
 #t7_add_contain #edit-preview,
-#t7_add_contain .grippie
+#t7_add_contain .grippie,
+#t7_add_contain #swfupload_file_wrapper-field_building_images thead
 	{display: none;}
+/* td.title .wrapper, #swfupload-markup-progress {display:none !important;} */
 	#t7_add_contain .form-checkboxes label {
 		display: inline;
 		color: #666666;
@@ -97,6 +100,7 @@
 #t7_add_contain .center {
 	font-size: 13px;
 	color: #666666;
+	padding: 4px 0;
 }
 	/* 	get those form fields floating left */
 #t7_add_contain #edit-title, 
@@ -129,9 +133,9 @@
 	/* description textarea */
 #t7_add_contain #edit-field-building-description-0-value {
 	padding: 0;
-	margin: 10px 14px 0 0;
+	margin: 10px 14px 15px 0;
 	width: 414px;
-	height: 60px;
+	height: 200px;
 	overflow: auto;
 	
 }
@@ -150,37 +154,55 @@
 	float: left;
 	
 }
-#t7_add_contain .form-checkboxes .form-item {float: left;}
+#t7_add_contain .form-checkboxes .form-item {
+	float: left;
+	padding: 0 10px 0 0;
+}
 
 
 
 /* IMAGE UPLOAD STYLES  SWF UPLOAD */
 #t7_add_contain #edit-field-building-images {
-	padding: 0;
+	padding: 0 15px 0 0;
 	margin: 10px 0 0 8px !important;
-	float: left;
-	clear: left;
+	float: right;
+	clear: right;
 }
+/* table width */
 #t7_add_contain #swfupload_file_wrapper-field_building_images {
-	clear: left;
 	margin-top: 10px;
-	width: 835px;
+	width: 405px;
 }
-#t7_add_contain #swfupload_file_wrapper-field_building_images thead {display: none;}
-.tabledrag-handle-swfupload-moved {width: 800px;}
+
+table.swfupload td {
+	background-image: none;
+	background-color: #fbfbfb;
+}
+.sfwupload-list-cancel {
+	background-image: url(/sites/all/themes/inbode/images/cancel.png);
+	background-repeat: no-repeat;
+	background-position: top center;
+}
+
+
+
+
+#t7_add_contain .error, #t7_add_contain .messages, #t7_add_contain .warning {
+	width: 850px;
+	position: absolute;
+	top: -50px;
+	left: 0;
+}
 
 #t7_add_contain .admin {padding: 0;}
 	/* submit button */
 #t7_add_contain #edit-submit {
-	margin: 0 15px 10px 0;
-	background-image: url(/sites/all/themes/inbode/images/node-add/check.png);
-	background-repeat: no-repeat;
-	background-position: top center;
-	height: 51px;
-	width: 48px;
-	border: none;
-	background-color: transparent;
+	margin: 0 15px 45px 0;
+	position: relative;
+	top: 32px;
+	padding: 4px 6px;
 	float: right;
+	clear: both;
 }
 
 
