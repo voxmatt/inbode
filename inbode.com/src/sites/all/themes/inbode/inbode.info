@@ -19,6 +19,7 @@ conditional-stylesheets[if IE 6][all][] = screen.ie6.css
   ; Optionally add some jquery scripts to your theme.
 scripts[] = script.js
 
+
 regions[header]         = header
 regions[footer]         = footer
 regions[closure_region] = closure

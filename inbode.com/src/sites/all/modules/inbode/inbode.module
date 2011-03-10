@@ -1074,8 +1074,9 @@ function inbode_summary($account) {
 
   // setup the output html
   $out  = "\n\n<div id=\"t7_summary\">";
-  $out .= "<h2><a href=\"/node/add/building?destination=user/".$account->uid."/inbode\">+ Add Building</a></h2>";
-
+  $out .= "\n<h2 id=\"t7_bldng_add_header\">+ Add Building</h2>";
+  $out .= "\n<div id=\"t7_bldng_icontain\"><iframe id=\"t7_bldngframe\" border=\"0\" src=\"/node/add/building\" width=\"100%\"></iframe></div>";
+  
   // get some unit data
   $props = array();
   $props = __inbode_get_properties( $account->uid );
@@ -1129,8 +1130,8 @@ function inbode_summary($account) {
       }
       
       // always have an "add unit"
-      $out .= "<h3><a href=\"/node/add/unit?destination=user/".$account->uid."/inbode&edit[field_unit_building][nid][nid]=".$building["nid"]."\">+ Add Unit</a></h3>";
-
+      $out .= "<h3 id=\"t7_unit_add_header\">+ Add Unit</h3>";
+      $out .= "\n<div id=\"t7_unit_icontain\"><iframe id=\"t7_unitframe\" border=\"0\" src=\"/node/add/unit\" width=\"100%\"></iframe></div>";
     
     }
   
