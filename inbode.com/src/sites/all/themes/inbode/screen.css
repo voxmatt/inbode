@@ -423,10 +423,10 @@ tr th {
 	font-weight: normal;
 	letter-spacing: -0.5px;	
    }
-form.confirmation div a:hover, .form-submit:hover, #edit-submit:hover, #edit-field-building-images div.center:hover {
+form.confirmation div a:hover, .form-submit:hover, #edit-submit:hover {
 	background:rgba(240,240,240,1);
    }
-form.confirmation div a:active, .form-submit:active, #edit-submit:active, #edit-field-building-images div.center:active {
+form.confirmation div a:active, .form-submit:active, #edit-submit:active {
         background:-webkit-gradient(linear,0% 100%,0% 0%,from(rgba(255,255,255,1)),to(rgba(185,185,185,1)));
         background:-moz-linear-gradient(bottom,rgba(255,255,255,1),rgba(185,185,185,1));
    }	
@@ -491,3 +491,12 @@ form.confirmation div a:active, .form-submit:active, #edit-submit:active, #edit-
 	#t7_unitframe {
 		height: 340px;
 	}
+	
+/* swf table */
+#swfupload_file_wrapper-field_building_images {
+
+}
+table.swfupload td.icon, table.swfupload td div.wrapper {padding: 0;}
+table.swfupload td.checkbox div.wrapper,
+table.swfupload td.drag div.wrapper {padding-top: 5px;}
+td.icon {vertical-align: middle;}

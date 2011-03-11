@@ -2,9 +2,17 @@ $(document).ready(function() {
 
 
 
-/* 	WHY DOESN'T THIS WORK??? */
-	$('table.swfupload').wrap('<div class="table_wrap"></div>');
-    
+// 	WHY DOESN'T THIS WORK??? 
+//	$('</div>').insertBefore('#edit-field-building-images');
+	$('.table_wrap').after('</div>');
+/*
+	$('input').focus(function() {
+		$('#swfupload_file_wrapper-field_building_images').after('</div>');
+	});
+*/
+
+
+
     // -- CHANGES BGCOLOR OF STATUS ACCORDING TO SELECTED -- //
     $('#edit-field-unit-status-value-wrapper').addClass('listed');
     $('#edit-field-unit-status-value-wrapper select').change(function() {
@@ -134,6 +142,7 @@ $(document).ready(function() {
             }
         }
     });
+
 
 
 

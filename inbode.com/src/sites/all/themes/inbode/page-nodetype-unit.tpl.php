@@ -135,7 +135,7 @@
 					<div id="t7_price">
 						<h1>$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php print $node->field_unit_bedroom[0]['value']; ?>bed&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
 						<div class="contact">
-							<a href="#"><img border="0" src="/sites/all/themes/inbode/images/unit/button.jpg" /></a>
+							<a href="#"><h3>contact landlord</h3></a>
 						</div><!-- .contact end -->
 						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
 							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 

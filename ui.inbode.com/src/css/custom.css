@@ -18,7 +18,7 @@ body#t7_craigslist{
 	text-align: center;
 	position: relative;
 	height: 470px;
-	padding: 0 0 25px;
+	padding: 10px 0 15px 5px;
 
 }
 .t7_swapout {
@@ -35,16 +35,30 @@ body#t7_craigslist{
 
 #t7_price{
 	float:right;
-	margin-right: 30px;
+	margin-right: 10px;
 }
 
-#t7_price .contact{
-	padding: 5px 25px;
+#t7_price .contact {
 	color: #fff;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	margin-top: 10px;
+	position: relative;
 }
+#t7_price .contact a:link {
+	background: url(../img/lb_button_bg.png) no-repeat top center;
+	padding: 10px 34px;
+	margin: 0 0 10px 0;
+	color: white !important;
+	text-decoration: none;
+	text-shadow: 0 -1px 0 black;
+	position: relative;
+	}
+#t7_price .contact a:visited {color: white;}
+#t7_price .contact a:hover {text-decoration: underline;}
+#t7_price .contact a:active {text-decoration: underline;top: 1px;}
+
 #t7_price .t7_fav_share {
+	margin-top: 10px;
 	text-align: center;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 13px;
@@ -290,7 +304,7 @@ skin.css (line 33)
     height: 32px;
     position: absolute;
     right: 5px;
-    top: 43px;
+    top: 38px;
     width: 32px;
 }
 .jcarousel-skin-tango div.jcarousel-next-disabled-horizontal {background-image: url("../img/next_.png");}

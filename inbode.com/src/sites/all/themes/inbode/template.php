@@ -63,3 +63,33 @@ function inbode_form_element($element, $value) {
 
   return $output;
 }
+
+
+/**
+ * Theme function for the swfupload form element
+ */
+function inbode_swfupload_widget($element) {
+  drupal_add_css(drupal_get_path('module', 'swfupload') .'/swfupload.css');
+
+  // Force the classes swfupload_button and disabled to be added to the button
+  _form_set_class($element, array('swfupload_button', 'disabled'));
+  $element['#attributes']['class'] = str_replace(' error', ' swfupload-error', $element['#attributes']['class']);
+
+  $title = ($element['#title']) ? $element['#title'] : t('Upload new !file', array('!file' => ($element['#max_files'] > 1 ? t('file(s)') : t('file'))));
+
+// starts a div before the table, the closing tags is added via jQuery
+  $output[] = '<div class="table_wrap">';
+  $output[] = ' <div id="'. $element['#id'] .'" '. drupal_attributes($element['#attributes']) .'>';
+  $output[] = '  <div class="swfupload-wrapper">';
+  $output[] = '    <div id="'. $element['#name'] .'-swfwrapper">&nbsp;</div>';
+  $output[] = '  </div>';
+  $output[] = '  <div class="left">&nbsp;</div>';
+  $output[] = '  <div class="center">'. $title .'</div>';
+  $output[] = '  <div class="right">&nbsp;</div><br />';
+  $output[] = ' </div>';
+  $output[] = '</div>';
+  if ($element['#description']) {
+    $output[] = '  <div class="description">'. $element['#description'] .'</div>';
+  }
+  return join("\n", $output);
+}

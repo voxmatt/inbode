@@ -262,9 +262,9 @@ body {
 	-webkit-border-radius: 9px;
 	-moz-border-radius: 9px;
 	border-radius: 9px;
-	-webkit-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
-	-moz-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
-	box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
+	-webkit-box-shadow: rgba(0, 0, 0, 1) 0 2px 3px;
+	-moz-box-shadow: rgba(0, 0, 0, 1) 0 2px 3px;
+	box-shadow: rgba(0, 0, 0, 1) 0 2px 3px;
 }
 
 #slider-price, 
@@ -290,7 +290,7 @@ body {
 
 .t7_bubble {
 	height: 180px;
-	padding: 10px 10px 0;
+	padding: 5px 5px 0px 5px;
 	width: 240px;
 	overflow: hidden;
 }
@@ -340,13 +340,19 @@ body {
 .t7_bubble h1 {
 	color: #464646;
 	font-family: 'helvetica neue', helvetica, arial, sans-serf;
+	text-shadow: 0px -1px 0pt #ccc;	
 	font-size: 22px;
 	font-weight: bold;
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
 }
-
+	div.t7_bubble h1 a{
+		text-shadow: 0px -1px 0pt black;
+	}
+	div.t7_button h1 a:hover{
+		text-decoration: underline;
+	}
 .t7_bubble .t7_apt_images {
 	background-image: url(/ui/img/apt_bkgrd.jpg);
 	float: left;
@@ -478,7 +484,10 @@ body {
 	font-family: 'helvetica neue', helvetica, arial, sans-serif;
 	font-size: 13px;
 	font-weight: normal;
-	letter-spacing: -0.5px;	
+	letter-spacing: -0.5px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 3px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 3px;
+	box-shadow: rgba(0, 0, 0, 0.398438) 0px 2px 3px;	
    }
 .ui-slider-vertical .ui-slider-handle:hover {
 	border: 1px solid rgba(0, 0, 0, 0.496094);

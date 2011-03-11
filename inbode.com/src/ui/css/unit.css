@@ -22,12 +22,28 @@
   margin-right: 30px;
 }
 #t7_price .contact {
-  padding: 5px 25px;
-  color: #fff;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin-top: 10px;
+	color: #fff;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-top: 10px;
+	position: relative;
 }
+#t7_price .contact a:link {
+	background-image: url(/ui/img/lb_button_bg.png);
+	background-position: top center;
+	background-repeat: no-repeat;
+	padding: 10px 34px;
+	margin: 0 0 10px 0;
+	color: white !important;
+	text-decoration: none;
+	text-shadow: 0 -1px 0 black;
+	position: relative;
+	}
+#t7_price .contact a:visited {color: white;}
+#t7_price .contact a:hover {text-decoration: underline;}
+#t7_price .contact a:active {text-decoration: underline;top: 1px;}
+
 #t7_price .t7_fav_share {
+  margin-top: 10px;
   text-align: center;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;

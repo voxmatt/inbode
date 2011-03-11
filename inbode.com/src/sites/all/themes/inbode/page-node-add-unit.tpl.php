@@ -161,7 +161,7 @@
 	#edit-field-unit-status-value-wrapper {color: white !important;}
 	
 	/* IMAGE UPLOAD STYLES  SWF UPLOAD */
-	#SWFUpload_0 {width:60px !important;height:18px;top:5px;}
+	#SWFUpload_0 {width:102px !important;height:25px;}
 	#t7_add_contain_unit #edit-field-unit-images {
 		padding: 0 30px 0 0;
 		margin: 10px 0 0 8px !important;

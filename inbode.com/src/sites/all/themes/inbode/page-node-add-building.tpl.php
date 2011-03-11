@@ -164,7 +164,7 @@
 	
 	
 	/* IMAGE UPLOAD STYLES  SWF UPLOAD */
-	#SWFUpload_0 {width:60px !important;height:18px;top:5px;}
+	#SWFUpload_0 {width:102px !important;height:25px;}
 	#t7_add_contain #edit-field-building-images {
 		padding: 0 0 0 0;
 		margin: 10px 15px 0 8px !important;
