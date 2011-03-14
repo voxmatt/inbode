@@ -683,9 +683,21 @@ inbode.util = {
             mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(3, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>';
         }
 
+		
+
         // address
         mrkrhtml += '<div class="t7_bot">';
-        mrkrhtml += '<div class="t7_text_left"><i>' + item.street + '</i></div>';
+        var ist = item.street;
+        if (ist.length>20){
+
+	        mrkrhtml += '<div class="t7_text_left"><i>' + ist.substring(0,20) + '&hellip;</i></div>';
+
+        } else {
+
+	        mrkrhtml += '<div class="t7_text_left"><i>' + ist + '</i></div>';
+
+        }
+
         mrkrhtml += '<div class="t7_text_right">';
 
         var uurl = 'http://' + document.domain + '/home#' + item.unit_id;

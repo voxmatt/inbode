@@ -27,7 +27,7 @@
 	margin-top: 10px;
 	position: relative;
 }
-#t7_price .contact a:link {
+#t7_price .contact {
 	background-image: url(/ui/img/lb_button_bg.png);
 	background-position: top center;
 	background-repeat: no-repeat;
@@ -38,7 +38,8 @@
 	text-shadow: 0 -1px 0 black;
 	position: relative;
 	}
-#t7_price .contact a:visited {color: white;}
+#t7_price .contact a:link {position:relative;text-decoration: none;}
+#t7_price .contact a:visited {color: white;text-decoration: none;}
 #t7_price .contact a:hover {text-decoration: underline;}
 #t7_price .contact a:active {text-decoration: underline;top: 1px;}
 
