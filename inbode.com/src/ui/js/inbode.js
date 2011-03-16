@@ -16,6 +16,7 @@
 */
 
 
+
 // general vars
 var map;
 var results = [];
@@ -683,7 +684,7 @@ inbode.util = {
             mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(3, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>';
         }
 
-		
+
 
         // address
         mrkrhtml += '<div class="t7_bot">';

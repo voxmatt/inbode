@@ -15,10 +15,11 @@ stylesheets[all][]   = morestyles.css
 
 ; conditional-stylesheets[if IE][all][] = ie.css
 conditional-stylesheets[if IE 6][all][] = screen.ie6.css
+conditional-stylesheets[if IE 7][all][] = screen.ie7.css
 
   ; Optionally add some jquery scripts to your theme.
 scripts[] = script.js
-
+scripts[] = modernizr-1.7.min.js
 
 regions[header]         = header
 regions[footer]         = footer

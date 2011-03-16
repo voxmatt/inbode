@@ -1,0 +1,7 @@
+/* starting with the landing page */
+#blog_link a {
+	background-image: url(images/blogbutton.png);
+	background-repeat: no-repeat;
+	padding: 100px;
+
+}

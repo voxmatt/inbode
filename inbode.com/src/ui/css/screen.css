@@ -24,7 +24,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
-
+img { border: 0; }
 #map_canvas {
 	height: 100%;
 }
@@ -546,13 +546,18 @@ input:focus, a {
 }
 
 .body_content {
-	background: transparent url(/ui/img/extender.png) no-repeat bottom;
+/* 	background: transparent url(/ui/img/extender.png) no-repeat bottom; */
+	background-image: url(/ui/img/extender.png);
+	background-repeat: no-repeat;
+	background-position: bottom;
 	overflow: hidden;
 	width: 283px;
+	border: 0;
 }
 
 .logo_search {
 	background: transparent url(/ui/img/logo_mid.png) no-repeat top;
+	border: 0;
 	height: 173px;
 	margin: 0;
 	padding: 0;

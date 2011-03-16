@@ -4,6 +4,13 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>inbode</title>
     <link rel="stylesheet" href="/sites/all/themes/inbode/teaser/css/style.css" />
+	<script src="/sites/all/themes/inbode/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="/sites/all/themes/inbode/modernizr-1.7.min.js"></script>
+   
+<!--     <!--[if lt IE 9]> -->
+	<script src="/sites/all/themes/inbode/IE9.js"></script>
+<!-- <![endif]-->
+
 </head>
 <body>
 
