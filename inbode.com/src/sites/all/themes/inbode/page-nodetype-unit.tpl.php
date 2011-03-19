@@ -218,12 +218,6 @@
 		}
 	}
 
-	foreach ($node->field_unit_more_images as $im) {
-		if ( isset($im['filepath'])) {
-			print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['filepath'].'" /></div>';
-			$ii++;
-		}
-	}
 
 ?>
 
@@ -245,12 +239,6 @@
 		}
 	}
 
-	foreach ($node->field_unit_more_images as $im) {
-		if ( isset($im['filepath'])) {
-			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['filepath'].'" width="92" /></li>';
-			$ii++;
-		}
-	}
 
 ?>
 

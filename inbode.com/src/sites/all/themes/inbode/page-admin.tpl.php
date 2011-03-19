@@ -67,7 +67,7 @@
 				
 				// only show tabs if you have the admin role or you're user=1 (super admin)
 				if ($tabs) {
-					if ($user->uid==1 || $user->roles[3]) {
+					if ($user->uid==1 || isset($user->roles[3])) {
 						print "<div class=\"tabs\">$tabs</div>";				
 					}
 				}
