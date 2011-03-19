@@ -5,23 +5,14 @@ if (file_exists("/usr/www/users/stegic/git")) {
 
 	// staging
 	$config['i_syspath'] = '/usr/www/users/stegic/git/inbode/inbode.com/api';	
-	// Google account username and password
-	$config['i_Guser'] = 'inbodemaps@gmail.com';
-	$config['i_Gpass'] = 'w1r3dmag';
 	// Default location if none given;
 	$config['i_location'] = 'Minneapolis, MN, USA';
-	// Google Maps unique ID
-	$config['i_mid'] = '00048d00ffda2e6448768';
 	// Google geocode address
 	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
-	// Google search url
-	$config['i_searchuri'] = 'http://maps.google.com/maps/feeds/features/113984735916308832907/00048d00ffda2e6448768/snippet?sortby=distance';
 	// Default radius if no bounding box
 	$config['i_radius'] = 10000;
 	// Server storing the images with the trailing slash
 	$config['i_imgserver'] = 'http://inbode.ten7i.net/';
-	// Temp access token
-	$config['i_token'] = '1/TJjE2krJMjHkIhAN91gY7GOn8QKB0vNTJ305vTb-cUs';
 	// Base Site URL
 	$config['base_url']	= "http://inbode.ten7i.net/api";
 	
@@ -30,12 +21,8 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	$config['i_GAuser'] = 'maps@inbode.com';
 	// google account password	
 	$config['i_GApass'] = 'w1r3dmag';
-	// google token for client login
-	$config['i_GAtoken'] = 'DQAAAJ8BAAD_iDEUDg77F8rmBLZxkTQrUenastqFcUT73A-DgTyPE2dBKActL7hEqcOJ4Bn4EOY0sJJkKarzn9fcAjKIIBsCSTh36_nJJfSxxAhQGbQuckbc9TS0N7W2ZuHbAQ-nAT3XM3W3HOMe8jPWxD7Lz1gH2RrIeFG5losmnZzecXDxpNQz9Jxw-KaldOmMSa0rnf8q6yOQdfhr8BN7DTNac81EwamEJWVWnfHIlV9IlKo7fC_ejXbAKybjID0kxRENY-S9WCNWpeOX08cmdMUkygEmM6_-EAyMWvyXCTG9x99BzZMHddmH9FM3GmQ-GHUjwCNg-vekYhEbeO_f3DlFasRfasQXJSWHAJ2UsxVsJ9BsciRGXThL2jgBsEhn_aAaMaNiV5ov4ly1KDDCV7-4JYBgfWvbID87lmvNYPD0OO14TPUWYXCE8ma_PYZMOgxhKFuDFo2k2W_NlbC5cSF26_ruRX-nizIlm7fulPrd3VQ-wtInQXrkunjEthcBLNqY324b3t_niRgEkgSzBM99siqfkhpfp40_Vkm-eofMhdhp_A';
+	// fusion table datasrc id
 	$config['i_InbodeBeta-BuildingsUnits'] = '417990';
-	// to be used in the future
-	$config['i_InbodeBeta-Building'] = '000000';
-	$config['i_InbodeBeta-Unit'] = '000000';
 	
 
 
@@ -43,23 +30,14 @@ if (file_exists("/usr/www/users/stegic/git")) {
 
 	// production
 	$config['i_syspath'] = '/usr/www/users/inbode/git/inbode/inbode.com/api';
-	// Google account username and password
-	$config['i_Guser'] = 'inbodemaps@gmail.com';
-	$config['i_Gpass'] = 'w1r3dmag';
 	// Default location if none given;
 	$config['i_location'] = 'Minneapolis, MN, USA';
-	// Google Maps unique ID
-	$config['i_mid'] = '00048d00ffda2e6448768';
 	// Google geocode address
 	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
-	// Google search url
-	$config['i_searchuri'] = 'http://maps.google.com/maps/feeds/features/113984735916308832907/00048d00ffda2e6448768/snippet?sortby=distance';
 	// Default radius if no bounding box
 	$config['i_radius'] = 10000;
 	// Server storing the images with the trailing slash
 	$config['i_imgserver'] = 'http://inbode.com/';
-	// Temp access token
-	$config['i_token'] = '1/TJjE2krJMjHkIhAN91gY7GOn8QKB0vNTJ305vTb-cUs';
 	// Base Site URL
 	$config['base_url']	= "http://inbode.com/api";
 
@@ -68,12 +46,8 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	$config['i_GAuser'] = 'maps@inbode.com';
 	// google account password	
 	$config['i_GApass'] = 'w1r3dmag';
-	// google token for client login
-	$config['i_GAtoken'] = 'DQAAAJ8BAAD_iDEUDg77F8rmBLZxkTQrUenastqFcUT73A-DgTyPE2dBKActL7hEqcOJ4Bn4EOY0sJJkKarzn9fcAjKIIBsCSTh36_nJJfSxxAhQGbQuckbc9TS0N7W2ZuHbAQ-nAT3XM3W3HOMe8jPWxD7Lz1gH2RrIeFG5losmnZzecXDxpNQz9Jxw-KaldOmMSa0rnf8q6yOQdfhr8BN7DTNac81EwamEJWVWnfHIlV9IlKo7fC_ejXbAKybjID0kxRENY-S9WCNWpeOX08cmdMUkygEmM6_-EAyMWvyXCTG9x99BzZMHddmH9FM3GmQ-GHUjwCNg-vekYhEbeO_f3DlFasRfasQXJSWHAJ2UsxVsJ9BsciRGXThL2jgBsEhn_aAaMaNiV5ov4ly1KDDCV7-4JYBgfWvbID87lmvNYPD0OO14TPUWYXCE8ma_PYZMOgxhKFuDFo2k2W_NlbC5cSF26_ruRX-nizIlm7fulPrd3VQ-wtInQXrkunjEthcBLNqY324b3t_niRgEkgSzBM99siqfkhpfp40_Vkm-eofMhdhp_A';
+	// fusion table datasrc id
 	$config['i_InbodeBeta-BuildingsUnits'] = '422613';
-	// to be used in the future
-	$config['i_InbodeBeta-Building'] = '000000';
-	$config['i_InbodeBeta-Unit'] = '000000';
 	
 
 
@@ -81,23 +55,14 @@ if (file_exists("/usr/www/users/stegic/git")) {
 
 	// ivan's local
 	$config['i_syspath'] = '/Users/ivan/git/inbode/inbode.com/api';
-	// Google account username and password
-	$config['i_Guser'] = 'inbodemaps@gmail.com';
-	$config['i_Gpass'] = 'w1r3dmag';
 	// Default location if none given;
 	$config['i_location'] = 'Minneapolis, MN, USA';
-	// Google Maps unique ID
-	$config['i_mid'] = '00048d00ffda2e6448768';
 	// Google geocode address
 	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
-	// Google search url
-	$config['i_searchuri'] = 'http://maps.google.com/maps/feeds/features/113984735916308832907/00048d00ffda2e6448768/snippet?sortby=distance';
 	// Default radius if no bounding box
 	$config['i_radius'] = 10000;
 	// Server storing the images with the trailing slash
 	$config['i_imgserver'] = 'http://inbode/';
-	// Temp access token
-	$config['i_token'] = '1/TJjE2krJMjHkIhAN91gY7GOn8QKB0vNTJ305vTb-cUs';
 	// Base Site URL
 	$config['base_url']	= "http://inbode/api";
 
@@ -106,12 +71,8 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	$config['i_GAuser'] = 'maps@inbode.com';
 	// google account password	
 	$config['i_GApass'] = 'w1r3dmag';
-	// google token for client login
-	$config['i_GAtoken'] = 'DQAAAJ8BAAD_iDEUDg77F8rmBLZxkTQrUenastqFcUT73A-DgTyPE2dBKActL7hEqcOJ4Bn4EOY0sJJkKarzn9fcAjKIIBsCSTh36_nJJfSxxAhQGbQuckbc9TS0N7W2ZuHbAQ-nAT3XM3W3HOMe8jPWxD7Lz1gH2RrIeFG5losmnZzecXDxpNQz9Jxw-KaldOmMSa0rnf8q6yOQdfhr8BN7DTNac81EwamEJWVWnfHIlV9IlKo7fC_ejXbAKybjID0kxRENY-S9WCNWpeOX08cmdMUkygEmM6_-EAyMWvyXCTG9x99BzZMHddmH9FM3GmQ-GHUjwCNg-vekYhEbeO_f3DlFasRfasQXJSWHAJ2UsxVsJ9BsciRGXThL2jgBsEhn_aAaMaNiV5ov4ly1KDDCV7-4JYBgfWvbID87lmvNYPD0OO14TPUWYXCE8ma_PYZMOgxhKFuDFo2k2W_NlbC5cSF26_ruRX-nizIlm7fulPrd3VQ-wtInQXrkunjEthcBLNqY324b3t_niRgEkgSzBM99siqfkhpfp40_Vkm-eofMhdhp_A';
+	// fusion table datasrc id
 	$config['i_InbodeBeta-BuildingsUnits'] = '517005';
-	// to be used in the future
-	$config['i_InbodeBeta-Building'] = '000000';
-	$config['i_InbodeBeta-Unit'] = '000000';
 	
 
 
@@ -119,23 +80,14 @@ if (file_exists("/usr/www/users/stegic/git")) {
 
 	// local (william!)
 	$config['i_syspath'] = '/Users/William/git/inbode/inbode.com/api';
-	// Google account username and password
-	$config['i_Guser'] = 'inbodemaps@gmail.com';
-	$config['i_Gpass'] = 'w1r3dmag';
 	// Default location if none given;
 	$config['i_location'] = 'Minneapolis, MN, USA';
-	// Google Maps unique ID
-	$config['i_mid'] = '00048d00ffda2e6448768';
 	// Google geocode address
 	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
-	// Google search url
-	$config['i_searchuri'] = 'http://maps.google.com/maps/feeds/features/113984735916308832907/00048d00ffda2e6448768/snippet?sortby=distance';
 	// Default radius if no bounding box
 	$config['i_radius'] = 10000;
 	// Server storing the images with the trailing slash
 	$config['i_imgserver'] = 'http://inbode/';
-	// Temp access token
-	$config['i_token'] = '1/TJjE2krJMjHkIhAN91gY7GOn8QKB0vNTJ305vTb-cUs';
 	// Base Site URL
 	$config['base_url']	= "http://inbode/api";
 
@@ -144,12 +96,8 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	$config['i_GAuser'] = 'maps@inbode.com';
 	// google account password	
 	$config['i_GApass'] = 'w1r3dmag';
-	// google token for client login
-	$config['i_GAtoken'] = 'DQAAAJ8BAAD_iDEUDg77F8rmBLZxkTQrUenastqFcUT73A-DgTyPE2dBKActL7hEqcOJ4Bn4EOY0sJJkKarzn9fcAjKIIBsCSTh36_nJJfSxxAhQGbQuckbc9TS0N7W2ZuHbAQ-nAT3XM3W3HOMe8jPWxD7Lz1gH2RrIeFG5losmnZzecXDxpNQz9Jxw-KaldOmMSa0rnf8q6yOQdfhr8BN7DTNac81EwamEJWVWnfHIlV9IlKo7fC_ejXbAKybjID0kxRENY-S9WCNWpeOX08cmdMUkygEmM6_-EAyMWvyXCTG9x99BzZMHddmH9FM3GmQ-GHUjwCNg-vekYhEbeO_f3DlFasRfasQXJSWHAJ2UsxVsJ9BsciRGXThL2jgBsEhn_aAaMaNiV5ov4ly1KDDCV7-4JYBgfWvbID87lmvNYPD0OO14TPUWYXCE8ma_PYZMOgxhKFuDFo2k2W_NlbC5cSF26_ruRX-nizIlm7fulPrd3VQ-wtInQXrkunjEthcBLNqY324b3t_niRgEkgSzBM99siqfkhpfp40_Vkm-eofMhdhp_A';
+	// fusion table datasrc id
 	$config['i_InbodeBeta-BuildingsUnits'] = '517005';
-	// to be used in the future
-	$config['i_InbodeBeta-Building'] = '000000';
-	$config['i_InbodeBeta-Unit'] = '000000';
 	
 
 
