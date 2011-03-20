@@ -5,7 +5,6 @@ class Inbode {
 
 	// a way to get the auth token for clientlogin on google accounts, we'll prob need this
 	function getauthtoken($username, $password) {
-
 		$loginurl = 'https://www.google.com/accounts/ClientLogin';
 		$postparams = array(
 											'Email' => $username,
@@ -13,25 +12,59 @@ class Inbode {
 											'service' => 'fusiontables',
 											'accountType' => 'GOOGLE'
 										);
-
-		$CI =& get_instance();
-  	$r = $this->request($loginurl, 'POST', $postparams, NULL);
-  	if ($r['status'] == 'ok' && $r['info']['http_code'] == '200') {    	
-	    $token_array = explode("=",  $r['response']);
-	    $token = str_replace("\n", "", $token_array[3]);
+	
+		$r = $this->request($loginurl, 'POST', $postparams, NULL);
+		if ($r['status'] == 'ok' && $r['info']['http_code'] == '200') {    	
+			$response = $r['response'];
+			$pieces = explode("\n", $r['response']);
+			$token = '';
+			foreach($pieces as $line) {
+				if (substr($line, 0, 5)=='Auth=') {
+					$token=str_ireplace('Auth=', '', $line);
+				}
+			}
 	    return $token;
 		} else {
 			return $r['status'];	
 		}
-
   }	
+
+
+	// get the auth token
+	function getactualtoken() {
+
+		$CI =& get_instance();	
+		$query = $CI->db->get_where('inbode_auth', array('id' => 1));
+		$r = $query->result_array();
+		
+		if (isset($r[0]['token'])) {
+			return $r[0]['token'];
+		} else {
+			return 0;
+		}
+
+	}
+
+	// set the auth token
+	function setactualtoken($token) {
+
+		$CI =& get_instance();	
+		$data = array(
+		               'token' => $token
+		            );
+		$CI->db->where('id', 1);
+		$CI->db->update('inbode_auth', $data); 
+
+		return 1;
+
+	}
+
 
 	// fusion tables query
 	function fusionquery($query) {
 	
 		$qurl = 'https://www.google.com/fusiontables/api/query';
-		$CI =& get_instance();
-		$token = $CI->config->item('i_GAtoken');
+		$token = $this->getactualtoken();
 		
 	  if(preg_match("/^select|^show tables|^describe/i", $query)) { 
 
@@ -47,13 +80,34 @@ class Inbode {
 								      'Authorization: GoogleLogin auth='.$token,
 											'Content-Length: '.strlen($query)
 								    );
-	  	$ret = inbode_request($qurl, 'POST', $query, $headers);
+	  	$ret = $this->request($qurl, 'POST', $query, $headers);
 		
 		}
-
+		
 		// response array
 		$ra = array();
 		$ra['info'] = $ret['info'];
+		
+		// if we got a unauthorized, then try to silently get a new token and try again
+		if ($ret['info']['http_code']=='401') {
+	
+			// get a new token
+			$CI =& get_instance();
+			$token = $this->getauthtoken($CI->config->item('i_GAuser'),  $CI->config->item('i_GApass'));
+			$set = $this->setactualtoken($token);
+																			
+			if ($set) {
+			  unset($ret);
+		  	$ret = $this->request($qurl, 'POST', $query, array('Authorization: GoogleLogin auth='.$token));
+		  		
+			}
+																			
+			
+		}
+
+
+
+
 		
 		if ($ret['info']['content_type']=='text/plain; charset=UTF-8' && $ret['info']['http_code']=='200') {
 
@@ -143,7 +197,6 @@ class Inbode {
 		// $headers = array('Content type: blah/blah');
 		// not
 		// $headers = array('Content type' => 'blah/blah');
-		// !!!
 	
 		$return = array();
 	
@@ -177,7 +230,6 @@ class Inbode {
 		// get the response
 		$return['response'] = curl_exec($ch);	
  		$return['info'] = curl_getinfo($ch);
-
 
 		// check for curl errors
 		if(curl_errno($ch)) {

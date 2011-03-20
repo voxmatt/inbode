@@ -28,6 +28,7 @@ body {
 }
 
 /* * headlines and content */
+
 h1,
 h2,
 h3,
@@ -78,6 +79,7 @@ a:active {
 }
 
 /* * greeting links */
+
 #t7_greeting a:link {
   color: #000;
   text-decoration: underline;
@@ -307,9 +309,9 @@ div.messages {
   border-radius: 5px;
 }
 
-	div.messages a {
-	  color: #000
-	}
+div.messages a {
+  color: #000
+}
 
 div.warning {
   background-image: none;
@@ -398,9 +400,9 @@ textarea {
   border-radius: 5px;
 }
 
-	fieldset legend {
-	  padding: 0 10px 0 8px
-	}
+fieldset legend {
+  padding: 0 10px 0 8px
+}
 
 input,
 textarea {
@@ -422,12 +424,12 @@ tr.even {
   background-color: #fff
 }
 
-	tr.odd td,
-	tr.even td,
-	tr th,
-	tr th {
-	  padding: 3px 5px
-	}
+tr.odd td,
+tr.even td,
+tr th,
+tr th {
+  padding: 3px 5px
+}
 
 /* user login styles    */
 
@@ -590,27 +592,35 @@ table.swfupload th.last,
 .swfupload_button div.right {
   display: none
 }
+
 table.swfupload td {
-	background: none;
+  background: none
 }
 
 #autocomplete {
-	border:  1px solid #CCCCCC;
-	padding: 2px;
-	background-color: #ffffff;
-}
-#autocomplete ul {
-	background-color: #ffffff;
-}
-#autocomplete li {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	padding: 2px 3px;
-	margin: 0;
-	background-color: #ffffff;
-	cursor: default;
+  border: 1px solid #CCCCCC;
+  padding: 2px;
+  background-color: #ffffff;
 }
 
-#autocomplete li:hover {
-	background-color: #1693A5;
-	cursor: pointer;
+#autocomplete ul {
+  background-color: #ffffff
+}
+
+#autocomplete li {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding: 2px 3px;
+  margin: 0;
+  background-color: #ffffff;
+  cursor: default;
+}
+
+#autocomplete li:hover,
+#autocomplete li:selected {
+  background-color: #1693A5;
+  cursor: pointer;
+}
+
+.sfwupload-list-cancel {
+  background-image: url(images/cancelf.png);
 }

@@ -1,6 +1,9 @@
 <?php
 
 
+function inbode_form_alter(&$form, $form_state, $form_id) {
+  unset($form['buttons']['preview']);
+}
 
 
 
@@ -12,9 +15,10 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
     case 'insert':
 
-			// a new unit was created, create it in the fusion table too baby!
-			// we only created entries in the fusion table if we add unit info
 			if ($node->type=="unit") {
+				// a new unit was created, create it in the fusion table too baby!
+				// we only created entries in the fusion table if we add unit info
+
 				// get some info on the building			
 				$buildinginfo = inbode_get_building_info($node->field_unit_building[0]['nid']);
 				// setup the building and unit array
@@ -115,6 +119,69 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
 
   }
+
+}
+
+
+// a way to get the auth token for clientlogin on google accounts, we'll prob need this
+function inbode_getauthtoken($username, $password) {
+
+	$loginurl = 'https://www.google.com/accounts/ClientLogin';
+	$postparams = array(
+										'Email' => $username,
+										'Passwd' => $password,
+										'service' => 'fusiontables',
+										'accountType' => 'GOOGLE'
+									);
+
+	$r = inbode_request($loginurl, 'POST', $postparams, NULL);
+	
+	if ($r['status'] == 'ok' && $r['info']['http_code'] == '200') {    	
+		$response = $r['response'];
+		$pieces = explode("\n", $response);
+		$token = '';
+		foreach($pieces as $line) {
+			if (substr($line, 0, 5)=='Auth=') {
+				$token=str_ireplace('Auth=', '', $line);
+			}
+		}
+		watchdog('inbode', 'Acquired new authorization token from Google: '.$token);
+    return $token;
+	} else {
+		return $r['status'];	
+	}
+
+}	
+
+
+
+// get the auth token
+function inbode_getactualtoken() {
+
+  $bsql = "SELECT * FROM `inbode_auth` WHERE id=1;";  
+  $bresource = db_query($bsql);
+  $auth = array();
+  while ($brow = db_fetch_array($bresource)) $auth[] = $brow;  
+  
+	if ( isset($auth[0]['token']) ) {
+		return $auth[0]['token'];
+	} else {
+		return 0;
+	}
+
+}
+
+// set the auth token
+function inbode_setactualtoken($token) {
+
+	if ($token) {
+	  $bsql = "UPDATE `inbode_auth` SET token='".$token."' WHERE id=1;";  
+	  $bres = db_query($bsql);
+		watchdog('inbode', 'Updated auth token in store.');
+		return 1;
+	} else {
+		return 0;
+	}
 
 }
 
@@ -302,39 +369,38 @@ function inbode_fusion_update_unit( $rowid, $data ) {
 		$sql .= "'unit_image_2'='', ";
 	};	
 
-	// more images
-	if (isset($data['node']['field_unit_more_images'][0]['filepath'])) { 
-		$sql .= "'unit_image_3'='".addcslashes($data['node']['field_unit_more_images'][0]['filepath'], "'")."', ";
+	if (isset($data['node']['field_unit_images'][2]['filepath'])) { 
+		$sql .= "'unit_image_3'='".addcslashes($data['node']['field_unit_images'][2]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'unit_image_3'='', ";
 	};	
 
-	if (isset($data['node']['field_unit_more_images'][1]['filepath'])) { 
-		$sql .= "'unit_image_4'='".addcslashes($data['node']['field_unit_more_images'][1]['filepath'], "'")."', ";
+	if (isset($data['node']['field_unit_images'][3]['filepath'])) { 
+		$sql .= "'unit_image_4'='".addcslashes($data['node']['field_unit_images'][3]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'unit_image_4'='', ";
 	};	
 
-	if (isset($data['node']['field_unit_more_images'][2]['filepath'])) { 
-		$sql .= "'unit_image_5'='".addcslashes($data['node']['field_unit_more_images'][2]['filepath'], "'")."', ";
+	if (isset($data['node']['field_unit_images'][4]['filepath'])) { 
+		$sql .= "'unit_image_5'='".addcslashes($data['node']['field_unit_images'][4]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'unit_image_5'='', ";
 	};	
 
-	if (isset($data['node']['field_unit_more_images'][3]['filepath'])) { 
-		$sql .= "'unit_image_6'='".addcslashes($data['node']['field_unit_more_images'][3]['filepath'], "'")."', ";
+	if (isset($data['node']['field_unit_images'][5]['filepath'])) { 
+		$sql .= "'unit_image_6'='".addcslashes($data['node']['field_unit_images'][5]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'unit_image_6'='', ";
 	};	
 
-	if (isset($data['node']['field_unit_more_images'][4]['filepath'])) { 
-		$sql .= "'unit_image_7'='".addcslashes($data['node']['field_unit_more_images'][4]['filepath'], "'")."', ";
+	if (isset($data['node']['field_unit_images'][6]['filepath'])) { 
+		$sql .= "'unit_image_7'='".addcslashes($data['node']['field_unit_images'][6]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'unit_image_7'='', ";
 	};	
 
-	if (isset($data['node']['field_unit_more_images'][5]['filepath'])) { 
-		$sql .= "'unit_image_8'='".addcslashes($data['node']['field_unit_more_images'][5]['filepath'], "'")."' ";
+	if (isset($data['node']['field_unit_images'][7]['filepath'])) { 
+		$sql .= "'unit_image_8'='".addcslashes($data['node']['field_unit_images'][7]['filepath'], "'")."' ";
 	} else {
 		$sql .= "'unit_image_8'='' ";
 	};	
@@ -437,38 +503,38 @@ function inbode_fusion_insert_unit( $data ) {
 	};	
 
 	// more images
-	if (isset($data['node']['field_unit_more_images'][0]['filepath'])) { 
-		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][0]['filepath'], "'")."', ";
+	if (isset($data['node']['field_unit_images'][2]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_images'][2]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'', ";
 	};	
 
-	if (isset($data['node']['field_unit_more_images'][1]['filepath'])) { 
-		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][1]['filepath'], "'")."', ";
+	if (isset($data['node']['field_unit_images'][3]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_images'][3]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'', ";
 	};	
 
-	if (isset($data['node']['field_unit_more_images'][2]['filepath'])) { 
-		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][2]['filepath'], "'")."', ";
+	if (isset($data['node']['field_unit_images'][4]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_images'][4]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'', ";
 	};	
 
-	if (isset($data['node']['field_unit_more_images'][3]['filepath'])) { 
-		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][3]['filepath'], "'")."', ";
+	if (isset($data['node']['field_unit_images'][5]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_images'][5]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'', ";
 	};	
 
-	if (isset($data['node']['field_unit_more_images'][4]['filepath'])) { 
-		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][4]['filepath'], "'")."', ";
+	if (isset($data['node']['field_unit_images'][6]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_images'][6]['filepath'], "'")."', ";
 	} else {
 		$sql .= "'', ";
 	};	
 
-	if (isset($data['node']['field_unit_more_images'][5]['filepath'])) { 
-		$sql .= "'".addcslashes($data['node']['field_unit_more_images'][5]['filepath'], "'")."' ";
+	if (isset($data['node']['field_unit_images'][7]['filepath'])) { 
+		$sql .= "'".addcslashes($data['node']['field_unit_images'][7]['filepath'], "'")."' ";
 	} else {
 		$sql .= "'' ";
 	};	
@@ -476,12 +542,9 @@ function inbode_fusion_insert_unit( $data ) {
 
 	$sql .= ")";
 
+
 	$result = inbode_fusionquery($sql);
 
-/*
-	print $sql;
-	print_r($result);
-*/
 	
 	if ($result['info']['http_code']==200 && $result['info']['content_type']=='text/plain; charset=UTF-8' && isset($result['column_data'][1]['rowid'])) {
 		return($result['column_data'][1]['rowid']);
@@ -545,8 +608,9 @@ function inbode_fusionquery($query) {
 	global $conf;
 
 	$qurl = 'https://www.google.com/fusiontables/api/query';
-	$token = $conf['i_GAtoken'];
-	
+	$token = inbode_getactualtoken();
+
+
   if(preg_match("/^select|^show tables|^describe/i", $query)) { 
 
 		$url = $qurl."/?sql=".urlencode($query);
@@ -568,6 +632,43 @@ function inbode_fusionquery($query) {
 	// response array
 	$ra = array();
 	$ra['info'] = $ret['info'];
+
+
+	// if we got a unauthorized, then try to silently get a new token and try again
+	if ($ret['info']['http_code']=='401') {
+	
+		// get a new token
+		$token = inbode_getauthtoken($conf['i_GAuser'],  $conf['i_GApass']);
+		$set = inbode_setactualtoken($token);
+																		
+		if ($set) {
+		  unset($ret);
+		  
+
+		  if(preg_match("/^select|^show tables|^describe/i", $query)) { 
+		
+				$url = $qurl."/?sql=".urlencode($query);
+				$headers = array('Authorization: GoogleLogin auth='.$token);
+		  	$ret = inbode_request($url, 'GET', NULL, $headers);
+		
+			} else {
+			
+		 	  $query = "sql=".urlencode($query);
+				$headers = array( 
+									      'Content-type: application/x-www-form-urlencoded', 
+									      'Authorization: GoogleLogin auth='.$token,
+												'Content-Length: '.strlen($query)
+									    );
+		  	$ret = inbode_request($qurl, 'POST', $query, $headers);
+			
+			}		  
+		  
+	  		
+		}
+																		
+		
+	}
+	
 	
 	if ($ret['info']['content_type']=='text/plain; charset=UTF-8' && $ret['info']['http_code']=='200') {
 
@@ -895,12 +996,9 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 			$num_imgs++;
 		}
 	}
-	foreach( $nd->field_unit_more_images as $ui) {
-		if ( isset($ui['filepath']) ) {
-			$num_imgs++;
-		}
-	}
+
 	$num_rows = ceil($num_imgs/3);
+
 
 
 	for ($r=1 ; $r<=$num_rows ; $r++) {
@@ -996,16 +1094,12 @@ function inbode_craigslist($usr, $bd, $nd) {
 	// $bd is the building node object
 	// $nd is the unit node object
 	global $base_url;
-/*
-	print_r($usr);
-	print_r($bd);
-	print_r($nd);
-*/
-	
-	// $clurl will be the dynamically changing url for craigslist posting, hard code it now
-	$clurl = 'https://post.craigslist.org/min/H/apa/hnp';
-	//  inbode_request($uri = NULL, $type = 'GET', $params = NULL, $headers = NULL) {
 
+	
+	// $clurl will be the dynamically changing url for craigslist posting, hard code it now for hennepin
+	$clurl = 'https://post.craigslist.org/min/H/apa/hnp';
+
+	//  inbode_request($uri = NULL, $type = 'GET', $params = NULL, $headers = NULL) {
 	$clret = inbode_request($clurl);
 	
 	if ($clret['status']=='ok') {
@@ -1074,8 +1168,7 @@ function inbode_summary($account) {
 
   // setup the output html
   $out  = "\n\n<div id=\"t7_summary\">";
-  $out .= "\n<h2 id=\"t7_bldng_add_header\">+ Add Building</h2>";
-  $out .= "\n<div id=\"t7_bldng_icontain\"><iframe id=\"t7_bldngframe\" border=\"0\" src=\"/node/add/building\" width=\"100%\"></iframe></div>";
+  $out .= "\n<h2 id=\"t7_bldng_add_header\"><a href=\"/node/add/building?destination=user/".$account->uid."/inbode\">+ Add Building</a></h2>";
   
   // get some unit data
   $props = array();
@@ -1108,14 +1201,14 @@ function inbode_summary($account) {
 	      	if ( $unit["field_unit_building_nid"]==$building["nid"] ) {
 	      	
 			      $out .= "\n\t<div class=\"unit\">\n\t";
-			      $out .= "<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/preview/".$building["nid"]."/".$unit["nid"]."\">P</a>&nbsp;";
-			      $out .= "<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/".$building["nid"]."/".$unit["nid"]."\">CL</a>&nbsp;";
 			      $out .= "<a href=\"/node/".$unit["nid"]."/edit?destination=user/".$account->uid."/inbode\">".$unit["title"]."</a>&nbsp;&nbsp;";
 			      $out .= $unit["field_unit_bedroom_value"]."&nbsp;bed&nbsp;&nbsp;";
 			      $out .= $unit["field_unit_bathroom_value"]."&nbsp;bath&nbsp;&nbsp;";
 			      $out .= "$&nbsp;".$unit["field_unit_price_amount"]."&nbsp;&nbsp;";
 			      $out .= $unit["field_unit_area_value"]."&nbsp;sf.&nbsp;&nbsp;";
-			      $out .= $unit["field_unit_status_value"];
+			      $out .= $unit["field_unit_status_value"]."&nbsp;&nbsp;&nbsp;";
+			      $out .= "<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/".$building["nid"]."/".$unit["nid"]."\">Post to Craigslist</a>&nbsp;(<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/preview/".$building["nid"]."/".$unit["nid"]."\" class=\"cpvw\" >preview</a>)";
+			      $out .= "&nbsp;&nbsp;&nbsp;<a href=\"/node/".$unit["nid"]."/delete?destination=user/".$account->uid."/inbode\">&times;</a>";
 			      $out .= "\n</div>";
 	
 	      	}
@@ -1130,8 +1223,7 @@ function inbode_summary($account) {
       }
       
       // always have an "add unit"
-      $out .= "<h3 id=\"t7_unit_add_header\">+ Add Unit</h3>";
-      $out .= "\n<div id=\"t7_unit_icontain\"><iframe id=\"t7_unitframe\" border=\"0\" src=\"/node/add/unit\" width=\"100%\"></iframe></div>";
+      $out .= "<h3 id=\"t7_unit_add_header\"><a href=\"/node/add/unit?destination=user/".$account->uid."/inbode&edit[field_unit_building][nid][nid]=".$building["nid"]."\">+ Add Unit</a></h3>";
     
     }
   
