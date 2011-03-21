@@ -276,8 +276,6 @@ $(document).ready(function() {
     });
 
 
-
-
 });
 
 // inbode yea
@@ -351,6 +349,19 @@ inbode.favorite = {
 
 inbode.util = {
 
+		idle: function() {
+		
+			// we should remember where the user was last
+      $.cookie('last_bounds', map.getBounds(), {
+          expires: cookieexpiration,
+          path: '/'
+      });			
+		
+			// search on the new bounds
+			inbode.util.search(bounds);
+		
+		},
+
     getlink: function(unit_id) {
 
         $('#gl_' + unit_id).toggle();
@@ -394,6 +405,19 @@ inbode.util = {
         };
         map = new google.maps.Map(document.getElementById("map_canvas"), options);
 
+				// do something when the map is idle after pan or zoom
+			  google.maps.event.addListener(map, 'idle', function()
+			  { 
+					inbode.util.idle();
+			  });
+			  
+			  // close any infowindows if a user clicks anywhere but the marker or infowindow
+			  google.maps.event.addListener(map, 'click', function()
+			  { 
+	        visibleinfowindow.close(map);
+			  });
+
+
         // if this is a request for one specific unit, treat it differently
         if (unithash) {
 
@@ -401,19 +425,26 @@ inbode.util = {
 
         } else {
 
-            if ($.cookie('last_latlng') && $.cookie('last_location')) {
+						// remember current bounds        
+						$.cookie('last_bounds', map.getBounds(), {
+							expires: cookieexpiration,
+							path: '/'
+						});			
+
+
+            if ($.cookie('last_latlng') && $.cookie('last_location') && $.cookie('last_bounds')) {
                 var l = $.cookie('last_latlng').replace('(', '').replace(')', '');
                 ll = l.split(',');
                 var loci = new google.maps.LatLng(ll[0], ll[1]);
                 map.setCenter(loci);
-                $('#t7_city').val($.cookie('last_location'));
-                inbode.util.search();
+                $('#t7_city').val($.cookie('last_location'));                
+                inbode.util.search($.cookie('last_bounds'));
             } else {
                 var loc;
                 var mpls = new google.maps.LatLng(44.979965, -93.263836);
                 // create a map and set it to minneapolis by default so it renders
                 map.setCenter(mpls);
-                $("#t7_city").val("Minneapolis, MN, USA");
+                $("#t7_city").val("Minneapolis, MN");
                 // try to find the user's location if they'll let us
                 // w3c preferred
                 if (navigator.geolocation) {
@@ -723,10 +754,22 @@ inbode.util = {
 
     },
 
-    search: function() {
+    search: function(bounds) {
+    
+    		// loading image
         $('#t7_ldr img').fadeIn();
-        // url for query
-        var searchurl = '/api/search/location/' + encodeURI($('#t7_city').val());
+
+    		// if there are bounds, we should find all apartments within them.
+    		// otherwise, search around the city in the searchbox
+				if (bounds) {
+	        // url for query
+	        var searchurl = '/api/search/bounds/' + encodeURI(bounds);
+				} else {
+	        // url for query
+	        var searchurl = '/api/search/location/' + encodeURI($('#t7_city').val());				
+				}
+				
+				
         // now perform a request to inbode api
         $.getJSON(searchurl, function(data) {
 

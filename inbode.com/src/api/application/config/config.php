@@ -6,7 +6,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// staging
 	$config['i_syspath'] = '/usr/www/users/stegic/git/inbode/inbode.com/api';	
 	// Default location if none given;
-	$config['i_location'] = 'Minneapolis, MN, USA';
+	$config['i_location'] = 'Minneapolis, MN';
 	// Google geocode address
 	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
 	// Default radius if no bounding box
@@ -31,7 +31,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// production
 	$config['i_syspath'] = '/usr/www/users/inbode/git/inbode/inbode.com/api';
 	// Default location if none given;
-	$config['i_location'] = 'Minneapolis, MN, USA';
+	$config['i_location'] = 'Minneapolis, MN';
 	// Google geocode address
 	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
 	// Default radius if no bounding box
@@ -56,7 +56,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// ivan's local
 	$config['i_syspath'] = '/Users/ivan/git/inbode/inbode.com/api';
 	// Default location if none given;
-	$config['i_location'] = 'Minneapolis, MN, USA';
+	$config['i_location'] = 'Minneapolis, MN';
 	// Google geocode address
 	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
 	// Default radius if no bounding box
@@ -81,7 +81,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// local (william!)
 	$config['i_syspath'] = '/Users/William/git/inbode/inbode.com/api';
 	// Default location if none given;
-	$config['i_location'] = 'Minneapolis, MN, USA';
+	$config['i_location'] = 'Minneapolis, MN';
 	// Google geocode address
 	$config['i_geocodeuri'] = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
 	// Default radius if no bounding box
@@ -232,7 +232,7 @@ $config['subclass_prefix'] = 'MY_';
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-,';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-,()';
 
 
 /*

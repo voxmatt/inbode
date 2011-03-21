@@ -26,6 +26,56 @@ class Search extends REST_Controller
 	}	
 		
 
+	function bounds_get() {
+	
+		// libs and help
+		$this->load->database();
+		$this->load->library('inbode');
+	
+		// some vars
+		$mapid = $this->config->item('i_mid');
+		$tableid = $this->config->item('i_InbodeBeta-BuildingsUnits');
+	
+		// bounds
+		$bounds = $this->uri->segment(3);		
+
+		if ($bounds) {
+
+			$bounds = str_ireplace("(", "", $bounds);
+			$bounds = str_ireplace("&#40;", "", $bounds);			
+			$bounds = str_ireplace(")", "", $bounds);
+			$bounds = str_ireplace("&#41;", "", $bounds);
+			$bounds = str_ireplace(" ", "", $bounds);
+			$ll=explode(",", $bounds);
+
+			if ( is_numeric($ll[0]) &&
+						is_numeric($ll[1]) &&
+						is_numeric($ll[2]) &&
+						is_numeric($ll[3]) ) {
+						
+				
+				// we do a spatial search in fusion tables given only the bounds of the map
+				// useful when a user pans or zooms
+				// SELECT * FROM 297050 WHERE ST_INTERSECTS(Address, RECTANGLE(LATLNG(37.2, -122.3), LATLNG(37.6, -121.9)))		
+				$q = "SELECT * FROM $tableid WHERE ST_INTERSECTS('latlng', RECTANGLE( LATLNG($ll[0], $ll[1]), LATLNG($ll[2], $ll[3]) ) )";
+				$fusionresult = $this->inbode->fusionquery($q);		
+				
+				$processed = $this->process_fusionresult($fusionresult);
+				
+				// return some results, empty even		
+				$return = array('status'=>'ok', 'location'=>'', 'latlng'=>'', 'count'=>$processed['records'], 'items'=>$processed['items']);		
+				$this->response($return, 200);
+			
+			}
+	
+		
+		}
+
+	
+	}	
+	
+		
+
 	function location_get() {
 	
 		// libs and help
@@ -35,7 +85,6 @@ class Search extends REST_Controller
 		// some vars
 		$mapid = $this->config->item('i_mid');
 		$tableid = $this->config->item('i_InbodeBeta-BuildingsUnits');
-		$records = 0;
 	
 		// get the location we're searching around
 		$location = $this->uri->segment(3, $this->config->item('i_location'));		
@@ -58,9 +107,21 @@ class Search extends REST_Controller
 		$q = "SELECT * FROM $tableid WHERE 'status'='listed'" ;
 		$fusionresult = $this->inbode->fusionquery($q);		
 		
+		$processed = $this->process_fusionresult($fusionresult);
+		
+		// return some results, empty even		
+		$return = array('status'=>'ok', 'location'=>$location, 'latlng'=>$latlng, 'count'=>$processed['records'], 'items'=>$processed['items']);		
+		$this->response($return, 200);
+	
+	}		
+
+	function process_fusionresult($fusionresult) {
+	
 		if ( isset($fusionresult['count'])) {
 	 		$records = $fusionresult['count'];	
-		} 
+		} else {
+			$records = 0;
+		}
 
 		$results = array();
 		
@@ -166,14 +227,15 @@ class Search extends REST_Controller
 
 			}
 
-		}
+		}	
 		
-		// return some results, empty even		
-		$return = array('status'=>'ok', 'location'=>$location, 'latlng'=>$latlng, 'count'=>$records, 'items'=>$items);		
-		$this->response($return, 200);
+		$processed=array();
+		$processed['records']=$records;
+		$processed['items']=$items;
+		
+		return $processed;
 	
-	}	
-
+	}
 
 	function unit_get() {
 	

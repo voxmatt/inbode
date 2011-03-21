@@ -48,26 +48,12 @@ if (
   <script type="text/javascript">
 		google.load('gdata', '2.x', { packages: ['maps'] });
   </script>
-  <script type="text/javascript">
-  
-  // THIS REALLY DOESN'T WORK OR DO ANYONE ANY GOOD OF ANY KIND.
-  
-  		var stupid = $('.logo_search'); //shorthand!
-		stupid.allowTransparency = true; /* IE only */
-		stupid.style.backgroundColor = 'transparent';
-		
-  		var stupid2 = $('.body_content'); //shorthand!
-		stupid2.allowTransparency = true; /* IE only */
-		stupid2.style.backgroundColor = 'transparent';
-  </script>
   <style type="text/css">
   	.no-borderradius #links .blog_link a {
   		padding: 50px !important;
   		background: none;
   		border: none;
   	}
-  
-  
   </style>
 </head>
 
