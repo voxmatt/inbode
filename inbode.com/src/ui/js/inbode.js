@@ -846,7 +846,8 @@ inbode.util = {
                 var infowindow = new google.maps.InfoWindow({
                     content: mrkrhtml,
                     size: new google.maps.Size(270, 210),
-                    position: ll
+                    position: ll,
+                    pixelOffset: new google.maps.Size(0, -34)
                 });
 
                 // add marker click event listener
