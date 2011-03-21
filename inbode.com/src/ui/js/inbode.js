@@ -128,7 +128,7 @@ $(document).ready(function() {
     $('#t7_city').keypress(function(e) {
         if (e.keyCode === 13) {
             visibleinfowindow.close(map);
-            inbode.util.search();
+            inbode.util.search($('#t7_city').val());
         }
     });
 
@@ -303,7 +303,7 @@ inbode.favorite = {
             $.each(results, function(i, item) {
 
                 if (item.marker.position == position) {
-                    // thi is the marker whose icon we need to change!
+                    // this is the marker whose icon we need to change!
                     item.marker.setIcon('/ui/img/inbmrkr.png');
                     item.marker.setShadow('/ui/img/inbmrkr_shadow.png');
                 }
@@ -351,14 +351,15 @@ inbode.util = {
 
 		idle: function() {
 		
-			// we should remember where the user was last
-      $.cookie('last_bounds', map.getBounds(), {
-          expires: cookieexpiration,
-          path: '/'
-      });			
-		
-			// search on the new bounds
-			inbode.util.search(bounds);
+			if ( map.getBounds()!=null && map.getBounds()!=undefined ) {
+			
+				// we should remember where the user was last
+	      $.cookie('last_bounds', map.getBounds(), {
+	          expires: cookieexpiration,
+	          path: '/'
+	      });			
+			
+			}
 		
 		},
 
@@ -408,7 +409,12 @@ inbode.util = {
 				// do something when the map is idle after pan or zoom
 			  google.maps.event.addListener(map, 'idle', function()
 			  { 
-					inbode.util.idle();
+
+			  });
+			  // do something after the zoom changes
+			  google.maps.event.addListener(map, 'zoom_changed', function()
+			  { 
+
 			  });
 			  
 			  // close any infowindows if a user clicks anywhere but the marker or infowindow
@@ -438,7 +444,7 @@ inbode.util = {
                 var loci = new google.maps.LatLng(ll[0], ll[1]);
                 map.setCenter(loci);
                 $('#t7_city').val($.cookie('last_location'));                
-                inbode.util.search($.cookie('last_bounds'));
+                inbode.util.search($.cookie('last_location'));
             } else {
                 var loc;
                 var mpls = new google.maps.LatLng(44.979965, -93.263836);
@@ -458,11 +464,11 @@ inbode.util = {
                             expires: cookieexpiration,
 						                path: '/'
                         });
-                        $.cookie('last_location', 'Minneapolis, MN, USA', {
+                        $.cookie('last_location', 'Minneapolis, MN', {
                             expires: cookieexpiration,
 						                path: '/'
                         });
-                        inbode.util.search();
+                        inbode.util.search('Minneapolis, MN');
                     });
                     // google gears
                 } else if (google.gears) {
@@ -477,11 +483,11 @@ inbode.util = {
                             expires: cookieexpiration,
 						                path: '/'
                         });
-                        $.cookie('last_location', 'Minneapolis, MN, USA', {
+                        $.cookie('last_location', 'Minneapolis, MN', {
                             expires: cookieexpiration,
 						                path: '/'
                         });
-                        inbode.util.search();
+                        inbode.util.search('Minneapolis, MN');
                     });
                     // oops, no support
                 } else {
@@ -490,11 +496,11 @@ inbode.util = {
                         expires: cookieexpiration,
 				                path: '/'
                     });
-                    $.cookie('last_location', 'Minneapolis, MN, USA', {
+                    $.cookie('last_location', 'Minneapolis, MN', {
                         expires: cookieexpiration,
 				                path: '/'
                     });
-                    inbode.util.search();
+                    inbode.util.search('Minneapolis, MN');
                 }
             }
 
@@ -556,7 +562,7 @@ inbode.util = {
 				                path: '/'
                     });
                     $('#t7_city').val(results[1].formatted_address);
-                    inbode.util.search();
+                    inbode.util.search(results[1].formatted_address);
                 }
             }
         });
@@ -754,19 +760,23 @@ inbode.util = {
 
     },
 
-    search: function(bounds) {
+    search: function(location) {
     
     		// loading image
         $('#t7_ldr img').fadeIn();
 
     		// if there are bounds, we should find all apartments within them.
     		// otherwise, search around the city in the searchbox
-				if (bounds) {
+				if (!location) {
 	        // url for query
-	        var searchurl = '/api/search/bounds/' + encodeURI(bounds);
+    			if ( map.getBounds()!=null && map.getBounds()!=undefined ) {
+		        var searchurl = '/api/search/bounds/' + encodeURI(map.getBounds());
+		      } else {
+		      	return false;
+		      }
 				} else {
 	        // url for query
-	        var searchurl = '/api/search/location/' + encodeURI($('#t7_city').val());				
+	        var searchurl = '/api/search/location/' + encodeURI(location);				
 				}
 				
 				
@@ -861,6 +871,7 @@ inbode.util = {
                     // make the marker grey now pls
                     if (this.getIcon() !== '/ui/img/inbmrkr.png') {
                         this.setIcon('/ui/img/inbmrkr-grey.png');
+                        this.setShadow('/ui/img/inbmrkr_shadow.png');
                     }
 
                     visibleinfowindow = infowindow;
