@@ -844,7 +844,7 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 	$ph .= '						<!-- ------------------ _title_ ------------------ -->';
 	$ph .= '						<table border="0" cellpadding="10" cellspacing="0" width="100%"><!-- LOGO START -->';
 	$ph .= '							<tr>';
-	$ph .= '								<td height="56" align="right"><img src="http://inbode.ten7i.net/ui/climg/inbode.png" width="172" height="56" /></td>';
+	$ph .= '								<td height="56" align="right"><img src="'.$base_url.'/api/image/logo/'.$nd->nid.'" width="172" height="56" /></td>';
 	$ph .= '							</tr>';
 	$ph .= '						</table><!-- LOGO END -->';
 	$ph .= '					</td>	';
@@ -1207,7 +1207,8 @@ function inbode_summary($account) {
 			      $out .= "$&nbsp;".$unit["field_unit_price_amount"]."&nbsp;&nbsp;";
 			      $out .= $unit["field_unit_area_value"]."&nbsp;sf.&nbsp;&nbsp;";
 			      $out .= $unit["field_unit_status_value"]."&nbsp;&nbsp;&nbsp;";
-			      $out .= "<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/".$building["nid"]."/".$unit["nid"]."\">Post to Craigslist</a>&nbsp;(<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/preview/".$building["nid"]."/".$unit["nid"]."\" class=\"cpvw\" >preview</a>)";
+			      $out .= "<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/".$building["nid"]."/".$unit["nid"]."\">Post to Craigslist</a>&nbsp;(<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/preview/".$building["nid"]."/".$unit["nid"]."\" class=\"cpvw\" >Preview</a>)";
+			      $out .= "&nbsp;".$unit["field_unit_craigslist_views_value"]." views";
 			      $out .= "&nbsp;&nbsp;&nbsp;<a href=\"/node/".$unit["nid"]."/delete?destination=user/".$account->uid."/inbode\">&times;</a>";
 			      $out .= "\n</div>";
 	
@@ -1257,7 +1258,7 @@ function __inbode_get_properties( $uid ) {
 
   $bsql = "SELECT n.nid, n.title, (SELECT count(nid) FROM content_type_unit WHERE field_unit_building_nid=n.nid) as num_units, l.street, l.additional, l.city, l.province, l.postal_code, l.country, l.latitude, l.longitude FROM node n LEFT JOIN location_instance li ON li.nid=n.nid LEFT JOIN location l ON  li.lid=l.lid WHERE n.type='building' AND n.uid=$uid ;";
   
-  $usql = "SELECT n.nid, c.field_unit_building_nid, n.title, c.field_unit_bedroom_value, c.field_unit_bathroom_value, c.field_unit_price_amount, c.field_unit_area_value, c.field_unit_available_value, c.field_unit_description_value, c.field_unit_status_value FROM node n, content_type_unit c WHERE type='unit' AND uid=$uid AND n.nid=c.nid ORDER BY field_unit_building_nid; ";
+  $usql = "SELECT n.nid, c.field_unit_building_nid, n.title, c.field_unit_bedroom_value, c.field_unit_bathroom_value, c.field_unit_price_amount, c.field_unit_area_value, c.field_unit_available_value, c.field_unit_description_value, c.field_unit_status_value, c.field_unit_craigslist_views_value FROM node n, content_type_unit c WHERE type='unit' AND uid=$uid AND n.nid=c.nid ORDER BY field_unit_building_nid; ";
   
   $bresource = db_query($bsql);
   $buildings = array();

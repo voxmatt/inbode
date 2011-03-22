@@ -4,7 +4,7 @@
 if (file_exists("/usr/www/users/stegic/git")) {
 
 	// staging
-	$config['i_syspath'] = '/usr/www/users/stegic/git/inbode/inbode.com/api';	
+	$config['i_syspath'] = '/usr/www/users/stegic/git/inbode/inbode.com/src/api';	
 	// Default location if none given;
 	$config['i_location'] = 'Minneapolis, MN';
 	// Google geocode address
@@ -29,7 +29,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 } else if (file_exists("/usr/www/users/inbode/git")) {
 
 	// production
-	$config['i_syspath'] = '/usr/www/users/inbode/git/inbode/inbode.com/api';
+	$config['i_syspath'] = '/usr/www/users/inbode/git/inbode/inbode.com/src/api';
 	// Default location if none given;
 	$config['i_location'] = 'Minneapolis, MN';
 	// Google geocode address
@@ -54,7 +54,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 } else if (file_exists("/Users/ivan/git/inbode/inbode.com/src")) {
 
 	// ivan's local
-	$config['i_syspath'] = '/Users/ivan/git/inbode/inbode.com/api';
+	$config['i_syspath'] = '/Users/ivan/git/inbode/inbode.com/src/api';
 	// Default location if none given;
 	$config['i_location'] = 'Minneapolis, MN';
 	// Google geocode address
@@ -79,7 +79,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 } else {
 
 	// local (william!)
-	$config['i_syspath'] = '/Users/William/git/inbode/inbode.com/api';
+	$config['i_syspath'] = '/Users/William/git/inbode/inbode.com/src/api';
 	// Default location if none given;
 	$config['i_location'] = 'Minneapolis, MN';
 	// Google geocode address
