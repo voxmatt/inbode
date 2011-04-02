@@ -1,3 +1,5 @@
+
+
 /*
          _       __              __   
         (_)___  / /_  ____  ____/ /__ 
@@ -19,8 +21,13 @@
 
 */
 
+#t7_swapout_contain {
+	height: 490px;
+	}
+
 #t7_swapout_header {
-	height: 40px;
+	height: 50px;
+	margin-bottom: 10px;
 	}
 #t7_swapout_header_left {
 	float: left;
@@ -31,23 +38,28 @@
 #t7_swapout_header_left h1, #t7_swapout_header_right h1 {
 	margin: 10px;
 	}
-#t7_price .contact {
+#t7_swapout_header_right .contact {
 	color: #fff;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	margin-top: 10px;
 	position: relative;
-}
+	}
+#t7_swapout_header_right .contact a{
+	color: #fff;
+	}
 #t7_swapout_header .contact {
 	background-image: url(/ui/img/lb_button_bg.png);
 	background-position: top center;
 	background-repeat: no-repeat;
 	padding: 10px 34px;
-	margin: 0 0 10px 0;
+	margin: 5px 0 10px 0;
 	color: white !important;
 	text-decoration: none;
 	text-shadow: 0 -1px 0 black;
 	position: relative;
 	z-index: 99999;
+	width: 130px;
+	float: right;
 	}
 #t7_swapout_header .contact a:link {
 	position:relative;
@@ -71,13 +83,36 @@
 	text-align: center;
 	color: #fff;
 	}
+	
+#t7_swapout_header .t7_fav_share {
+	float: right;
+	margin: 40px -150px 0 0px;
+	text-align: center;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	color: #636363;
+	}
+	
+#t7_swapout_header .t7_fav_share a:link {
+	color: #636363;
+	text-decoration: none;
+	}
+#t7_swapout_header .t7_fav_share a:visited {
+	color: #636363;
+	}
+#t7_swapout_header .t7_fav_share a:hover {
+	color: #636363;
+	text-decoration: underline;
+	}
+#t7_swapout_header .t7_fav_share a:active {
+	color: #636363
+	}
 
 .t7_swapout {
 	height: 440px;
 	margin-top: 5px;
 	}
 
-#t7_price .t7_fav_share {
-	margin-top: 50px;
-	margin-right: 17px;
+#t7_address {
+	margin-top: -10px;
 	}
