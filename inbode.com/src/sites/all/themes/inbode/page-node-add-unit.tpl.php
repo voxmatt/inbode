@@ -28,6 +28,7 @@
 		<?php print $head; ?>
 		<?php print $styles; ?>
 		<?php print $scripts; ?>
+		
 	</head>
 	<body>
 	
