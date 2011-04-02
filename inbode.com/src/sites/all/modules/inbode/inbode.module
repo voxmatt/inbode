@@ -32,7 +32,7 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 					drupal_set_message('Your unit was added, but with an error. Please <a href="/node/'.$node->nid.'/edit">re-save your unit data</a>.', 'error');
 				} else {
 					watchdog('inbode', 'Inserted new unit '.$node->nid.' with ROWID '.$rowid );
-					drupal_set_message('Your unit was added to Inbode.', 'status');
+					//drupal_set_message('Your unit was added to Inbode.', 'status');
 				};
 			}
 			
@@ -85,7 +85,7 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 					drupal_set_message('Oops, there was an error updating Inbode. Please try again later.', 'error');
 				} else {
 					watchdog('inbode', 'Updated fusion table unit '.$node->nid.' with a ROWID '.$rowid );
-					drupal_set_message('Your unit was updated on Inbode.', 'status');
+					//drupal_set_message('Your unit was updated on Inbode.', 'status');
 				};				
 
 
@@ -108,7 +108,7 @@ function inbode_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 					drupal_set_message('Oops, there was an error updating Inbode. Please try again later.', 'error');
 				} else {
 					watchdog('inbode', 'Updated fusion table building id '.$node->nid);
-					drupal_set_message('Your unit was updated on Inbode.', 'status');
+					//drupal_set_message('Your unit was updated on Inbode.', 'status');
 				};				
 
 

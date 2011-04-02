@@ -1,5 +1,6 @@
 <?php 
 
+//print_r($node);
 	$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);
 	$faveid = 'fave_'.$bd->nid."_".$node->nid;	
 	
@@ -156,6 +157,11 @@
 				<div id="t7_swapout_header">
 					
 					<div id="t7_swapout_header_right">
+						
+						<div class="contact">
+							<a href="#"><h3>contact landlord</h3></a>
+						</div><!-- .contact end -->
+
 
 						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
 							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
@@ -164,11 +170,7 @@
 							
 							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
 						</div>
-						
-						
-						<div class="contact">
-							<a href="#"><h3>contact landlord</h3></a>
-						</div><!-- .contact end -->
+
 					</div>
 					
 					<div id="t7_swapout_header_left">
@@ -259,8 +261,13 @@
 	$ii=3;
 
 	foreach ($node->field_unit_images as $im) {
-		if ( isset($im['filepath'])) {
-			print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['view'].'" /></div>';
+		if ( isset($im['view'])) {
+			
+			if ($im['data']['height']>440) {
+				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img height="440" src="/'.$im['view'].'" /></div>';			
+			}	else {
+				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['view'].'" /></div>';
+			}		
 			$ii++;
 		}
 	}
