@@ -1,4 +1,5 @@
 <?php 
+
 	$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);
 	$faveid = 'fave_'.$bd->nid."_".$node->nid;	
 ?><!DOCTYPE html
@@ -173,7 +174,7 @@
 							</td>
 							<td>
 							
-								<p><?php str_ireplace("\n", "<br>", $bd->field_unit_description[0]['value']); ?></p>
+								<p><?php print str_ireplace("\n", "<br>", $node->field_unit_description[0]['value']); ?></p>
 								
 							</td>				
 						</tr>
