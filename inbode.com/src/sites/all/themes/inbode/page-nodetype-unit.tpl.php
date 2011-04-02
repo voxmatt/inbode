@@ -17,11 +17,11 @@
 		<title><?php print $head_title; ?></title>
 
 		<link type="text/css" href="/ui/css/unit.css" rel="stylesheet" />	
+		
 		<script type="text/javascript" src="/ui/js/jquery-1.4.2.min.js"></script>
-	  <script type="text/javascript" src="/ui/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="/ui/js/jquery.cookie.js"></script>
 		<script type="text/javascript" src="/ui/js/jquery.jcarousel.js"></script>
 		<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script> 
-
 
 		<script>
 
