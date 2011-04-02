@@ -338,9 +338,9 @@ div.warning {
 
 div.error {
   background-image: none;
-  background-color: #A62A17;
-  font-weight: lighter;
-  color: #fff;
+/*   background-color: #A62A17; */
+  font-weight: normal;
+  color: #A62A17;
   font-size: 13px;
   border: 0 solid;
   -webkit-border-radius: 5px;
