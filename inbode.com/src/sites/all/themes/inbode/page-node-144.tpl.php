@@ -86,7 +86,7 @@ if (
             
             ?>
           </div><!-- t7_signin end -->
-
+		  <a class="t7_logo_link" href="/home">Home</a>
           <div class="t7_city">
             <input id="t7_city" maxlength="50" value="City or Zip">
           </div><!-- t7_city end -->

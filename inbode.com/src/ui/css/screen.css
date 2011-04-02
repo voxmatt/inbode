@@ -84,7 +84,7 @@ img { border: 0; }
 	clear: both;
 	height: auto;
 	margin: 0px auto;
-	padding: 80px 0px 0px 0px;
+	padding: 16px 0px 0px 0px;
 	width: 220px;
 }
 
@@ -783,4 +783,12 @@ input.getlink {
 	color: #636363;
 	font-family: 'helvetica neue', helvetica, arial, sans-serif;
 	font-size: 11px;
+}
+/* HOME LOGO LINK */
+a.t7_logo_link {
+	text-indent: -1000px;
+	float: left;
+	clear: left;
+	height: 65px;
+	width: 100%;
 }
