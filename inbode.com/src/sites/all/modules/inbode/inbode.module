@@ -835,7 +835,7 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 	$ph .= '<!-- ------------------ MAINCONTAINER TABLE ------------------ -->';
 	$ph .= '<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%"><!-- MAINCONTAINER START -->';
 	$ph .= '	<tr>';
-	$ph .= '		<td height="100%" width="100%" background="http://inbode.ten7i.net/ui/climg/gradient.png">';
+	$ph .= '		<td height="100%" width="100%" background="'.$base_url.'/ui/climg/gradient.png">';
 
 	$ph .= '			<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%"><!-- SECOND CONTAINER START -->';
 
@@ -859,12 +859,12 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 	$ph .= '							<!-- ------ top image ------ -->';
 	$ph .= '							<tr>';
 	$ph .= '								<td valign="top" width="802">';
-	$ph .= '									<img src="http://inbode.ten7i.net/ui/climg/white_box_top.png" />';
+	$ph .= '									<img src="'.$base_url.'/ui/climg/white_box_top.png" />';
 	$ph .= '								</td>';
 	$ph .= '							</tr>';
 	
 	$ph .= '							<tr><!-- inside container that adds outside "padding/margin" -->';
-	$ph .= '								<td valign="top" width="802" background="http://inbode.ten7i.net/ui/climg/white_box_mid.png">';
+	$ph .= '								<td valign="top" width="802" background="'.$base_url.'/ui/climg/white_box_mid.png">';
 
 	$ph .= '									<!-- ------------------ Yet another table -->';
 	$ph .= '									<table border="0" cellpadding="0" cellspacing="0" width="802" height="" style="">';
@@ -903,7 +903,7 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 	$ph .= '																</td>';
 	$ph .= '																<td height="34" align="right" valign="top" style="margin:0;padding:0;">';
 	$ph .= '																		<a href="mailto:'.$usr->mail.'">';
-	$ph .= '																			<img src="http://inbode.ten7i.net/ui/climg/button.jpg" border="0" style="margin-top:0;padding-top:0;" height="34" width="189">';
+	$ph .= '																			<img src="'.$base_url.'/ui/climg/button.jpg" border="0" style="margin-top:0;padding-top:0;" height="34" width="189">';
 	$ph .= '																		</a>';
 	$ph .= '																</td>';
 	$ph .= '															</tr>';
@@ -1060,7 +1060,7 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 	$ph .= '							<!-- ------ bottom image ------ -->';
 	$ph .= '							<tr>';
 	$ph .= '								<td valign="top" width="802">';
-	$ph .= '									<img src="http://inbode.ten7i.net/ui/climg/white_box_bot.png" />';
+	$ph .= '									<img src="'.$base_url.'/ui/climg/white_box_bot.png" />';
 	$ph .= '								</td>';
 	$ph .= '							</tr>';
 	$ph .= '						</table><!--  END -->';
