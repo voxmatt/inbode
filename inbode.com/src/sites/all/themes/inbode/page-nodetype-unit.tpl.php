@@ -46,12 +46,6 @@
 						    var sv = new google.maps.LatLng(<?php print $lat; ?>,<?php print $lng; ?>);
 						    var panoramaOptions = {
 						      position: sv,
-							    linksControl: false,
-							    panControl: false,
-							    zoomControlOptions: {
-							      style: google.maps.ZoomControlStyle.SMALL
-							    },
-							    navigationControl: false,
 							    addressControl: false			
 						    };
 						    var panorama = new  google.maps.StreetViewPanorama(document.getElementById("pano"),panoramaOptions);
@@ -162,6 +156,16 @@
 				<div id="t7_swapout_header">
 					
 					<div id="t7_swapout_header_right">
+
+						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
+							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
+								
+								global $base_url;
+							
+							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
+						</div>
+						
+						
 						<div class="contact">
 							<a href="#"><h3>contact landlord</h3></a>
 						</div><!-- .contact end -->
@@ -177,13 +181,7 @@
 				
 					<div id="t7_price">
 					
-						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
-							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
-								
-								global $base_url;
-							
-							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
-						</div>
+
 						
 					</div><!-- #t7_price end -->
 					
