@@ -122,37 +122,54 @@
 
 
 	</head>
-<body>
+	<body>
 
 		<div id="t7_white_box">
 		
-		
-			<!-- 
-				container for image swap out 
-											 -->
+			<!-- container for image swap out  -->
+			
 			<div id="t7_swapout_contain">
 			
-				<div id="t7-item-1" class="t7_swapout">
-					<div id="t7_price">
+				<div id="t7_swapout_header">
+					
+					<div id="t7_swapout_header_right">
 						<h1>$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php print $node->field_unit_bedroom[0]['value']; ?>bed&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
 						<div class="contact">
 							<a href="#"><h3>contact landlord</h3></a>
 						</div><!-- .contact end -->
+					</div>
+					
+					<div id="t7_swapout_header_left">
+						<h1><?php print $title; ?></h1>
+					</div>
+				
+				</div>
+				
+				<div id="t7-item-1" class="t7_swapout">
+				
+					<div id="t7_price">
+					
 						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
 							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
 								
 								global $base_url;
 							
-							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span></div>
+							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
+						</div>
+						
 					</div><!-- #t7_price end -->
+					
 					<div id="t7_address">
-						<h1><?php print $title; ?></h1>
 						<ul>
 							<li><?php print $bd->field_building_address[0]['street']; ?></li>
-							<li>available <?php print strtolower( date( 'F j, Y' , strtotime($node->field_unit_available[0]['value'])) ); ?></li>
+							<li>
+								available <?php print strtolower( date( 'F j, Y' , strtotime($node->field_unit_available[0]['value'])) ); ?>
+							</li>
+							
 							<li><?php print $node->field_unit_area[0]['value']; ?> square feet</li>
 						</ul>
 					</div><!-- #t7_address end -->	
+					
 					<table>
 						<tr>
 							<td>
