@@ -1,5 +1,6 @@
 <?php 
 
+//print_r($node);
 	$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);
 	$faveid = 'fave_'.$bd->nid."_".$node->nid;	
 	
@@ -46,12 +47,6 @@
 						    var sv = new google.maps.LatLng(<?php print $lat; ?>,<?php print $lng; ?>);
 						    var panoramaOptions = {
 						      position: sv,
-							    linksControl: false,
-							    panControl: false,
-							    zoomControlOptions: {
-							      style: google.maps.ZoomControlStyle.SMALL
-							    },
-							    navigationControl: false,
 							    addressControl: false			
 						    };
 						    var panorama = new  google.maps.StreetViewPanorama(document.getElementById("pano"),panoramaOptions);
@@ -162,14 +157,24 @@
 				<div id="t7_swapout_header">
 					
 					<div id="t7_swapout_header_right">
-						<h1>$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php print $node->field_unit_bedroom[0]['value']; ?>bed&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
+						
 						<div class="contact">
 							<a href="#"><h3>contact landlord</h3></a>
 						</div><!-- .contact end -->
+
+
+						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
+							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
+								
+								global $base_url;
+							
+							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
+						</div>
+
 					</div>
 					
 					<div id="t7_swapout_header_left">
-						<h1><?php print $title; ?></h1>
+						<h1><?php print $title; ?>&nbsp;&ndash;&nbsp;$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php print $node->field_unit_bedroom[0]['value']; ?>bed&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
 					</div>
 				
 				</div>
@@ -178,13 +183,7 @@
 				
 					<div id="t7_price">
 					
-						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
-							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
-								
-								global $base_url;
-							
-							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
-						</div>
+
 						
 					</div><!-- #t7_price end -->
 					
@@ -256,14 +255,19 @@
 
 <?php
 
-	print '<div id="t7-item-2" class="t7_swapout"><div id="pano"></div></div>';
+	print '<div id="t7-item-2" class="t7_swapout"><div id="pano" style="width: 700px; height: 440px;"></div></div>';
 
 
 	$ii=3;
 
 	foreach ($node->field_unit_images as $im) {
-		if ( isset($im['filepath'])) {
-			print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['view'].'" /></div>';
+		if ( isset($im['view'])) {
+			
+			if ($im['data']['height']>440) {
+				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img height="440" src="/'.$im['view'].'" /></div>';			
+			}	else {
+				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['view'].'" /></div>';
+			}		
 			$ii++;
 		}
 	}
@@ -274,7 +278,7 @@
 				
 				
 			</div><!-- .t7_swapout_contain END -->
-					<div id="pano" style="width: 95px; height: 72px;"></div>
+
 			<div id="mycarousel" class="jcarousel-skin-tango">
 			    <ul class="images">
 					<li class="thumb-selected"><img id="t7-thumb-1" class="t7-thumb-image" src="/sites/all/themes/inbode/images/unit/unit_details.png" /></li>
