@@ -636,3 +636,14 @@ table.swfupload td {
 }
 
 /* jquery UI calendar styles */
+.ui-datepicker-div, .ui-datepicker-inline, #ui-datepicker-div {
+	-moz-border-radius: 4px !important;
+	-webkit-border-radius: 4px !important;
+	border-radius: 4px !important;
+}
+table.ui-datepicker tbody td a {
+	background: #ededed;
+}
+table.ui-datepicker tbody td a:hover {
+	background: #bdbdbd;
+}
