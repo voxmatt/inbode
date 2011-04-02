@@ -50,7 +50,6 @@
 							    addressControl: false			
 						    };
 						    var panorama = new  google.maps.StreetViewPanorama(document.getElementById("pano"),panoramaOptions);
-						    map.setStreetView(panorama);
 			        
 			        }
 			        
@@ -290,7 +289,7 @@
 
 	foreach ($node->field_unit_images as $im) {
 		if ( isset($im['filepath'])) {
-			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['view'].'" width="92" /></li>';
+			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['view'].'" height="70" /></li>';
 			$ii++;
 		}
 	}
