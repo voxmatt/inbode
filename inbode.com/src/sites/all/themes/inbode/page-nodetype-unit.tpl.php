@@ -17,11 +17,11 @@
 		<title><?php print $head_title; ?></title>
 
 		<link type="text/css" href="/ui/css/unit.css" rel="stylesheet" />	
+		
 		<script type="text/javascript" src="/ui/js/jquery-1.4.2.min.js"></script>
-	  <script type="text/javascript" src="/ui/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="/ui/js/jquery.cookie.js"></script>
 		<script type="text/javascript" src="/ui/js/jquery.jcarousel.js"></script>
 		<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script> 
-
 
 		<script>
 
@@ -50,7 +50,6 @@
 							    addressControl: false			
 						    };
 						    var panorama = new  google.maps.StreetViewPanorama(document.getElementById("pano"),panoramaOptions);
-						    map.setStreetView(panorama);
 			        
 			        }
 			        
@@ -290,7 +289,7 @@
 
 	foreach ($node->field_unit_images as $im) {
 		if ( isset($im['filepath'])) {
-			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['view'].'" width="92" /></li>';
+			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['view'].'" height="70" /></li>';
 			$ii++;
 		}
 	}
