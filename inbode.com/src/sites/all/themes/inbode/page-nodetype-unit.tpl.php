@@ -2,6 +2,11 @@
 
 	$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);
 	$faveid = 'fave_'.$bd->nid."_".$node->nid;	
+	
+	$lat = $bd->field_building_address[0]['latitude'];
+	$lng = $bd->field_building_address[0]['longitude'];
+	
+	
 ?><!DOCTYPE html
 	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -14,7 +19,7 @@
 		<script type="text/javascript" src="/ui/js/jquery-1.4.2.min.js"></script>
 	  <script type="text/javascript" src="/ui/js/jquery.cookie.js"></script>
 		<script type="text/javascript" src="/ui/js/jquery.jcarousel.js"></script>
-
+		<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script> 
 
 
 		<script>
@@ -34,6 +39,27 @@
 			        var f = w.split('-');
 			        $('.t7_swapout').hide();
 			        $('#t7-item-' + f[2]).show();
+
+			        if (f[2]==2) {
+
+								// street view
+						    var sv = new google.maps.LatLng(<?php print $lat; ?>,<?php print $lng; ?>);
+						    var panoramaOptions = {
+						      position: sv,
+							    linksControl: false,
+							    panControl: false,
+							    zoomControlOptions: {
+							      style: google.maps.ZoomControlStyle.SMALL
+							    },
+							    navigationControl: false,
+							    addressControl: false			
+						    };
+						    var panorama = new  google.maps.StreetViewPanorama(document.getElementById("pano"),panoramaOptions);
+						    map.setStreetView(panorama);
+			        
+			        }
+			        
+			        
 			    })
 			
 			    $('.t7-thumb-image').hover(function() {
@@ -59,6 +85,9 @@
           	$('#favestar').attr('src', '/sites/all/themes/inbode/images/unit/yellow_star.png');
           
           }
+
+
+			    
           
 								
 			});
@@ -122,37 +151,54 @@
 
 
 	</head>
-<body>
+	<body>
 
 		<div id="t7_white_box">
 		
-		
-			<!-- 
-				container for image swap out 
-											 -->
+			<!-- container for image swap out  -->
+			
 			<div id="t7_swapout_contain">
 			
-				<div id="t7-item-1" class="t7_swapout">
-					<div id="t7_price">
+				<div id="t7_swapout_header">
+					
+					<div id="t7_swapout_header_right">
 						<h1>$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php print $node->field_unit_bedroom[0]['value']; ?>bed&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
 						<div class="contact">
 							<a href="#"><h3>contact landlord</h3></a>
 						</div><!-- .contact end -->
+					</div>
+					
+					<div id="t7_swapout_header_left">
+						<h1><?php print $title; ?></h1>
+					</div>
+				
+				</div>
+				
+				<div id="t7-item-1" class="t7_swapout">
+				
+					<div id="t7_price">
+					
 						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
 							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
 								
 								global $base_url;
 							
-							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span></div>
+							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
+						</div>
+						
 					</div><!-- #t7_price end -->
+					
 					<div id="t7_address">
-						<h1><?php print $title; ?></h1>
 						<ul>
 							<li><?php print $bd->field_building_address[0]['street']; ?></li>
-							<li>available <?php print strtolower( date( 'F j, Y' , strtotime($node->field_unit_available[0]['value'])) ); ?></li>
+							<li>
+								available <?php print strtolower( date( 'F j, Y' , strtotime($node->field_unit_available[0]['value'])) ); ?>
+							</li>
+							
 							<li><?php print $node->field_unit_area[0]['value']; ?> square feet</li>
 						</ul>
 					</div><!-- #t7_address end -->	
+					
 					<table>
 						<tr>
 							<td>
@@ -210,11 +256,14 @@
 
 <?php
 
-	$ii=2;
+	print '<div id="t7-item-2" class="t7_swapout"><div id="pano"></div></div>';
+
+
+	$ii=3;
 
 	foreach ($node->field_unit_images as $im) {
 		if ( isset($im['filepath'])) {
-			print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['filepath'].'" /></div>';
+			print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['view'].'" /></div>';
 			$ii++;
 		}
 	}
@@ -225,17 +274,19 @@
 				
 				
 			</div><!-- .t7_swapout_contain END -->
+					<div id="pano" style="width: 95px; height: 72px;"></div>
 			<div id="mycarousel" class="jcarousel-skin-tango">
 			    <ul class="images">
 					<li class="thumb-selected"><img id="t7-thumb-1" class="t7-thumb-image" src="/sites/all/themes/inbode/images/unit/unit_details.png" /></li>
+					<li><img id="t7-thumb-2" class="t7-thumb-image" src="/sites/all/themes/inbode/images/unit/unit_details.png" /></li>
 
 <?php
 
-	$ii=2;
+	$ii=3;
 
 	foreach ($node->field_unit_images as $im) {
 		if ( isset($im['filepath'])) {
-			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['filepath'].'" width="92" /></li>';
+			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['view'].'" width="92" /></li>';
 			$ii++;
 		}
 	}
