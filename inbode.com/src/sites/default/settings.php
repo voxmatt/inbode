@@ -110,7 +110,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 
 	// matt's local
 	$db_url = 'mysqli://root:root@10.0.0.23/_drupal_inbode';
-	$base_url = 'http://inbode';  // NO trailing slash!
+	$base_url = 'http://inbode:8082';  // NO trailing slash!
 	$cookie_domain = 'inbode';
 
 	// inbode variables
@@ -118,7 +118,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	$conf['i_syspath'] = '/Users/mtm/Documents/git_inbode/inbode.com/src';		// Matt
 	
 	// URI to Image server
-	$conf['i_imgsrv'] = 'http://inbode/';
+	$conf['i_imgsrv'] = 'http://inbode:8082/';
 	
 	// Inbode Application Name
 	$conf['i_appname'] = 'Inbode Beta';
