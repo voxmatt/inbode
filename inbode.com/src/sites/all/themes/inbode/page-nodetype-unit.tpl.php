@@ -162,14 +162,13 @@
 				<div id="t7_swapout_header">
 					
 					<div id="t7_swapout_header_right">
-						<h1>$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php print $node->field_unit_bedroom[0]['value']; ?>bed&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
 						<div class="contact">
 							<a href="#"><h3>contact landlord</h3></a>
 						</div><!-- .contact end -->
 					</div>
 					
 					<div id="t7_swapout_header_left">
-						<h1><?php print $title; ?></h1>
+						<h1><?php print $title; ?>&nbsp;&ndash;&nbsp;$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php print $node->field_unit_bedroom[0]['value']; ?>bed&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
 					</div>
 				
 				</div>
@@ -256,7 +255,7 @@
 
 <?php
 
-	print '<div id="t7-item-2" class="t7_swapout"><div id="pano"></div></div>';
+	print '<div id="t7-item-2" class="t7_swapout"><div id="pano" style="width: 700px; height: 440px;"></div></div>';
 
 
 	$ii=3;
@@ -274,7 +273,7 @@
 				
 				
 			</div><!-- .t7_swapout_contain END -->
-					<div id="pano" style="width: 95px; height: 72px;"></div>
+
 			<div id="mycarousel" class="jcarousel-skin-tango">
 			    <ul class="images">
 					<li class="thumb-selected"><img id="t7-thumb-1" class="t7-thumb-image" src="/sites/all/themes/inbode/images/unit/unit_details.png" /></li>
