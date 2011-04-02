@@ -274,14 +274,24 @@ h2 a:active {
 /* * footer */
 
 #t7_footer {
-  text-align: left;
-  padding: 0;
-  margin: 0;
+  padding: 0 0 20px 0;
+  margin: 15px 0 0 0;
+  float: left;
   clear: both;
   height: 25px;
   width: 100%;
 }
-
+#t7_footer p {
+  text-align: center;
+}
+#t7_footer span {
+	padding: 0 5px;
+}
+#t7_footer img {
+	padding: 0 3px 0 0;
+	position: relative;
+	top: 3px;
+}
 /* * fix for extending the container all the way to the bottom */
 
 #t7_extender {
@@ -328,9 +338,9 @@ div.warning {
 
 div.error {
   background-image: none;
-  background-color: #A62A17;
-  font-weight: lighter;
-  color: #fff;
+/*   background-color: #A62A17; */
+  font-weight: normal;
+  color: #A62A17;
   font-size: 13px;
   border: 0 solid;
   -webkit-border-radius: 5px;

@@ -90,18 +90,61 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	$conf['i_appname'] = 'Inbode Beta';
 
 	// fusion tables specific
+/*
 	// google account username
 	$conf['i_GAuser'] = 'maps@inbode.com';
 	// google account password	
 	$conf['i_GApass'] = 'w1r3dmag';
 	// fusion table datasrc id
 	$conf['i_InbodeBeta-BuildingsUnits'] = '517005';
+*/
+	// google account username
+	$conf['i_GAuser'] = 'maps@inbode.com';
+	// google account password	
+	$conf['i_GApass'] = 'w1r3dmag';
+	// fusion table datasrc id
+	$conf['i_InbodeBeta-BuildingsUnits'] = '422613';
 
+
+} else if (file_exists("/Users/mtm/Documents/git_inbode/inbode.com/src")) {
+
+	// matt's local
+	$db_url = 'mysqli://root:root@10.0.0.23/_drupal_inbode';
+	$base_url = 'http://inbode';  // NO trailing slash!
+	$cookie_domain = 'inbode';
+
+	// inbode variables
+	// system path, depends on environment
+	$conf['i_syspath'] = '/Users/mtm/Documents/git_inbode/inbode.com/src';		// Matt
+	
+	// URI to Image server
+	$conf['i_imgsrv'] = 'http://inbode/';
+	
+	// Inbode Application Name
+	$conf['i_appname'] = 'Inbode Beta';
+
+	// fusion tables specific
+/*
+	// google account username
+	$conf['i_GAuser'] = 'maps@inbode.com';
+	// google account password	
+	$conf['i_GApass'] = 'w1r3dmag';
+	// fusion table datasrc id
+	$conf['i_InbodeBeta-BuildingsUnits'] = '517005';
+*/
+	// google account username
+	$conf['i_GAuser'] = 'maps@inbode.com';
+	// google account password	
+	$conf['i_GApass'] = 'w1r3dmag';
+	// fusion table datasrc id
+	$conf['i_InbodeBeta-BuildingsUnits'] = '422613';
+	
+		
 
 } else {
 
-	// local
-	$db_url = 'mysqli://root:root@127.0.0.1/_drupal_inbode';
+	// local (will)
+	$db_url = 'mysqli://root:root@10.0.0.23/_drupal_inbode';
 	$base_url = 'http://inbode';  // NO trailing slash!
 	$cookie_domain = 'inbode';
 
@@ -116,12 +159,21 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	$conf['i_appname'] = 'Inbode Beta';
 
 	// fusion tables specific
+/*
 	// google account username
 	$conf['i_GAuser'] = 'maps@inbode.com';
 	// google account password	
 	$conf['i_GApass'] = 'w1r3dmag';
 	// fusion table datasrc id
 	$conf['i_InbodeBeta-BuildingsUnits'] = '517005';
+*/
+
+	// google account username
+	$conf['i_GAuser'] = 'maps@inbode.com';
+	// google account password	
+	$conf['i_GApass'] = 'w1r3dmag';
+	// fusion table datasrc id
+	$conf['i_InbodeBeta-BuildingsUnits'] = '422613';
 
 
 }
