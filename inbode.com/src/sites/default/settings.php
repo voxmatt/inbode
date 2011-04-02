@@ -75,7 +75,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 } else if (file_exists("/Users/ivan/git/inbode/inbode.com/src")) {
 
 	// ivan's local
-	$db_url = 'mysqli://root:root@10.0.0.9/_drupal_inbode';
+	$db_url = 'mysqli://root:root@127.0.0.1/_drupal_inbode';
 	$base_url = 'http://inbode';  // NO trailing slash!
 	$cookie_domain = 'inbode';
 
@@ -109,7 +109,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 } else if (file_exists("/Users/mtm/Documents/git_inbode/inbode.com/src")) {
 
 	// matt's local
-	$db_url = 'mysqli://root:root@10.0.0.9/_drupal_inbode';
+	$db_url = 'mysqli://root:root@10.0.0.23/_drupal_inbode';
 	$base_url = 'http://inbode';  // NO trailing slash!
 	$cookie_domain = 'inbode';
 
@@ -144,7 +144,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 } else {
 
 	// local (will)
-	$db_url = 'mysqli://root:root@127.0.0.1/_drupal_inbode';
+	$db_url = 'mysqli://root:root@10.0.0.23/_drupal_inbode';
 	$base_url = 'http://inbode';  // NO trailing slash!
 	$cookie_domain = 'inbode';
 
