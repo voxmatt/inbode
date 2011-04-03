@@ -599,7 +599,8 @@ inbode.util = {
             var infowindow = new google.maps.InfoWindow({
                 content: mrkrhtml,
                 size: new google.maps.Size(270, 210),
-                position: loci
+                position: loci,
+                pixelOffset: new google.maps.Size(0, -34)
             });
 
             // set marker click history
@@ -820,8 +821,6 @@ inbode.util = {
                     "nid": item.nid,
                     "unit_image_1": item.unit_image_1,
                     "unit_image_2": item.unit_image_2,
-                    "unit_image_3": item.unit_image_3,
-                    "unit_image_4": item.unit_image_4,
                     "visible": 1
                 };
 
