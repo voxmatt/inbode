@@ -5,8 +5,10 @@
 #t7_swapout_contain {
   text-align: center;
   position: relative;
-  height: 470px;
-  padding: 0 0 25px;
+  height: 505px;
+  padding: 0;
+  margin: 0 0 10px 0;
+  overflow: hidden;
 }
 .t7_swapout {
   vertical-align: middle;

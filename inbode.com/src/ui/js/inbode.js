@@ -520,7 +520,7 @@ inbode.util = {
             'href': uu,
             'autoDimensions': false,
             'width': 728,
-            'height': 606,
+            'height': 626,
             'transitionIn': 'fade',
             'transitionOut': 'fade',
             'speedIn': 400,
