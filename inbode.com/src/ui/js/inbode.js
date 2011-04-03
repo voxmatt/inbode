@@ -791,7 +791,8 @@ inbode.util = {
                 var ll = new google.maps.LatLng(item.lat, item.lng);
                 mrkr = new google.maps.Marker({
                     position: ll,
-                    map: map
+                    map: map,
+		                animation: google.maps.Animation.DROP
                 });
 
                 var inb = {
