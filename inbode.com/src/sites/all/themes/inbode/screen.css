@@ -185,6 +185,9 @@ h2 a:active {
   font-size: 14px;
   margin: 5px 0 0 50px;
 }
+.unit span {
+	padding-right: 10px;
+}
 
 #t7_summary h3 {
   text-transform: uppercase;

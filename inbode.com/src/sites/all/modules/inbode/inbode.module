@@ -1199,16 +1199,19 @@ function inbode_summary($account) {
 	      foreach( $props["units"] as $unit ) {
 	      
 	      	if ( $unit["field_unit_building_nid"]==$building["nid"] ) {
-	      	
+
 			      $out .= "\n\t<div class=\"unit\">\n\t";
-			      $out .= "<a href=\"/node/".$unit["nid"]."/edit?destination=user/".$account->uid."/inbode\">".$unit["title"]."</a>&nbsp;&nbsp;";
-			      $out .= $unit["field_unit_bedroom_value"]."&nbsp;bed&nbsp;&nbsp;";
-			      $out .= $unit["field_unit_bathroom_value"]."&nbsp;bath&nbsp;&nbsp;";
-			      $out .= "$&nbsp;".$unit["field_unit_price_amount"]."&nbsp;&nbsp;";
-			      $out .= $unit["field_unit_area_value"]."&nbsp;sf.&nbsp;&nbsp;";
-			      $out .= $unit["field_unit_status_value"]."&nbsp;&nbsp;&nbsp;";
-			      $out .= "<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/".$building["nid"]."/".$unit["nid"]."\">Post to Craigslist</a>&nbsp;(<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/preview/".$building["nid"]."/".$unit["nid"]."\" class=\"cpvw\" >Preview</a>)";
-			      $out .= "&nbsp;".$unit["field_unit_craigslist_views_value"]." views";
+			      $out .= "<span><a href=\"/node/".$unit["nid"]."/edit?destination=user/".$account->uid."/inbode\">".$unit["title"]."</a></span>";
+			      $out .= "<span>".$unit["field_unit_bedroom_value"]."&nbsp;bed</span>";
+			      $out .= "<span>".$unit["field_unit_bathroom_value"]."&nbsp;bath</span>";
+			      $out .= "<span>".$unit["field_unit_price_amount"]."</span>";
+			      $out .= "<span>".$unit["field_unit_area_value"]."</span>";
+			      $out .= "<span>".$unit["field_unit_status_value"]."</span>";
+				  if ($unit["field_unit_status_value"]=='listed'){
+					  $out .= "<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/".$building["nid"]."/".$unit["nid"]."\">Post to Craigslist</a>&nbsp;(<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/preview/".$building["nid"]."/".$unit["nid"]."\" class=\"cpvw\" >Preview</a>)";
+				      $out .= "&nbsp;".$unit["field_unit_craigslist_views_value"]." views";
+				  }
+
 			      $out .= "&nbsp;&nbsp;&nbsp;<a href=\"/node/".$unit["nid"]."/delete?destination=user/".$account->uid."/inbode\">&times;</a>";
 			      $out .= "\n</div>";
 	
