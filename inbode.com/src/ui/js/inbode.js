@@ -179,8 +179,12 @@ $(document).ready(function() {
             });
             $("#date-to").html(date_upper);
 
+            inbode.util.filter();
+
+
         }
     });
+    
     // vertical sliders
     $("#slider-price").slider({
         orientation: "vertical",
@@ -1110,7 +1114,7 @@ inbode.util = {
         });
 
 
-        // first filter by main ranges
+        // first filter by price, beds and baths: the main shizzle
         $.each(results, function(i, item) {
             if ((item.price <= pricemax) && (item.price >= pricemin) && (item.beds <= bedsmax) && (item.beds >= bedsmin) && (item.baths <= bathsmax) && (item.baths >= bathsmin)) {
                 item.visible = 1;
@@ -1120,64 +1124,21 @@ inbode.util = {
         });
 
 
-        // now filter by additional categories if they exist!
-        // for each result, go thru each of the amenities
+        // now filter by amenities
         $.each(results, function(i, item) {
 						// amenities
 						for (am in amenities) {
 							if (am) {
-
-								console.log(item.unit_id+":"+am+":"+item[am]);
-								//console.log(item.unit_name+","+item.unit_id+": am="+am+", item.visible="+item.visible+", amenities[am]="+amenities[am]+", item.am="+item[am]+", item="+item);
-/*
-								for (b in item) {
-									console.log(b);
+								// the magic of filtering by amenities
+								if (item.visible==1 && amenities[am]==1 && item[am]==0) {
+				        	item.visible=0;
 								}
-*/
-/*
-								if (item.visible==1 && amenities[am]==1 && item.am==1) {
-				        	console.log(am+"="+amenities[am]);
-								}
-*/
 							} 
 						}
         });
 					
-
-					/*
-					if (item.var &&)
-					var amenity = item.var;
-					alert("amenity busy with:"+amenity);
-					for amenity item.var, go thru the results object
-					only switch items off if they are already on and match!
-					$.each(results, function (j, jtem) {
-					alert(jtem.visible+") nid: "+jtem.nid+ " has "+amenity+"="+jtem.amenity);
-					if (jtem.visible) {
-					if (item.chk==1 && jtem.amenity!=item.chk) {
-					jtem.visible = 0;
-					}
-					example:
-					item.var = 'building_am_cats'
-					item.chk = 1
-					
-					}
-					});
-					if (item.var) {
-					alert(item.var+":"+item.chk);
-					item.building_am_cats==building_am_cats &&
-					item.building_am_dogs_small==building_am_dogs_small &&
-					item.building_am_dogs_large==building_am_dogs_large &&
-					item.building_am_pool==building_am_pool &&
-					item.unit_am_laundry==unit_am_laundry &&
-					item.unit_am_dishwasher==unit_am_dishwasher &&
-					item.unit_am_disposal==unit_am_disposal &&
-					item.unit_am_balcony==unit_am_balcony &&
-					item.unit_am_furnished==unit_am_furnished &&
-					item.unit_am_garage==unit_am_garage
-					*/
-
-
-
+				// filter by date
+				
 
         // i have a results object with the correct visibility, apply it!
         $.each(results, function(i, item) {
