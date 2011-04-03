@@ -659,3 +659,7 @@ table.ui-datepicker tbody td a {
 table.ui-datepicker tbody td a:hover {
 	background: #bdbdbd;
 }
+/* address double delete button hide */
+#edit-field-building-address-0-delete-location-wrapper {
+	display: none;
+}
