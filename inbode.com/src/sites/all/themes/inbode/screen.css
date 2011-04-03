@@ -575,7 +575,9 @@ form.confirmation div a:active,
 }
 
 /* swf table    */
-
+object.swfupload {
+	height: 25px;
+}
 #swfupload_file_wrapper-field_building_images {
 
 }
