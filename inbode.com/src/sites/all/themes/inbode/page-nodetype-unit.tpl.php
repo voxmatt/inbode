@@ -166,10 +166,8 @@
 
 						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
 							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
-								
 								global $base_url;
-							
-							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
+								echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
 						</div>
 
 					</div>
