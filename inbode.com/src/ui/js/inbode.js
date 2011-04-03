@@ -1093,19 +1093,20 @@ inbode.util = {
         // and so the 'idc' and 'chkd' value will override anything we come into contact with
         amenities = [];
         $('#amenities .jquery-safari-checkbox').each(function(i) {
-            var am;
+            //var am;
             if ($(this).attr('id') === idc) {
-                am = {
-                    "var": $(this).attr('id'),
-                    "chk": chkd
-                };
+							if (chkd) {
+                amenities[$(this).attr('id')] = 1;
+							} else {
+                amenities[$(this).attr('id')] = 0;
+							}
             } else {
-                am = {
-                    "var": $(this).attr('id'),
-                    "chk": $(this).is(':checked')
-                };
+            	if ($(this).is(':checked')) {
+                amenities[$(this).attr('id')] = 1;
+            	} else {
+                amenities[$(this).attr('id')] = 0;
+            	}
             }
-            amenities.push(am);
         });
 
 
@@ -1120,44 +1121,61 @@ inbode.util = {
 
 
         // now filter by additional categories if they exist!
-        // for each amenity, go thru the results set
-        $.each(amenities, function(i, item) {
+        // for each result, go thru each of the amenities
+        $.each(results, function(i, item) {
+						// amenities
+						for (am in amenities) {
+							if (am) {
 
-
+								console.log(item.unit_id+":"+am+":"+item[am]);
+								//console.log(item.unit_name+","+item.unit_id+": am="+am+", item.visible="+item.visible+", amenities[am]="+amenities[am]+", item.am="+item[am]+", item="+item);
 /*
-if (item.var &&)
-var amenity = item.var;
-alert("amenity busy with:"+amenity);
-for amenity item.var, go thru the results object
-only switch items off if they are already on and match!
-$.each(results, function (j, jtem) {
-alert(jtem.visible+") nid: "+jtem.nid+ " has "+amenity+"="+jtem.amenity);
-if (jtem.visible) {
-if (item.chk==1 && jtem.amenity!=item.chk) {
-jtem.visible = 0;
-}
-example:
-item.var = 'building_am_cats'
-item.chk = 1
-
-}
-});
-if (item.var) {
-alert(item.var+":"+item.chk);
-item.building_am_cats==building_am_cats &&
-item.building_am_dogs_small==building_am_dogs_small &&
-item.building_am_dogs_small==building_am_dogs_small &&
-item.building_am_dogs_large==building_am_dogs_large &&
-item.building_am_pool==building_am_pool &&
-item.unit_am_laundry==unit_am_laundry &&
-item.unit_am_dishwasher==unit_am_dishwasher &&
-item.unit_am_disposal==unit_am_disposal &&
-item.unit_am_balcony==unit_am_balcony &&
-item.unit_am_furnished==unit_am_furnished &&
-item.unit_am_garage==unit_am_garage
+								for (b in item) {
+									console.log(b);
+								}
 */
-
+/*
+								if (item.visible==1 && amenities[am]==1 && item.am==1) {
+				        	console.log(am+"="+amenities[am]);
+								}
+*/
+							} 
+						}
         });
+					
+
+					/*
+					if (item.var &&)
+					var amenity = item.var;
+					alert("amenity busy with:"+amenity);
+					for amenity item.var, go thru the results object
+					only switch items off if they are already on and match!
+					$.each(results, function (j, jtem) {
+					alert(jtem.visible+") nid: "+jtem.nid+ " has "+amenity+"="+jtem.amenity);
+					if (jtem.visible) {
+					if (item.chk==1 && jtem.amenity!=item.chk) {
+					jtem.visible = 0;
+					}
+					example:
+					item.var = 'building_am_cats'
+					item.chk = 1
+					
+					}
+					});
+					if (item.var) {
+					alert(item.var+":"+item.chk);
+					item.building_am_cats==building_am_cats &&
+					item.building_am_dogs_small==building_am_dogs_small &&
+					item.building_am_dogs_large==building_am_dogs_large &&
+					item.building_am_pool==building_am_pool &&
+					item.unit_am_laundry==unit_am_laundry &&
+					item.unit_am_dishwasher==unit_am_dishwasher &&
+					item.unit_am_disposal==unit_am_disposal &&
+					item.unit_am_balcony==unit_am_balcony &&
+					item.unit_am_furnished==unit_am_furnished &&
+					item.unit_am_garage==unit_am_garage
+					*/
+
 
 
 

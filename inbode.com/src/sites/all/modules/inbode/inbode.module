@@ -484,9 +484,9 @@ function inbode_fusion_insert_unit( $data ) {
 	if ( stripos($uam,'in-unit-laundry')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
 	if ( stripos($uam,'dishwasher')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
 	if ( stripos($uam,'disposal')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
-	if ( stripos($uam,'balcony')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
 	if ( stripos($uam,'furnished')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
 	if ( stripos($uam,'garage')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
+	if ( stripos($uam,'balcony')===false) { $sql .= "0, "; } else { $sql .= "1, ";	};
 	
 
 	// unit images
