@@ -1,7 +1,8 @@
 <?php 
 
-//print_r($node);
+	//print_r($node);
 	$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);
+	//print_r($bd);
 	$faveid = 'fave_'.$bd->nid."_".$node->nid;	
 	
 	$lat = $bd->field_building_address[0]['latitude'];
@@ -16,6 +17,7 @@
 		<meta name="author" content="Inbode Inc." />
 		<title><?php print $head_title; ?></title>
 
+		<link type="text/css" href="/sites/all/themes/inbode/morestyles.css" rel="stylesheet" />	
 		<link type="text/css" href="/ui/css/unit.css" rel="stylesheet" />	
 		
 		<script type="text/javascript" src="/ui/js/jquery-1.4.2.min.js"></script>
@@ -270,8 +272,22 @@
 			$ii++;
 		}
 	}
-
-
+	
+	if (isset($bd->field_building_images[0]['filepath'])) {
+		foreach ($bd->field_building_images as $im) {
+			if ( isset($im['filepath'])) {
+				
+				if ($im['data']['height']>440) {
+					print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img height="440" src="/'.$im['filepath'].'" /></div>';			
+				}	else {
+					print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['filepath'].'" /></div>';
+				}		
+				$ii++;
+			}
+		}
+	}
+	
+	
 ?>
 
 				
@@ -281,7 +297,7 @@
 			<div id="mycarousel" class="jcarousel-skin-tango">
 			    <ul class="images">
 					<li class="thumb-selected"><img id="t7-thumb-1" class="t7-thumb-image" src="/sites/all/themes/inbode/images/unit/unit_details.png" /></li>
-					<li><img id="t7-thumb-2" class="t7-thumb-image" src="/sites/all/themes/inbode/images/unit/unit_details.png" /></li>
+					<li><img id="t7-thumb-2" class="t7-thumb-image" src="/sites/all/themes/inbode/images/unit/streetview.png" /></li>
 
 <?php
 
@@ -289,12 +305,21 @@
 
 	foreach ($node->field_unit_images as $im) {
 		if ( isset($im['filepath'])) {
-			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['view'].'" height="70" /></li>';
+			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['view'].'" /></li>';
 			$ii++;
 		}
 	}
 
-
+	if (isset($bd->field_building_images[0]['filepath'])) {
+		foreach ($bd->field_building_images as $im) {
+			if ( isset($im['filepath']) ) {
+				print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['filepath'].'" /></li>';
+				$ii++;
+			}
+		}
+	}
+	
+	
 ?>
 
 			    </ul>
