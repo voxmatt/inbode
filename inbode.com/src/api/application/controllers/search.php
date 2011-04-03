@@ -183,6 +183,7 @@ class Search extends REST_Controller
 				} else {
 					$f['available'] = 0;							
 				}
+				$f['available_ts'] = time($result['available_date']);
 				$f['unit_id'] = $result['unit_id'];
 				$f['unit_name'] = $result['unit_name'];
 				$f['unit_description'] = $result['unit_description'];
