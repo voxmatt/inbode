@@ -1205,7 +1205,7 @@ function inbode_summary($account) {
 			      $out .= "<span>".$unit["field_unit_bedroom_value"]."&nbsp;bed</span>";
 			      $out .= "<span>".$unit["field_unit_bathroom_value"]."&nbsp;bath</span>";
 			      $out .= "<span>".$unit["field_unit_price_amount"]."</span>";
-			      $out .= "<span>".$unit["field_unit_area_value"]."</span>";
+			      $out .= "<span>".$unit["field_unit_area_value"]."sf</span>";
 			      $out .= "<span>".$unit["field_unit_status_value"]."</span>";
 				  if ($unit["field_unit_status_value"]=='listed'){
 					  $out .= "<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/".$building["nid"]."/".$unit["nid"]."\">Post to Craigslist</a>&nbsp;(<a target=\"_blank\" href=\"/user/".$account->uid."/inbode/craigslist/preview/".$building["nid"]."/".$unit["nid"]."\" class=\"cpvw\" >Preview</a>)";
