@@ -1,8 +1,8 @@
 <?php 
 
-	//print_r($node);
-	$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);
-	//print_r($bd);
+	//print_r($node->field_unit_images);
+	$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);	
+	//print_r($bd->field_building_images);
 	$faveid = 'fave_'.$bd->nid."_".$node->nid;	
 	
 	$lat = $bd->field_building_address[0]['latitude'];
@@ -166,16 +166,21 @@
 
 						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
 							<img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
-								
 								global $base_url;
-							
-							echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
+								echo $base_url."/home#".$node->nid ; ?>" /> <a href="#" onClick="inbode.util.getlink();">x</a></span>
 						</div>
 
 					</div>
 					
 					<div id="t7_swapout_header_left">
-						<h1><?php print $title; ?>&nbsp;&ndash;&nbsp;$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php print $node->field_unit_bedroom[0]['value']; ?>bed&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
+						<h1><?php print $title; ?>&nbsp;&ndash;&nbsp;$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php 
+								
+								if ($node->field_unit_bedroom[0]['value']==0) {
+									print "studio";
+								} else {
+									print $node->field_unit_bedroom[0]['value']."bed";
+								}
+								 ?>&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
 					</div>
 				
 				</div>
@@ -262,13 +267,16 @@
 	$ii=3;
 
 	foreach ($node->field_unit_images as $im) {
-		if ( isset($im['view'])) {
+		if ( isset($im['filepath'])) {
+
+			$cim = str_ireplace("sites/default/files", "sites/default/files/imagecache/lightbox_full", $im['filepath']);
 			
 			if ($im['data']['height']>440) {
-				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img height="440" src="/'.$im['view'].'" /></div>';			
-			}	else {
-				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['view'].'" /></div>';
-			}		
+				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$cim.'" height="440" /></div>';			
+			} else {
+				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$cim.'" /></div>';
+			}
+			
 			$ii++;
 		}
 	}
@@ -277,11 +285,14 @@
 		foreach ($bd->field_building_images as $im) {
 			if ( isset($im['filepath'])) {
 				
+				$cim = str_ireplace("sites/default/files", "sites/default/files/imagecache/lightbox_full", $im['filepath']);
+
 				if ($im['data']['height']>440) {
-					print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img height="440" src="/'.$im['filepath'].'" /></div>';			
-				}	else {
-					print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['filepath'].'" /></div>';
-				}		
+					print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$cim.'" height="440" /></div>';			
+				} else {
+					print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$cim.'" /></div>';
+				}
+				
 				$ii++;
 			}
 		}
@@ -305,7 +316,8 @@
 
 	foreach ($node->field_unit_images as $im) {
 		if ( isset($im['filepath'])) {
-			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['view'].'" /></li>';
+			$ctim = str_ireplace("sites/default/files", "sites/default/files/imagecache/lightbox_thumbnail", $im['filepath']);
+			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$ctim.'" /></li>';
 			$ii++;
 		}
 	}
@@ -313,7 +325,8 @@
 	if (isset($bd->field_building_images[0]['filepath'])) {
 		foreach ($bd->field_building_images as $im) {
 			if ( isset($im['filepath']) ) {
-				print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['filepath'].'" /></li>';
+				$ctim = str_ireplace("sites/default/files", "sites/default/files/imagecache/lightbox_thumbnail", $im['filepath']);
+				print '<li><img height="62" id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$ctim.'" /></li>';
 				$ii++;
 			}
 		}

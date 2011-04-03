@@ -46,12 +46,12 @@ input {
 h2 {
   font-size: 18px;
   text-transform: uppercase;
-  font-weight: lighter;
+/*   font-weight: lighter; */
 }
 
 h3 {
   font-size: 18px;
-  font-weight: lighter;
+/*   font-weight: lighter; */
 }
 
 /* * hyper links */
@@ -172,18 +172,28 @@ h2 a:active {
   width: 400px;
   margin-top: 40px;
 }
+#t7_greeting a:link {
+	color: white;
+	text-decoration: none;
+}
+#t7_greeting a:visited {}
+#t7_greeting a:hover {text-decoration: underline;}
+#t7_greeting a:active {}
 
 /* * units and buildings */
 
 .building {
   font-size: 18px;
-  font-weight: lighter;
+/*   font-weight: lighter; */
   margin: 25px 0 15px;
 }
 
 .unit {
   font-size: 14px;
   margin: 5px 0 0 50px;
+}
+.unit span {
+	padding-right: 10px;
 }
 
 #t7_summary h3 {
@@ -311,7 +321,7 @@ div.messages {
   padding: 10px;
   width: 550px;
   border: 0 solid;
-  font-weight: lighter;
+/*   font-weight: lighter; */
   color: #000;
   font-size: 13px;
   -webkit-border-radius: 5px;
@@ -326,7 +336,7 @@ div.messages a {
 div.warning {
   background-image: none;
   background-color: #C3DC1E;
-  font-weight: lighter;
+/*   font-weight: lighter; */
   color: #000;
   font-size: 13px;
   border: 0 solid;
@@ -352,7 +362,7 @@ div.error {
 div.status {
   background-image: none;
   background-color: #1693a5;
-  font-weight: lighter;
+/*   font-weight: lighter; */
   color: #fff;
   font-size: 13px;
   border: 0 solid;
@@ -450,7 +460,7 @@ tr th {
   border-top-right-radius: 4px 4px;
   font-family: 'helvetica neue', helvetica, arial, sans-serif;
   font-size: 16px;
-  font-weight: lighter;
+/*   font-weight: lighter; */
   padding: 5px;
   margin-left: 0;
 }
@@ -648,4 +658,8 @@ table.ui-datepicker tbody td a {
 }
 table.ui-datepicker tbody td a:hover {
 	background: #bdbdbd;
+}
+/* address double delete button hide */
+#edit-field-building-address-0-delete-location-wrapper {
+	display: none;
 }

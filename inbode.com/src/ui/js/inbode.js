@@ -520,7 +520,7 @@ inbode.util = {
             'href': uu,
             'autoDimensions': false,
             'width': 728,
-            'height': 606,
+            'height': 626,
             'transitionIn': 'fade',
             'transitionOut': 'fade',
             'speedIn': 400,
@@ -791,7 +791,8 @@ inbode.util = {
                 var ll = new google.maps.LatLng(item.lat, item.lng);
                 mrkr = new google.maps.Marker({
                     position: ll,
-                    map: map
+                    map: map,
+		                animation: google.maps.Animation.DROP
                 });
 
                 var inb = {
