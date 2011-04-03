@@ -175,7 +175,14 @@
 					</div>
 					
 					<div id="t7_swapout_header_left">
-						<h1><?php print $title; ?>&nbsp;&ndash;&nbsp;$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php print $node->field_unit_bedroom[0]['value']; ?>bed&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
+						<h1><?php print $title; ?>&nbsp;&ndash;&nbsp;$<?php print intval($node->field_unit_price[0]['amount']); ?>&nbsp;<?php 
+								
+								if ($node->field_unit_bedroom[0]['value']==0) {
+									print "studio";
+								} else {
+									print $node->field_unit_bedroom[0]['value']."bed";
+								}
+								 ?>&nbsp;<?php print $node->field_unit_bathroom[0]['value']; ?>bath</h1>
 					</div>
 				
 				</div>
