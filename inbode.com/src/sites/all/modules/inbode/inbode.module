@@ -844,7 +844,7 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 	$ph .= '						<!-- ------------------ _title_ ------------------ -->';
 	$ph .= '						<table border="0" cellpadding="10" cellspacing="0" width="100%"><!-- LOGO START -->';
 	$ph .= '							<tr>';
-	$ph .= '								<td height="56" align="right"><img src="'.$base_url.'/api/image/logo/'.$nd->nid.'" width="172" height="56" /></td>';
+	$ph .= '								<td height="56" align="right"><a href="'.$base_url.'/home#'.$nd->nid.'"><img border="0" src="'.$base_url.'/api/image/logo/'.$nd->nid.'" width="172" height="56" /></a></td>';
 	$ph .= '							</tr>';
 	$ph .= '						</table><!-- LOGO END -->';
 	$ph .= '					</td>	';
@@ -902,7 +902,7 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 	$ph .= '																	<font face="Arial" color="#636363"><p style="font-size: 13px;margin:0;padding:0;">'.$bd->field_building_address[0]['street'].'<br>available '. strtolower( date( 'F j, Y' , strtotime($nd->field_unit_available[0]['value'])) ).'<br>'.$nd->field_unit_area[0]['value'].' square feet</p></font>';
 	$ph .= '																</td>';
 	$ph .= '																<td height="34" align="right" valign="top" style="margin:0;padding:0;">';
-	$ph .= '																		<a href="mailto:'.$usr->mail.'">';
+	$ph .= '																		<a href="'.$base_url.'/home#'.$nd->nid.'">';
 	$ph .= '																			<img src="'.$base_url.'/ui/climg/button.jpg" border="0" style="margin-top:0;padding-top:0;" height="34" width="189">';
 	$ph .= '																		</a>';
 	$ph .= '																</td>';
@@ -1031,7 +1031,7 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 			if ( isset( $pics[$rimg] ) ) {
 		
 				$ph .= '																<td align="left" valign="middle" width="220">';
-				$ph .= '																	<img src="'.$pics[$rimg].'" width="210">';
+				$ph .= '																	<a href="'.$base_url.'/home#'.$nd->nid.'"><img border="0" src="'.$pics[$rimg].'" width="210"></a>';
 				$ph .= '																</td>';
 		
 			} else {
@@ -1041,7 +1041,7 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 				if ($r==$num_rows && isset( $pics[$rimg-1] ) ) {
 			
 					$latlng = $bd->field_building_address[0]['latitude'].",".$bd->field_building_address[0]['longitude'];
-					$ph .= '<img src="http://maps.google.com/maps/api/staticmap?center='.$latlng.'&zoom=14&size=210x157&maptype=roadmap&markers=color:0x259eb0|'.$latlng.'&sensor=false" width="210" height="157" />';
+					$ph .= '<a href="'.$base_url.'/home#'.$nd->nid.'"><img border="0" src="http://maps.google.com/maps/api/staticmap?center='.$latlng.'&zoom=14&size=210x157&maptype=roadmap&markers=color:0x259eb0|'.$latlng.'&sensor=false" width="210" height="157" /></a>';
 			
 				}
 			
