@@ -1,8 +1,8 @@
 <?php 
 
-	//print_r($node);
-	$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);
-	//print_r($bd);
+	//print_r($node->field_unit_images);
+	$bd = node_load($node->field_unit_building[0]['nid'], NULL, TRUE);	
+	//print_r($bd->field_building_images);
 	$faveid = 'fave_'.$bd->nid."_".$node->nid;	
 	
 	$lat = $bd->field_building_address[0]['latitude'];
@@ -262,13 +262,16 @@
 	$ii=3;
 
 	foreach ($node->field_unit_images as $im) {
-		if ( isset($im['view'])) {
+		if ( isset($im['filepath'])) {
+
+			$cim = str_ireplace("sites/default/files", "sites/default/files/imagecache/lightbox_full", $im['filepath']);
 			
 			if ($im['data']['height']>440) {
-				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img height="440" src="/'.$im['view'].'" /></div>';			
-			}	else {
-				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['view'].'" /></div>';
-			}		
+				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$cim.'" height="440" /></div>';			
+			} else {
+				print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$cim.'" /></div>';
+			}
+			
 			$ii++;
 		}
 	}
@@ -277,11 +280,14 @@
 		foreach ($bd->field_building_images as $im) {
 			if ( isset($im['filepath'])) {
 				
+				$cim = str_ireplace("sites/default/files", "sites/default/files/imagecache/lightbox_full", $im['filepath']);
+
 				if ($im['data']['height']>440) {
-					print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img height="440" src="/'.$im['filepath'].'" /></div>';			
-				}	else {
-					print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$im['filepath'].'" /></div>';
-				}		
+					print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$cim.'" height="440" /></div>';			
+				} else {
+					print '<div id="t7-item-'.$ii.'" class="t7_swapout"><img src="/'.$cim.'" /></div>';
+				}
+				
 				$ii++;
 			}
 		}
@@ -305,7 +311,8 @@
 
 	foreach ($node->field_unit_images as $im) {
 		if ( isset($im['filepath'])) {
-			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['view'].'" /></li>';
+			$ctim = str_ireplace("sites/default/files", "sites/default/files/imagecache/lightbox_thumbnail", $im['filepath']);
+			print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$ctim.'" /></li>';
 			$ii++;
 		}
 	}
@@ -313,7 +320,8 @@
 	if (isset($bd->field_building_images[0]['filepath'])) {
 		foreach ($bd->field_building_images as $im) {
 			if ( isset($im['filepath']) ) {
-				print '<li><img id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$im['filepath'].'" /></li>';
+				$ctim = str_ireplace("sites/default/files", "sites/default/files/imagecache/lightbox_thumbnail", $im['filepath']);
+				print '<li><img height="62" id="t7-thumb-'.$ii.'" class="t7-thumb-image" src="/'.$ctim.'" /></li>';
 				$ii++;
 			}
 		}
