@@ -194,6 +194,7 @@
 .jcarousel-skin-tango .jcarousel-item-horizontal {
   margin-left: 0;
   margin-right: 10px;
+  padding-top: 15px;
 }
 skin.css (line 33)
 .jcarousel-skin-tango .jcarousel-item {
@@ -239,7 +240,15 @@ skin.css (line 33)
   background-image: url("/sites/all/themes/inbode/images/unit/next_.png")
 }
 #mycarousel .t7-thumb-image {
-  padding-top: 17px
+	padding: 3px;
+}
+#mycarousel .t7-thumb-image:hover {
+	padding: 2px;
+	border: 1px #A5A5A5 solid;
+}
+#mycarousel .thumb-selected .t7-thumb-image {
+	padding: 2px;
+	border: 1px #A5A5A5 solid;
 }
 .thumb-selected {
   background-image: url("/sites/all/themes/inbode/images/unit/selected.png");
