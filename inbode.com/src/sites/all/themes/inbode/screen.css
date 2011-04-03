@@ -17,6 +17,8 @@
 
 html,
 body {
+  background-image: url(images/header-bg.png);
+  background-repeat: repeat-x;
   margin: 0;
   padding: 0;
   text-align: left;
@@ -130,9 +132,9 @@ h2 a:active {
 
 #t7_container {
   text-align: left;
-  padding: 25px 0 0;
+  padding: 25px 15px 0;
   margin: 0 auto;
-  width: 960px;
+  width: 930px;
 }
 
 /* * header */
@@ -143,8 +145,6 @@ h2 a:active {
   padding: 0;
   margin: 0;
   clear: both;
-  background-image: url(images/header-bg.png);
-  background-repeat: repeat-x;
 }
 
 #t7_header {
