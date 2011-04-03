@@ -219,6 +219,9 @@ $(document).ready(function() {
             // real time changes to the sliders
             $("#slider-beds a:first").html(ui.values[0]);
             $("#slider-beds a:last").html(ui.values[1]);
+            if (ui.values[0] === beds[0]) {
+                $("#slider-beds a:first").html("studio");
+            }
             if (ui.values[1] === beds[1]) {
                 $("#slider-beds a:last").html(ui.values[1] + "+");
             }
@@ -966,17 +969,21 @@ inbode.util = {
                 $("#slider-price a:first").html(price_lower);
             }
             if (!$("#slider-price a:last").html()) {
-                if (price_upper === price[1]) {
+                if (price_upper == price[1]) {
                     $("#slider-price a:last").html(price_upper + "+");
                 } else {
                     $("#slider-price a:last").html(price_upper);
                 }
             }
             if (!$("#slider-beds a:first").html()) {
-                $("#slider-beds a:first").html(beds_lower);
+                if (beds_lower == beds[0]) {
+                    $("#slider-beds a:first").html("studio");
+                } else {
+                    $("#slider-beds a:first").html(beds_lower);
+                }
             }
             if (!$("#slider-beds a:last").html()) {
-                if (beds_upper === beds[1]) {
+                if (beds_upper == beds[1]) {
                     $("#slider-beds a:last").html(beds_upper + "+");
                 } else {
                     $("#slider-beds a:last").html(beds_upper);
@@ -986,7 +993,7 @@ inbode.util = {
                 $("#slider-baths a:first").html(baths_lower);
             }
             if (!$("#slider-baths a:last").html()) {
-                if (baths_upper === baths[1]) {
+                if (baths_upper == baths[1]) {
                     $("#slider-baths a:last").html(baths_upper + "+");
                 } else {
                     $("#slider-baths a:last").html(baths_upper);
@@ -1066,7 +1073,7 @@ inbode.util = {
             pricemax = price_upper;
         }
         var bedsmin = $("#slider-beds a:first").html();
-        if (!bedsmin) {
+        if (!bedsmin || bedsmin=="studio") {
             bedsmin = beds_lower;
         }
         var bedsmax = parseInt($("#slider-beds a:last").html(), 10);
