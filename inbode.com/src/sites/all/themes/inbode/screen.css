@@ -172,6 +172,13 @@ h2 a:active {
   width: 400px;
   margin-top: 40px;
 }
+#t7_greeting a:link {
+	color: white;
+	text-decoration: none;
+}
+#t7_greeting a:visited {}
+#t7_greeting a:hover {text-decoration: underline;}
+#t7_greeting a:active {}
 
 /* * units and buildings */
 
@@ -184,6 +191,9 @@ h2 a:active {
 .unit {
   font-size: 14px;
   margin: 5px 0 0 50px;
+}
+.unit span {
+	padding-right: 10px;
 }
 
 #t7_summary h3 {
