@@ -539,11 +539,11 @@ inbode.util = {
     showfilters: function() {
 
         // open up the filters if the cookie exists
-        if ($.cookie('filters_visible') === 1) {
+        if ($.cookie('filters_visible') == 1) {
             inbode.util.open_filters();
         }
 
-        if ($.cookie('more_filters_visible') === 1) {
+        if ($.cookie('more_filters_visible') == 1) {
             inbode.util.open_more_filters();
         }
     },
