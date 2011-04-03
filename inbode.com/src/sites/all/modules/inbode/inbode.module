@@ -965,7 +965,7 @@ function inbode_craigslist_preview($usr, $bd, $nd) {
 
 	$ph .= '																</td>';
 	$ph .= '																<td align="left" valign="middle" width="448">';
-	$ph .= '																	<font face="Arial" color="#636363"><p style="font-size: 13px;">'.$nd->field_building_description[0]['value'].'</p>';
+	$ph .= '																	<font face="Arial" color="#636363"><p style="font-size: 13px;">'.$bd->field_building_description[0]['value'].'</p>';
 	$ph .= '																</td>';
 	$ph .= '															</tr>';
 	$ph .= '														</table>';
