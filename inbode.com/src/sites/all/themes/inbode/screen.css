@@ -471,7 +471,7 @@ a {
 }
 
 /* BUTTONS!!!! */
-
+#t7_bldng_add_header, 
 .swfupload_button div.center,
 form.confirmation div a,
 .form-submit,
@@ -481,7 +481,7 @@ form.confirmation div a,
   background: #B9B9B9;
   background: -webkit-gradient(linear,0%0%,0%100%,from(white), to(#B9B9B9));
   background: -moz-linear-gradient(top,white,#B9B9B9);
-  color: #000!important;
+  color: #000 !important;
   padding: 4px 9px;
   text-decoration: none;
   vertical-align: middle;
@@ -498,6 +498,9 @@ form.confirmation div a,
   font-weight: 400;
   letter-spacing: -.5px;
 }
+/* add building button corrections */
+#t7_bldng_add_header {display: inline;}
+#t7_summary h2 a:link {color: black !important;}
 
 form.confirmation div a:hover,
 .form-submit:hover,
@@ -663,3 +666,7 @@ table.ui-datepicker tbody td a:hover {
 #edit-field-building-address-0-delete-location-wrapper {
 	display: none;
 }
+/* Makes selection color identity color w/white text */
+::selection { background:#187987; color: white; text-shadow: 0 1px 2px black; }
+::-moz-selection { background:#187987; color:white; -moz-text-shadow: 0 1px 2px pink; }
+::-webkit-selection { background:#187987; color:white; -webkit-text-shadow: 0 1px 2px black; }

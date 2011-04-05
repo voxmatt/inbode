@@ -48,6 +48,7 @@ if (
   <script type="text/javascript">
 		google.load('gdata', '2.x', { packages: ['maps'] });
   </script>
+
   <style type="text/css">
   	.no-borderradius #links .blog_link a {
   		padding: 50px !important;
@@ -77,7 +78,7 @@ if (
             global $user;
             
             if ( isset($user->roles[3]) || isset($user->roles[4]) || isset($user->roles[5]) || $user->uid==1 ) {
-            	print '<a href="/user/'.$user->uid.'/inbode">my account</a>';
+            	 print '<a class="signingin" href="/user/'.$user->uid.'/inbode">my account</a>';
             } else {
             	print '<a href="/user/login">sign in</a>';
             }

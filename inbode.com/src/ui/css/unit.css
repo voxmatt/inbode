@@ -58,9 +58,9 @@
 #t7_price .t7_fav_share a:visited {
   color: #636363
 }
-#t7_price .t7_fav_share a:hover {
+.t7_fav_share a:hover {
   color: #636363;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 #t7_price .t7_fav_share a:active {
   color: #636363
@@ -266,3 +266,8 @@ input.getlink {
 	font-family: 'helvetica neue', helvetica, arial, sans-serif;
 	font-size: 11px;
 }
+
+/* Makes selection color identity color w/white text */
+::selection { background:#187987; color: white; text-shadow: 0 1px 2px black; }
+::-moz-selection { background:#187987; color:white; -moz-text-shadow: 0 1px 2px pink; }
+::-webkit-selection { background:#187987; color:white; -webkit-text-shadow: 0 1px 2px black; }
