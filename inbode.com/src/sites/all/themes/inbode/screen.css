@@ -182,12 +182,27 @@ h2 a:active {
 
 /* * units and buildings */
 
-.building {
-  font-size: 18px;
-/*   font-weight: lighter; */
-  margin: 25px 0 15px;
-}
-
+	.building {
+	  background-color: #EEE;
+	  border-radius: 10px;
+	  -moz-border-radius: 10px;
+	  -webkit-border-radius: 10px; 
+	  font-size: 12px;
+	  margin: 25px 0 15px;
+	  padding: 10px 0 14px 0;
+	}
+	.building:hover {
+	  background-color: #DDD;
+	}
+	.building a {
+	  font-size: 20px;
+	}
+	.building_img {
+		float: left;
+		padding: 0 15px 0 15px;
+		position: relative;
+		top: -3px
+	}
 .unit {
   font-size: 14px;
   margin: 5px 0 0 50px;
@@ -670,3 +685,4 @@ table.ui-datepicker tbody td a:hover {
 ::selection { background:#187987; color: white; text-shadow: 0 1px 2px black; }
 ::-moz-selection { background:#187987; color:white; -moz-text-shadow: 0 1px 2px pink; }
 ::-webkit-selection { background:#187987; color:white; -webkit-text-shadow: 0 1px 2px black; }
+

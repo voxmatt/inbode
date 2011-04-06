@@ -1198,12 +1198,13 @@ function inbode_summary($account) {
 
       // building
       $out .= "\n\n<div class=\"building\">\n";
-      $out .= "<a href=\"/node/".$building["nid"]."/edit?destination=user/".$account->uid."/inbode\">".$building["title"]."</a>";
+      $out .= "\n<img class=\"building_img\" src=\"http://placehold.it/50\" />\n";
+      $out .= "<a href=\"/node/".$building["nid"]."/edit?destination=user/".$account->uid."/inbode\">".$building["title"]."</a><br />";
       $out .= "";
       if (!$building["street"] || !$building["city"] || !$building["province"]) {
 				// do nothing
       } else {
-	      $out .= "  &mdash; ". $building["street"].", ".$building["city"].", ".$building["province"];      
+	      $out .= " ". $building["street"].", ".$building["city"].", ".$building["province"];      
       }
       $out .= "\n</div>";
       
