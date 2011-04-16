@@ -1,3 +1,4 @@
+
 #t7_white_box_container {
   margin: 0px auto;
   width: 802px;
@@ -18,59 +19,6 @@
   position: absolute;
   overflow: hidden;
   display: none;
-}
-#t7_price {
-  float: right;
-  margin-right: 30px;
-}
-#t7_price .contact {
-	color: #fff;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	margin-top: 10px;
-	position: relative;
-}
-#t7_price .contact {
-	background-image: url(/ui/img/lb_button_bg.png);
-	background-position: top center;
-	background-repeat: no-repeat;
-	padding: 10px 34px;
-	margin: 0 0 10px 0;
-	color: white !important;
-	text-decoration: none;
-	text-shadow: 0 -1px 0 black;
-	position: relative;
-	}
-#t7_price .contact a:link {position:relative;text-decoration: none;}
-#t7_price .contact a:visited {color: white;text-decoration: none;}
-#t7_price .contact a:hover {text-decoration: underline;}
-#t7_price .contact a:active {text-decoration: underline;top: 1px;}
-
-#t7_price .t7_fav_share {
-  margin-top: 10px;
-  text-align: center;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  color: #636363;
-}
-#t7_price .t7_fav_share a:link {
-  color: #636363
-}
-#t7_price .t7_fav_share a:visited {
-  color: #636363
-}
-.t7_fav_share a:hover {
-  color: #636363;
-  text-decoration: none !important;
-}
-#t7_price .t7_fav_share a:active {
-  color: #636363
-}
-#t7_price .contact h3 {
-  font-weight: normal;
-  font-size: 16px;
-  margin: 0;
-  text-align: center;
-  color: #fff;
 }
 #t7_address {
   float: left;
@@ -202,41 +150,28 @@ skin.css (line 33)
   width: 75px;
 }
 .jcarousel-skin-tango .jcarousel-prev-horizontal {
-  background-attachment: scroll;
-  background-clip: border-box;
-  background-color: transparent;
   background-image: url("/sites/all/themes/inbode/images/unit/prev.png");
-  background-origin: padding-box;
-  background-position: 0 0;
   background-repeat: no-repeat;
-  background-size: auto auto;
   cursor: pointer;
   height: 32px;
   left: 5px;
   position: absolute;
-  top: 43px;
+  top: 33px;
   width: 32px;
 }
 .jcarousel-skin-tango div.jcarousel-prev-disabled-horizontal {
   background-image: url("/sites/all/themes/inbode/images/unit/prev_.png")
 }
 .jcarousel-skin-tango .jcarousel-next-horizontal {
-  background-attachment: scroll;
-  background-clip: border-box;
-  background-color: transparent;
   background-image: url("/sites/all/themes/inbode/images/unit/next.png");
-  background-origin: padding-box;
-  background-position: 0 0;
   background-repeat: no-repeat;
-  background-size: auto auto;
   cursor: pointer;
   height: 32px;
   position: absolute;
   right: 5px;
-  top: 43px;
+  top: 33px;
   width: 32px;
-}
-.jcarousel-skin-tango div.jcarousel-next-disabled-horizontal {
+}.jcarousel-skin-tango div.jcarousel-next-disabled-horizontal {
   background-image: url("/sites/all/themes/inbode/images/unit/next_.png")
 }
 #mycarousel .t7-thumb-image {
@@ -266,8 +201,3 @@ input.getlink {
 	font-family: 'helvetica neue', helvetica, arial, sans-serif;
 	font-size: 11px;
 }
-
-/* Makes selection color identity color w/white text */
-::selection { background:#187987; color: white; text-shadow: 0 1px 2px black; }
-::-moz-selection { background:#187987; color:white; -moz-text-shadow: 0 1px 2px pink; }
-::-webkit-selection { background:#187987; color:white; -webkit-text-shadow: 0 1px 2px black; }
