@@ -32,6 +32,13 @@
 	</head>
 	<body>
 	
+	<div id="t7_craigslist_contain"> 
+		<iframe scrolling="auto" id="frame" src="http://minneapolis.craigslist.org/hnp/apa/2302094624.html" frameborder="0">
+			<p>Your browser does not support iframes.</p>
+	  		<p><a href="">Click here to continue with the inbode craigslist automagician.</a></p>
+		</iframe>
+	</div> 
+	
 		<?php
 		
 			global $user;
@@ -43,43 +50,28 @@
 		
 		?>
 
-		<!-- header -->
-		<div id="t7_header_wrap">
-  		<div id="t7_header">
-  		  <div id="t7_inbode_logo"><a href="<?php print $homelink; ?>"><img src="/<?php echo path_to_theme(); ?>/images/inbode-logo.png" border="0" width="230" height="79" alt="inbode" title="inbode" /></a></div>
-  		  <div id="t7_greeting"><?php print $header; ?></div>  			
-  		</div>
-		</div>
-
-
 		<!-- main content container -->
 		<div id="t7_container">
-
 
 			<!-- main content -->
 			<div id="t7_content">
 
-				<?php if ($messages): ?>				
-					<?php print $messages; ?>
-				<?php endif; ?>
+				<div id="t7_craigslist_sidebar">
+  		  			
+  		  			<div id="t7_inbode_logo"><a href="<?php print $homelink; ?>"><img src="/<?php echo path_to_theme(); ?>/images/inbode-logo.png" border="0" width="230" height="79" alt="inbode" title="inbode" /></a></div>
+  		  			
+  		  			<p><a href="<?php print $homelink; ?>">&laquo; back to inbode</a></p>
 
-				<?php
-				
-				// only show tabs if you have the admin role or you're user=1 (super admin)
-				if ($tabs) {
-					if ($user->uid==1 || isset($user->roles[3])) {
-						print "<div class=\"tabs\">$tabs</div>";				
-					}
-				}
-
-				?>
-				
-								
-				<?php if ($help): ?>				
-					<?php print $help; ?>
-				<?php endif; ?>
-
-				<?php print $content; ?>
+					<div id="t7_craigslist_copy">
+						<p>The only thing you <em>need</em> to add on the right is your email address. Just click here to copy it and paste it to the right:
+					</div>
+					
+					<div id="t7_craigslist_info">
+						<p>(you also might want to jazz up your title a bit)</p>
+						<p>And then just click "continue."</p>
+					</div>
+					
+				</div>
 
 			</div> 
 

@@ -992,7 +992,7 @@
             var el = e.jquery !== undefined ? e[0] : e;
 
             if (p == 'marginRight' && $.browser.safari) {
-                var old = {'display': 'block', 'float': 'none', 'width': 'auto'}, oWidth, oWidth2;
+                var old = {'display': 'block', 'float': 'none', 'width': '10000px'}, oWidth, oWidth2;
 
                 $.swap(el, old, function() { oWidth = el.offsetWidth; });
 
