@@ -28,7 +28,9 @@
 		<?php print $head; ?>
 		<?php print $styles; ?>
 		<?php print $scripts; ?>
-
+			<script>
+				$('#edit-submit').button();			
+			</script>
 	</head>
 	<body>
 	

@@ -28,7 +28,8 @@
 		<?php print $head; ?>
 		<?php print $styles; ?>
 		<?php print $scripts; ?>
-		
+		<link type="text/css" media="all" rel="stylesheet" href="/sites/all/themes/inbode/jquery-ui-1.8.7.custom.css">
+
 	</head>
 	<body>
 	

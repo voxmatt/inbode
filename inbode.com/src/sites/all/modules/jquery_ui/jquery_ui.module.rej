@@ -1,0 +1,17 @@
+***************
+*** 20,26 ****
+   *   on the page, or a string with a single file name.
+   */
+  function jquery_ui_add($files = array()) {
+-   static $loaded_files, $ui_core, $effects_core;
+  
+    $jquery_ui_path = jquery_ui_get_path();
+    if ($jquery_ui_path === FALSE) {
+--- 20,26 ----
+   *   on the page, or a string with a single file name.
+   */
+  function jquery_ui_add($files = array()) {
++   static $loaded_files, $dependencies = array();
+  
+    $jquery_ui_path = jquery_ui_get_path();
+    if ($jquery_ui_path === FALSE) {

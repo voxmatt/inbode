@@ -666,6 +666,7 @@ table.swfupload td {
 }
 
 /* jquery UI calendar styles */
+/*
 .ui-datepicker-div, .ui-datepicker-inline, #ui-datepicker-div {
 	-moz-border-radius: 4px !important;
 	-webkit-border-radius: 4px !important;
@@ -677,6 +678,17 @@ table.ui-datepicker tbody td a {
 table.ui-datepicker tbody td a:hover {
 	background: #bdbdbd;
 }
+*/
+
+/* aristo fixes */
+/*
+.ui-datepicker table { font-size: 11px !important; border-spacing: 0; }
+.ui-datepicker thead th { border: none !important; }
+*/
+
+
+
+
 /* address double delete button hide */
 #edit-field-building-address-0-delete-location-wrapper {
 	display: none;
