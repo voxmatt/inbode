@@ -139,14 +139,9 @@
   width: 610px !important;
   padding-bottom: 20px;
 }
-<<<<<<< HEAD
+
 .jcarousel-list-horizontal { width: 10000px !important; }
-=======
-.jcarousel-list-horizontal { width: 610px !important; }
-#mycarousel div.jcarousel-clip.jcarousel-clip-horizontal ul.images.jcarousel-list.jcarousel-list-horizontal {
-	width: 610px !important;
-}
->>>>>>> b1b5e4ba389192d9984d3db2adeed2eab2e6c5aa
+
 .jcarousel-skin-tango .jcarousel-item-horizontal {
   margin-left: 0;
   margin-right: 10px;
