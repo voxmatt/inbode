@@ -1,5 +1,6 @@
 <?php
 
+/*
 if (
 
 	isset($user->roles[3]) ||  	// super admin
@@ -7,6 +8,7 @@ if (
 	isset($user->roles[5]) || 	// user
 	($user->uid==1)) {					// uid=1
 	// show the page
+*/
 	
  ?><!DOCTYPE html>
 <html>
@@ -200,11 +202,13 @@ if (
 <?php
 
 	//
+/*
 } else {
 
 	// if we are anonymouse, redirect to home page
 
 	header('Location: /');
 };
+*/
 
 ?>

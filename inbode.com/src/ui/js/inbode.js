@@ -673,10 +673,8 @@ inbode.util = {
                 "available": item.available,
                 "status": item.status,
                 "nid": item.nid,
-                "unit_image_1": item.unit_image_1,
-                "unit_image_2": item.unit_image_2,
-                "unit_image_3": item.unit_image_3,
-                "unit_image_4": item.unit_image_4,
+                "unit_image_1": item.unit_image_1.replace('sites/default/files', 'sites/default/files/imagecache/lightbox_thumbnail'),
+                "unit_image_2": item.unit_image_2.replace('sites/default/files', 'sites/default/files/imagecache/lightbox_thumbnail'),
                 "visible": 1
             };
 
@@ -691,6 +689,7 @@ inbode.util = {
             
 						// done working, show user
             $('#t7_ldr img').fadeOut();
+
 
         });
 
@@ -723,9 +722,21 @@ inbode.util = {
 
         // images
         if (item.unit_image_1) {
+
+			// show imagecache thumbnails if not already there.
+			if (item.unit_image_1.search('lightbox_thumbnail')==-1) {
+				item.unit_image_1 = item.unit_image_1.replace('sites/default/files', 'sites/default/files/imagecache/lightbox_thumbnail');
+			}
+
             mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(3, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>';
         }
         if (item.unit_image_2) {
+
+			// show imagecache thumbnails if not already there.
+			if (item.unit_image_2.search('lightbox_thumbnail')==-1) {
+				item.unit_image_2 = item.unit_image_2.replace('sites/default/files', 'sites/default/files/imagecache/lightbox_thumbnail');
+			}
+
             mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(4, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>';
         }
 

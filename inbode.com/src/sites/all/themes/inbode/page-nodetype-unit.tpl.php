@@ -160,7 +160,7 @@
 					<div id="t7_swapout_header_right">
 						
 						<div class="contact">
-							<a href="#"><h3>contact landlord</h3></a>
+							<a href="#"><h3>contact manager</h3></a>
 						</div><!-- .contact end -->
 
 

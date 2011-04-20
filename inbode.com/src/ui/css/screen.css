@@ -343,7 +343,7 @@ img { border: 0; }
 	color: #666;
 	font-family: 'helvetica neue', helvetica, arial, sans-serf;
 	font-size: 22px;
-	font-weight: lighter;
+	font-weight: 100;
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
