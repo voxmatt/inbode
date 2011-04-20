@@ -516,11 +516,12 @@ inbode.util = {
     },
     fancybox: function(iid, unit_id) {
 
-        var uu = '/unit/' + unit_id;
+        var uu = '/unit/' + parseInt(unit_id);
 
         if (iid) {
             uu = uu + '#' + iid;
         }
+
 
         $.fancybox({
             'type': 'iframe',
@@ -673,8 +674,8 @@ inbode.util = {
                 "available": item.available,
                 "status": item.status,
                 "nid": item.nid,
-                "unit_image_1": item.unit_image_1.replace('sites/default/files', 'sites/default/files/imagecache/lightbox_thumbnail'),
-                "unit_image_2": item.unit_image_2.replace('sites/default/files', 'sites/default/files/imagecache/lightbox_thumbnail'),
+                "unit_image_1": item.unit_image_1,
+                "unit_image_2": item.unit_image_2,
                 "visible": 1
             };
 
@@ -684,10 +685,7 @@ inbode.util = {
             // pop up the lightbox
             infowindow.open(map);
 
-            //inbode.util.fancybox(1, item.unit_id);
-            
-            
-						// done working, show user
+			// done working, show user
             $('#t7_ldr img').fadeOut();
 
 
