@@ -817,3 +817,8 @@ a.t7_logo_link {
 	height: 65px;
 	width: 100%;
 }
+
+/* Carousel Fix */
+#mycarousel div.jcarousel-clip.jcarousel-clip-horizontal ul.images.jcarousel-list.jcarousel-list-horizontal {
+	width: 610px !important;
+}
