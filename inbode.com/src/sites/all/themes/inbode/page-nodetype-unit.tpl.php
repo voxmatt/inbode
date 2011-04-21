@@ -160,7 +160,7 @@
 					<div id="t7_swapout_header_right">
 						
 						<div class="contact">
-							<a href="#"><h3>contact manager</h3></a>
+							<a href="mailto:<?php print $node->field_unit_email[0]['value']; ?>?subject=inbode:&cc=activity@inbode.com"><h3>contact manager</h3></a>
 						</div><!-- .contact end -->
 
 
