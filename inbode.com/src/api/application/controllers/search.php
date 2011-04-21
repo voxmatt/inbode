@@ -143,19 +143,19 @@ class Search extends REST_Controller
 				$ll=explode(',',$result['latlng']);
 				$f['lat'] = $ll[0];
 				$f['lng'] = $ll[1];
-				$f['building_id'] = $result['building_id'];
+				$f['building_id'] = intval($result['building_id']);
 				$f['building_name'] = $result['building_name'];
 				$f['building_description'] = $result['building_description'];
 				$f['street'] = $result['street'];
 				$f['additional'] = $result['street2'];
 				$f['city'] = $result['city'];
 				$f['province'] = $result['province'];
-				$f['postal_code'] = $result['postal_code'];
+				$f['postal_code'] = intval($result['postal_code']);
 				$f['country'] = $result['country'];
-				$f['building_am_cats'] = $result['building_am_cats'];
-				$f['building_am_dogs_small'] = $result['building_am_dogs_small'];
-				$f['building_am_dogs_large'] = $result['building_am_dogs_large'];
-				$f['building_am_pool'] = $result['building_am_pool'];
+				$f['building_am_cats'] = intval($result['building_am_cats']);
+				$f['building_am_dogs_small'] = intval($result['building_am_dogs_small']);
+				$f['building_am_dogs_large'] = intval($result['building_am_dogs_large']);
+				$f['building_am_pool'] = intval($result['building_am_pool']);
 				
 				// building images some day too
 				$f['building_image_1'] = $result['building_image_1'];
@@ -171,28 +171,28 @@ class Search extends REST_Controller
 				if (substr($f['building_image_4'], 0, 1)!="/" && $result['building_image_4']) { $f['building_image_4']="/".$f['building_image_4'];}; 
 
 				// unit specific				
-				$f['featureid'] = md5($result['building_id']."_".$result['unit_id']);
-				$f['nid'] = $result['building_id']."_".$result['unit_id'];
-				$f['beds'] = $result['bedrooms'];
-				$f['baths'] = $result['bathrooms'];
-				$f['price'] = (int) $result['price'];
+				$f['featureid'] = md5(intval($result['building_id'])."_".intval($result['unit_id']));
+				$f['nid'] = intval($result['building_id'])."_".intval($result['unit_id']);
+				$f['beds'] = intval($result['bedrooms']);
+				$f['baths'] = intval($result['bathrooms']);
+				$f['price'] = intval($result['price']);
 				$f['currency'] = $result['currency'];
-				$f['area'] = $result['area'];
+				$f['area'] = intval($result['area']);
 				if ($result['available_date']) {
 					$f['available'] = date( 'n/j/y', strtotime($result['available_date']) );			
 				} else {
 					$f['available'] = 0;							
 				}
 				$f['available_ts'] = time($result['available_date']);
-				$f['unit_id'] = $result['unit_id'];
+				$f['unit_id'] = intval($result['unit_id']);
 				$f['unit_name'] = $result['unit_name'];
 				$f['unit_description'] = $result['unit_description'];
-				$f['unit_am_laundry'] = $result['unit_am_laundry'];
-				$f['unit_am_dishwasher'] = $result['unit_am_dishwasher'];
-				$f['unit_am_disposal'] = $result['unit_am_disposal'];
-				$f['unit_am_balcony'] = $result['unit_am_balcony'];
-				$f['unit_am_furnished'] = $result['unit_am_furnished'];
-				$f['unit_am_garage'] = $result['unit_am_garage'];
+				$f['unit_am_laundry'] = intval($result['unit_am_laundry']);
+				$f['unit_am_dishwasher'] = intval($result['unit_am_dishwasher']);
+				$f['unit_am_disposal'] = intval($result['unit_am_disposal']);
+				$f['unit_am_balcony'] = intval($result['unit_am_balcony']);
+				$f['unit_am_furnished'] = intval($result['unit_am_furnished']);
+				$f['unit_am_garage'] = intval($result['unit_am_garage']);
 				$f['status'] = $result['status'];
 				
 				// unit images
@@ -280,19 +280,19 @@ class Search extends REST_Controller
 				$ll=explode(',',$result['latlng']);
 				$f['lat'] = $ll[0];
 				$f['lng'] = $ll[1];
-				$f['building_id'] = $result['building_id'];
+				$f['building_id'] = intval($result['building_id']);
 				$f['building_name'] = $result['building_name'];
 				$f['building_description'] = $result['building_description'];
 				$f['street'] = $result['street'];
 				$f['additional'] = $result['street2'];
 				$f['city'] = $result['city'];
 				$f['province'] = $result['province'];
-				$f['postal_code'] = $result['postal_code'];
+				$f['postal_code'] = intval($result['postal_code']);
 				$f['country'] = $result['country'];
-				$f['building_am_cats'] = $result['building_am_cats'];
-				$f['building_am_dogs_small'] = $result['building_am_dogs_small'];
-				$f['building_am_dogs_large'] = $result['building_am_dogs_large'];
-				$f['building_am_pool'] = $result['building_am_pool'];
+				$f['building_am_cats'] = intval($result['building_am_cats']);
+				$f['building_am_dogs_small'] = intval($result['building_am_dogs_small']);
+				$f['building_am_dogs_large'] = intval($result['building_am_dogs_large']);
+				$f['building_am_pool'] = intval($result['building_am_pool']);
 				
 				// building images some day too
 				$f['building_image_1'] = $result['building_image_1'];
@@ -309,26 +309,26 @@ class Search extends REST_Controller
 
 				// unit specific				
 				$f['featureid'] = md5($result['building_id']."_".$result['unit_id']);
-				$f['nid'] = $result['building_id']."_".$result['unit_id'];
-				$f['beds'] = $result['bedrooms'];
-				$f['baths'] = $result['bathrooms'];
-				$f['price'] = (int) $result['price'];
+				$f['nid'] = intval($result['building_id'])."_".intval($result['unit_id']);
+				$f['beds'] = intval($result['bedrooms']);
+				$f['baths'] = intval($result['bathrooms']);
+				$f['price'] = intval($result['price']);
 				$f['currency'] = $result['currency'];
-				$f['area'] = $result['area'];
+				$f['area'] = intval($result['area']);
 				if ($result['available_date']) {
 					$f['available'] = date( 'n/j/y', strtotime($result['available_date']) );			
 				} else {
 					$f['available'] = 0;							
 				}
-				$f['unit_id'] = $result['unit_id'];
+				$f['unit_id'] = intval($result['unit_id']);
 				$f['unit_name'] = $result['unit_name'];
 				$f['unit_description'] = $result['unit_description'];
-				$f['unit_am_laundry'] = $result['unit_am_laundry'];
-				$f['unit_am_dishwasher'] = $result['unit_am_dishwasher'];
-				$f['unit_am_disposal'] = $result['unit_am_disposal'];
-				$f['unit_am_balcony'] = $result['unit_am_balcony'];
-				$f['unit_am_furnished'] = $result['unit_am_furnished'];
-				$f['unit_am_garage'] = $result['unit_am_garage'];
+				$f['unit_am_laundry'] = intval($result['unit_am_laundry']);
+				$f['unit_am_dishwasher'] = intval($result['unit_am_dishwasher']);
+				$f['unit_am_disposal'] = intval($result['unit_am_disposal']);
+				$f['unit_am_balcony'] = intval($result['unit_am_balcony']);
+				$f['unit_am_furnished'] = intval($result['unit_am_furnished']);
+				$f['unit_am_garage'] = intval($result['unit_am_garage']);
 				$f['status'] = $result['status'];
 				
 				// unit images
