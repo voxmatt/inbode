@@ -703,6 +703,7 @@ inbode.util = {
         mrkrhtml += '$' + item.price + '&nbsp;';
 
         // beds
+        item.beds = parseInt(item.beds);
         if (item.beds === 1) {
             mrkrhtml += item.beds + ' bed ';
         } else {
@@ -710,6 +711,7 @@ inbode.util = {
         }
 
         // baths
+        item.baths = parseInt(item.baths);
         if (item.baths === 1) {
             mrkrhtml += item.baths + ' bath ';
         } else {
