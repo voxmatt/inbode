@@ -491,8 +491,15 @@ inbode.util = {
                 // create a map and set it to minneapolis by default so it renders
                 map.setCenter(mpls);
                 $("#t7_city").val("Minneapolis, MN");
+                // force a search in minneapolis every time this page loads for the first time.
+                inbode.util.search('Minneapolis, MN');
+
+
+								// --------
+								// TAKING OUT AUTO LOCATION DETECT FOR NOW
                 // try to find the user's location if they'll let us
                 // w3c preferred
+								/*
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(function(position) {
                         loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -542,6 +549,8 @@ inbode.util = {
                     });
                     inbode.util.search('Minneapolis, MN');
                 }
+								*/
+
             }
 
         }
@@ -937,7 +946,7 @@ inbode.util = {
 
             });
 
-            // record last location in a cookie
+            // record last location and bounds in a cookie
             $.cookie('last_latlng', '(' + data.latlng.lat + ',' + data.latlng.lng + ')', {
                 expires: cookieexpiration,
                 path: '/'
@@ -946,7 +955,10 @@ inbode.util = {
                 expires: cookieexpiration,
                 path: '/'
             });
-
+            $.cookie('last_bounds', map.getBounds(), {
+                expires: cookieexpiration,
+                path: '/'
+            });
             // center map at location
             var l = new google.maps.LatLng(data.latlng.lat, data.latlng.lng);
             map.setCenter(l);
