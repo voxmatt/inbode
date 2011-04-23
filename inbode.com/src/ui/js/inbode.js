@@ -227,6 +227,9 @@ $(document).ready(function() {
             if (ui.values[0] === beds[0]) {
                 $("#slider-beds a:first").html("studio");
             }
+            if (ui.values[1] === beds[0]) {
+                $("#slider-beds a:last").html("studio");
+            }
             if (ui.values[1] === beds[1]) {
                 $("#slider-beds a:last").html(ui.values[1] + "+");
             }
