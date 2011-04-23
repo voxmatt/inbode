@@ -122,7 +122,7 @@
 			                path: '/'
 			            });
 			        }
-			
+			        
 			
 			    } else {
 			        // no longer a fave :(
@@ -165,7 +165,7 @@
 
 
 						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
-							<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#"><img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" />&nbsp; favorite</a> &nbsp;
+							<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#"><img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" /></a>&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;
 							<a href="#" onClick="inbode.util.getlink();" id="gl">get link</a><span  style="display:none;" id="glin"><input class="getlink" type="text" value="<?php 
 								global $base_url;
 								echo $base_url."/home#".$node->nid ; ?>" />
