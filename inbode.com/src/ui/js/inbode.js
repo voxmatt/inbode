@@ -106,6 +106,7 @@ datez[1] = zm + "/" + zd + "/" + y;
 // now ready
 $(document).ready(function() {
 
+
     // if we see a request for an individual unit, reset filters
     if (unithash) {
         inbode.util.resetfilter();
@@ -289,6 +290,38 @@ $(document).ready(function() {
 inbode = {};
 
 inbode.favorite = {
+
+		update: function(fid, fposition) {
+		
+			if ($.cookie('faves')) {
+				// there's a cookie, let's update the star on the bubble and the place marker icon
+				if ($.cookie('faves').search(fid)>0) {
+					// this place is a fave, make sure the right colored icons are being used
+					$('#fave_' + fid).attr('src', '/ui/img/yellow_star.png');
+          $.each(results, function(i, item) {
+              if (item.marker.position == fposition) {
+                  // this is the marker whose icon we need to change!
+                  item.marker.setIcon('/ui/img/inbmrkr.png');
+                  item.marker.setShadow('/ui/img/inbmrkr_shadow.png');
+              }
+          });
+				} else {
+					// not a fave, update with the correct icons!
+					$('#fave_' + fid).attr('src', '/ui/img/grey_star.png');
+          $.each(results, function(i, item) {
+              if (item.marker.position == fposition) {
+                  // thi is the marker whose icon we need to change!
+                  if ($.cookie('click_history').search(fposition) > 0) {
+                      item.marker.setIcon('/ui/img/inbmrkr-grey.png');
+                  } else {
+                      item.marker.setIcon();
+                  }
+              }
+          });
+				}
+			}
+		
+		},
 
     starclick: function(id, position) {
 
@@ -514,7 +547,7 @@ inbode.util = {
         }
 
     },
-    fancybox: function(iid, unit_id) {
+    fancybox: function(iid, unit_id, nid, position) {
 
         var uu = '/unit/' + parseInt(unit_id);
 
@@ -534,7 +567,10 @@ inbode.util = {
             'speedIn': 400,
             'speedOut': 200,
             'overlayOpacity': 0.1,
-            'overlayColor': '#000'
+            'overlayColor': '#000',
+            'onClosed': function() {
+							inbode.favorite.update(nid, position);
+            }
         });
 
 
@@ -723,21 +759,21 @@ inbode.util = {
         // images
         if (item.unit_image_1) {
 
-			// show imagecache thumbnails if not already there.
-			if (item.unit_image_1.search('lightbox_thumbnail')==-1) {
-				item.unit_image_1 = item.unit_image_1.replace('sites/default/files', 'sites/default/files/imagecache/lightbox_thumbnail');
-			}
+					// show imagecache thumbnails if not already there.
+					if (item.unit_image_1.search('lightbox_thumbnail')==-1) {
+						item.unit_image_1 = item.unit_image_1.replace('sites/default/files', 'sites/default/files/imagecache/lightbox_thumbnail');
+					}
 
-            mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(3, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>';
+          mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(3, \'' + item.unit_id + '\', \'' + item.nid + '\', \'' + mrkr.position + '\');"><img border="0" src="' + item.unit_image_1 + '" width="104" height="73" /></a></div>';
         }
         if (item.unit_image_2) {
 
-			// show imagecache thumbnails if not already there.
-			if (item.unit_image_2.search('lightbox_thumbnail')==-1) {
-				item.unit_image_2 = item.unit_image_2.replace('sites/default/files', 'sites/default/files/imagecache/lightbox_thumbnail');
-			}
+					// show imagecache thumbnails if not already there.
+					if (item.unit_image_2.search('lightbox_thumbnail')==-1) {
+						item.unit_image_2 = item.unit_image_2.replace('sites/default/files', 'sites/default/files/imagecache/lightbox_thumbnail');
+					}
 
-            mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(4, \'' + item.unit_id + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>';
+          mrkrhtml += '<div class="t7_apt_images"><a href="#" onclick="inbode.util.fancybox(4, \'' + item.unit_id + '\', \'' + item.nid + '\', \'' + mrkr.position + '\');"><img border="0" src="' + item.unit_image_2 + '" width="104" height="73" /></a></div>';
         }
 
 
@@ -773,7 +809,7 @@ inbode.util = {
         // button it up
         mrkrhtml += '</div>';
         mrkrhtml += '</div>';
-        mrkrhtml += '<div class="t7_button"><h1><a href="#" onclick="inbode.util.fancybox(1, \'' + item.unit_id + '\');">view full listing</a></h1></div>';
+        mrkrhtml += '<div class="t7_button"><h1><a href="#" onclick="inbode.util.fancybox(1, \'' + item.unit_id + '\', \'' + item.nid + '\', \'' + mrkr.position + '\');">view full listing</a></h1></div>';
         mrkrhtml += '</div>';
         return mrkrhtml;
 
