@@ -1242,7 +1242,7 @@ function inbode_summary($account) {
       }
       
       // always have an "add unit"
-      $out .= "<h3 id=\"t7_unit_add_header\"><a href=\"/node/add/unit?destination=user/".$account->uid."/inbode&edit[field_unit_building][nid][nid]=".$building["nid"]."\">+ Add Unit</a></h3>";
+      $out .= "<h3 id=\"t7_unit_add_header\"><a href=\"/node/add/unit?destination=user/".$account->uid."/inbode&edit[field_unit_building][nid][nid]=".$building["nid"]."&edit[field_unit_email][0][value]=".$account->mail."\">+ Add Unit</a></h3>";
     
     }
   
