@@ -197,6 +197,9 @@ if (
       </div><!-- BODY_CONTENT END -->
     </div><!-- t7_ui_CONTAINER END -->
   </div>
+  <div id="map_footer">
+  	&#169; 2011 inbode inc. | <a href="http://blog.inbode.com/">blog</a> | <a href="http://blog.inbode.com/about">about</a> | <a href="http://inbode.com/legal/equal"><img src="/sites/all/themes/inbode/images/icon_eho.gif"> Equal Housing Opportunity</a>
+  </div>
 </body>
 </html>
 <?php

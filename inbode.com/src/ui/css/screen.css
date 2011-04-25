@@ -822,3 +822,27 @@ a.t7_logo_link {
 #mycarousel div.jcarousel-clip.jcarousel-clip-horizontal ul.images.jcarousel-list.jcarousel-list-horizontal {
 	width: 610px !important;
 }
+
+/* Map Footer */
+#map_footer {
+	position: absolute;
+	background: transparent;
+	bottom: 0;
+	padding-bottom: 2px;
+	width: 100%;
+	z-index: 10000;
+	text-align: center;
+	font-family: "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
+	font-size: 11px;
+	text-shadow: #fff 0 0 0px;
+	}
+#map_footer a{
+	text-decoration: none;
+	color: #000;
+}
+#map_footer a:hover{
+	text-decoration: underline;
+}
+#map_footer img {
+	margin-bottom: -2px;
+}
