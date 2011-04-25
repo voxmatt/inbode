@@ -47,6 +47,8 @@ img { border: 0; }
 #t7_container span {
 	font-family: 'helvetica neue', helvetica, arial, sans-serif;
 	text-shadow: 0px -1px 0pt #444;
+	-moz-text-shadow: 0px -1px 0pt #444;
+	-webkit-text-shadow: 0px -1px 0pt #444;
 }
 
 #t7_mapleft {

@@ -8,7 +8,14 @@ function inbode_theme(&$existing, $type, $theme, $path) {
   $hooks['hook_name_here'] = array( // Details go here );
   */
   // @TODO: Needs detailed comments. Patches welcome!
+//  $hooks['user_login'] = array( 
+  //    'template' => 'user-login',
+    //  'arguments' => array('form' => NULL)
+//  );
+  
   return $hooks;
+
+
 }
 
 
@@ -93,3 +100,11 @@ function inbode_swfupload_widget($element) {
   }
   return join("\n", $output);
 }
+
+
+/*
+function inbode_preprocess_user_login(&$variables) {
+  $variables['intro_text'] = t('This is my awesome login form');
+  $variables['rendered'] = drupal_render($variables['form']);
+}
+*/

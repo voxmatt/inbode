@@ -108,9 +108,11 @@ $(document).ready(function() {
 
 
     // if we see a request for an individual unit, reset filters
+/*
     if (unithash) {
         inbode.util.resetfilter();
     }
+*/
 
     // search box
     $('#t7_city').focus(function() {
@@ -413,6 +415,12 @@ inbode.util = {
         $('#glin_' + unit_id + ' input').select();
 
     },
+    
+    hilight: function(unithash) {
+    
+    	alert(unithash);
+    
+    },
 
     init: function() {
 
@@ -468,11 +476,13 @@ inbode.util = {
 
 
         // if this is a request for one specific unit, treat it differently
+/*
         if (unithash) {
 
             inbode.util.showunit(unithash);
 
         } else {
+*/
 
 						// remember current bounds        
 						$.cookie('last_bounds', map.getBounds(), {
@@ -556,7 +566,7 @@ inbode.util = {
 
             }
 
-        }
+        //}
 
     },
     fancybox: function(iid, unit_id, nid, position) {
@@ -570,6 +580,7 @@ inbode.util = {
 
         $.fancybox({
             'type': 'iframe',
+            'margin': 0,
             'href': uu,
             'autoDimensions': false,
             'width': 728,
@@ -733,7 +744,7 @@ inbode.util = {
             // pop up the lightbox
             infowindow.open(map);
 
-			// done working, show user
+						// done working, show user
             $('#t7_ldr img').fadeOut();
 
 
@@ -752,8 +763,12 @@ inbode.util = {
 
         // beds
         item.beds = parseInt(item.beds);
-        if (item.beds === 1) {
-            mrkrhtml += item.beds + ' bed ';
+        if (item.beds <=1) {
+					if (item.beds == 0) {
+            mrkrhtml += 'studio ';					
+					} else {
+            mrkrhtml += item.beds + ' bed ';					
+					}
         } else {
             mrkrhtml += item.beds + ' beds ';
         }
@@ -973,6 +988,9 @@ inbode.util = {
 
             // apply the filter
             inbode.util.filter();
+            
+            // highlight a unit
+            inbode.util.hilight(unithash);
 
 
         });
@@ -1178,7 +1196,7 @@ inbode.util = {
 
         // first filter by price, beds and baths: the main shizzle
         $.each(results, function(i, item) {
-            if ((item.price <= pricemax) && (item.price >= pricemin) && (item.beds <= bedsmax) && (item.beds >= bedsmin) && (item.baths <= bathsmax) && (item.baths >= bathsmin)) {
+            if ((item.price <= pricemax) && (item.price >= pricemin) && (item.beds <= bedsmax) && (item.beds >= bedsmin) && (item.baths <= bathsmax) && (item.baths >= bathsmin)  ) {
                 item.visible = 1;
             } else {
                 item.visible = 0;

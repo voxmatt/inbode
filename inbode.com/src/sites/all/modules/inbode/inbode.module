@@ -1198,7 +1198,7 @@ function inbode_summary($account) {
 
       // building
       $out .= "\n\n<div class=\"building\">\n";
-      $out .= "\n<img class=\"building_img\" src=\"http://placehold.it/50\" />\n";
+      $out .= "\n<img class=\"building_img\" src=\"/".str_ireplace("sites/default/files/", "sites/default/files/imagecache/manage_thumbnail/", $building["bldgimg"])."\" />\n";
       $out .= "<a href=\"/node/".$building["nid"]."/edit?destination=user/".$account->uid."/inbode\">".$building["title"]."</a><br />";
       $out .= "";
       if (!$building["street"] || !$building["city"] || !$building["province"]) {
@@ -1274,7 +1274,7 @@ function _inbode_craigslist($account) {
 // all buildings that belong to this user
 function __inbode_get_properties( $uid ) {
 
-  $bsql = "SELECT n.nid, n.title, (SELECT count(nid) FROM content_type_unit WHERE field_unit_building_nid=n.nid) as num_units, l.street, l.additional, l.city, l.province, l.postal_code, l.country, l.latitude, l.longitude FROM node n LEFT JOIN location_instance li ON li.nid=n.nid LEFT JOIN location l ON  li.lid=l.lid WHERE n.type='building' AND n.uid=$uid ;";
+  $bsql = "SELECT n.nid, n.title, (SELECT count(nid) FROM content_type_unit WHERE field_unit_building_nid=n.nid) as num_units, l.street, l.additional, l.city, l.province, l.postal_code, l.country, f.filepath as bldgimg, l.latitude, l.longitude FROM node n LEFT JOIN location_instance li ON li.nid=n.nid LEFT JOIN location l ON  li.lid=l.lid LEFT JOIN content_field_building_images bi ON n.nid=bi.nid LEFT JOIN files f ON bi.field_building_images_fid=f.fid WHERE n.type='building' and bi.delta=0 AND n.uid=$uid ORDER by title;";
   
   $usql = "SELECT n.nid, c.field_unit_building_nid, n.title, c.field_unit_bedroom_value, c.field_unit_bathroom_value, c.field_unit_price_amount, c.field_unit_area_value, c.field_unit_available_value, c.field_unit_description_value, c.field_unit_status_value, c.field_unit_craigslist_views_value FROM node n, content_type_unit c WHERE type='unit' AND uid=$uid AND n.nid=c.nid ORDER BY field_unit_building_nid; ";
   

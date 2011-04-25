@@ -83,7 +83,7 @@ a:active {
 /* * greeting links */
 
 #t7_greeting a:link {
-  color: #000;
+  color: #FFF;
   text-decoration: underline;
   font-weight: 400;
 }
@@ -182,14 +182,14 @@ h2 a:active {
 
 /* * units and buildings */
 
-	.building {
+#t7_summary .building {
 	  background-color: #EEE;
 	  border-radius: 10px;
 	  -moz-border-radius: 10px;
 	  -webkit-border-radius: 10px; 
 	  font-size: 12px;
 	  margin: 25px 0 15px;
-	  padding: 10px 0 14px 0;
+	  padding: 10px 0 16px 0;
 	}
 	.building:hover {
 	  background-color: #DDD;
@@ -217,7 +217,7 @@ h2 a:active {
   font-size: 14px;
 }
 
-#t7_bldng_add_header,
+
 #t7_unit_add_header {
   margin: 0;
   font-weight: 400;
@@ -517,12 +517,13 @@ form.confirmation div a,
 #t7_bldng_add_header {display: inline;}
 #t7_summary h2 a:link {color: black !important;}
 
+#t7_bldng_add_header:hover, 
 form.confirmation div a:hover,
 .form-submit:hover,
 #edit-submit:hover {
   background: rgba(240,240,240,1)
 }
-
+#t7_bldng_add_header:active, 
 form.confirmation div a:active,
 .form-submit:active,
 #edit-submit:active {
@@ -680,14 +681,14 @@ table.ui-datepicker tbody td a:hover {
 }
 */
 
-/* aristo fixes */
-/*
+/* aristo fixes from jquery styles */
+
 .ui-datepicker table { font-size: 11px !important; border-spacing: 0; }
 .ui-datepicker thead th { border: none !important; }
-*/
-
-
-
+.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year {width: auto !important;}
+.ui-datepicker {width: 215px !important;}
+.ui-datepicker-month { margin-right: 5px !important; }
+.ui-datepicker-year { margin-left: 5px !important; }
 
 /* address double delete button hide */
 #edit-field-building-address-0-delete-location-wrapper {
@@ -698,3 +699,13 @@ table.ui-datepicker tbody td a:hover {
 ::-moz-selection { background:#187987; color:white; -moz-text-shadow: 0 1px 2px pink; }
 ::-webkit-selection { background:#187987; color:white; -webkit-text-shadow: 0 1px 2px black; }
 
+#t7_greeting .content {
+	text-shadow: 0px -1px 0pt #444;
+	-moz-text-shadow: 0px -1px 0pt #444;
+	-webkit-text-shadow: 0px -1px 0pt #444;
+}
+
+#t7_footer a:link { color: #1693A5; text-decoration: underline; }
+#t7_footer a:visited { color: #1693A5; text-decoration: underline; }
+#t7_footer a:hover { color: #000; text-decoration: underline; }
+#t7_footer a:active { color: #000; text-decoration: underline; }
