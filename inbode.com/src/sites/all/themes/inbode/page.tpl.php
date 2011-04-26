@@ -29,7 +29,7 @@
 		<?php print $styles; ?>
 		<?php print $scripts; ?>
 			<script>
-				$('#edit-submit').button();			
+				$('#edit-submit').button();
 			</script>
 	</head>
 	<body>

@@ -54,6 +54,12 @@ h3 {
 /*   font-weight: lighter; */
 }
 
+table, tr, td, thead, tbody {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
 /* * hyper links */
 
 a:link {
@@ -63,7 +69,7 @@ a:link {
 }
 
 a:visited {
-  color: #999;
+/*   color: #999; */
   text-decoration: underline;
   font-weight: 400;
 }
@@ -89,7 +95,7 @@ a:active {
 }
 
 #t7_greeting a:visited {
-  color: #333;
+  color: #FFF;
   text-decoration: underline;
   font-weight: 400;
 }
@@ -188,7 +194,7 @@ h2 a:active {
 	  -moz-border-radius: 10px;
 	  -webkit-border-radius: 10px; 
 	  font-size: 12px;
-	  margin: 25px 0 15px;
+	  margin: 35px 0 0;
 	  padding: 10px 0 16px 0;
 	}
 	.building:hover {
@@ -203,12 +209,19 @@ h2 a:active {
 		position: relative;
 		top: -3px
 	}
-.unit {
-  font-size: 14px;
-  margin: 5px 0 0 50px;
+	
+.unit_container {
+	position: relative;
+	margin: 0 15px 0 61px;
+	padding: 0 0 0 20px;
 }
-.unit span {
-	padding-right: 10px;
+
+.unit_container table {
+  font-size: 14px;
+  margin: 5px 0 15px;
+}
+.unit_container table td {
+	padding: 20px 30px 0 0;
 }
 
 #t7_summary h3 {
@@ -217,15 +230,20 @@ h2 a:active {
   font-size: 14px;
 }
 
-
-#t7_unit_add_header {
+.t7_unit_add_header {
+	display: block;
+	margin-top: 5px;
+}
+.t7_unit_add_header a {
+  text-transform: uppercase;
   margin: 0;
+  padding: 10px 0 0 0;
   font-weight: 400;
   color: #1693A5;
 }
 
-#t7_bldng_add_header:hover,
-#t7_unit_add_header:hover {
+#t7_bldng_add_header a:hover,
+.t7_unit_add_header:hover {
   color: #000;
   cursor: pointer;
 }
@@ -252,22 +270,22 @@ h2 a:active {
   text-decoration: none;
 }
 
-#t7_summary h3 a:link {
+#t7_summary span a:link {
   color: #1693a5;
   text-decoration: none;
 }
 
-#t7_summary h3 a:visited {
+#t7_summary span a:visited {
   color: #1693a5;
   text-decoration: none;
 }
 
-#t7_summary h3 a:hover {
+#t7_summary span a:hover {
   color: #000;
   text-decoration: none;
 }
 
-#t7_summary h3 a:active {
+#t7_summary span a:active {
   color: #999;
   text-decoration: none;
 }
@@ -278,6 +296,7 @@ h2 a:active {
   text-align: left;
   padding: 0;
   margin: 0;
+  min-height: 500px;
   width: 960px;
   float: left;
 }
@@ -486,7 +505,7 @@ a {
 }
 
 /* BUTTONS!!!! */
-#t7_bldng_add_header, 
+#t7_bldng_add_header a, 
 .swfupload_button div.center,
 form.confirmation div a,
 .form-submit,
@@ -514,16 +533,16 @@ form.confirmation div a,
   letter-spacing: -.5px;
 }
 /* add building button corrections */
-#t7_bldng_add_header {display: inline;}
+#t7_bldng_add_header a {display: inline;}
 #t7_summary h2 a:link {color: black !important;}
 
-#t7_bldng_add_header:hover, 
+#t7_bldng_add_header a:hover, 
 form.confirmation div a:hover,
 .form-submit:hover,
 #edit-submit:hover {
   background: rgba(240,240,240,1)
 }
-#t7_bldng_add_header:active, 
+#t7_bldng_add_header a:active, 
 form.confirmation div a:active,
 .form-submit:active,
 #edit-submit:active {
@@ -709,3 +728,66 @@ table.ui-datepicker tbody td a:hover {
 #t7_footer a:visited { color: #1693A5; text-decoration: underline; }
 #t7_footer a:hover { color: #000; text-decoration: underline; }
 #t7_footer a:active { color: #000; text-decoration: underline; }
+
+.icanhazaccount {
+	float: right;
+	font-style: normal;
+	font-weight: lighter;
+	font-size: 16px;
+	color: #fff !important;
+	padding: 17px 40px;
+	margin: 55px 40px 0;
+
+	text-decoration: none;
+	background: #50B2BF; /* old browsers */
+	background: -moz-linear-gradient(top, #50B2BF 0%, #1790A2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#50B2BF), color-stop(100%,#1790A2));
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#50B2BF', endColorstr='#1790A2',GradientType=0 );
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 10px;
+	-webkit-box-shadow: 
+		0px 1px 0pt #009d9b, 
+		inset 0px 1px #009d9b
+  		;
+	-moz-box-shadow: 
+		0px 1px 0pt #8bb7be, 
+		inset 0px 1px #333
+  		;
+  	box-shadow: 
+		0px 1px 0pt #8bb7be, 
+		inset 0px 1px #333
+		;
+	text-shadow: #11798a 0 -1px 0;
+	*z-index: 5;
+	*zoom: 1;
+	*padding: 2px 10px;
+	}
+.icanhazaccount:link {
+	position:relative;
+	text-decoration: none;
+	}
+.icanhazaccount:visited {
+	color: white;
+	text-decoration: none;
+	}
+.icanhazaccount:hover {
+	background: #50B2BF; /* old browsers */
+	background: -moz-linear-gradient(top, #1790A2 0%, #50B2BF 100%);
+	background: -webkit-gradient(linear, left bottom, left top, color-stop(0%,#50B2BF), color-stop(100%,#1790A2));
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#50B2BF', endColorstr='#1790A2',GradientType=0 );
+	-webkit-box-shadow: 
+		0px 1px 0pt #009d9b, 
+		inset 0px 1px #009d9b,
+		inset 0px 0px 20px #00777c;
+	-moz-box-shadow: 
+		0px 1px 0pt #009d9b, 
+		inset 0px 1px #009d9b,
+		inset 0px 0px 20px #00777c;;
+	box-shadow: 
+		0px 1px 0pt #009d9b, 
+		inset 0px 1px #009d9b,
+		inset 0px 0px 20px #00777c;
+		}
+.icanhazaccount:active {
+	top: 2px;
+	}

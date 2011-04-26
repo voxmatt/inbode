@@ -80,10 +80,9 @@
 				<?php if ($help): ?>				
 					<?php print $help; ?>
 				<?php endif; ?>
-
-				<?php print $content; ?>
 				
-				<a href="mailto:request@inbode.com?Subject=Manager%20Account%20Request">I'm a manager and I want an account!</a>
+				<a class="icanhazaccount" href="mailto:request@inbode.com?Subject=Manager%20Account%20Request">I'm a manager and I want an account!</a>
+				<?php print $content; ?>
 
 			</div> 
 

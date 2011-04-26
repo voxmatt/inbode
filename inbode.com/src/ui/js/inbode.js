@@ -108,11 +108,9 @@ $(document).ready(function() {
 
 
     // if we see a request for an individual unit, reset filters
-/*
-    if (unithash) {
-        inbode.util.resetfilter();
-    }
-*/
+    //if (unithash) {
+        //inbode.util.resetfilter();
+    //}
 
     // search box
     $('#t7_city').focus(function() {
@@ -417,8 +415,9 @@ inbode.util = {
     },
     
     hilight: function(unithash) {
-    
-    	alert(unithash);
+    	if (unithash) {
+		    inbode.util.showunit(unithash);
+    	}
     
     },
 
@@ -674,6 +673,7 @@ inbode.util = {
                     mrkr.setShadow('/ui/img/inbmrkr_shadow.png');
                 }
             }
+            
             // set marker if it's a favorite
             if ($.cookie('faves') !== null) {
                 if ($.cookie('faves').search(item.nid) > 0) {
@@ -711,6 +711,7 @@ inbode.util = {
             // open automatically on the map
             visibleinfowindow = infowindow;
 
+/*
             results = [];
             // set the results array so other things work too
             var inb = {
@@ -740,13 +741,14 @@ inbode.util = {
 
 						// update results array
             results.push(inb);
+*/
             
             // pop up the lightbox
             infowindow.open(map);
 
 						// done working, show user
             $('#t7_ldr img').fadeOut();
-
+            
 
         });
 
@@ -836,7 +838,11 @@ inbode.util = {
         // button it up
         mrkrhtml += '</div>';
         mrkrhtml += '</div>';
-        mrkrhtml += '<div class="t7_button"><h1><a href="#" onclick="inbode.util.fancybox(1, \'' + item.unit_id + '\', \'' + item.nid + '\', \'' + mrkr.position + '\');">view full listing</a></h1></div>';
+        if (item.status!='rented') {
+	        mrkrhtml += '<div class="t7_button"><h1><a href="#" onclick="inbode.util.fancybox(1, \'' + item.unit_id + '\', \'' + item.nid + '\', \'' + mrkr.position + '\');">view full listing</a></h1></div>';
+        } else {
+	        mrkrhtml += '<div class="t7_bubble_rented">Rented</div>';        
+        }
         mrkrhtml += '</div>';
         return mrkrhtml;
 
@@ -1196,7 +1202,7 @@ inbode.util = {
 
         // first filter by price, beds and baths: the main shizzle
         $.each(results, function(i, item) {
-            if ((item.price <= pricemax) && (item.price >= pricemin) && (item.beds <= bedsmax) && (item.beds >= bedsmin) && (item.baths <= bathsmax) && (item.baths >= bathsmin)  ) {
+            if ((item.price <= pricemax) && (item.price >= pricemin) && (item.beds <= bedsmax) && (item.beds >= bedsmin) && (item.baths <= bathsmax) && (item.baths >= bathsmin)) {            		
                 item.visible = 1;
             } else {
                 item.visible = 0;

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"> 
+<html> 
+<head> 
+<title>1-3 Bedrooms available on campus</title> 
+<meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+	<link type="text/css" rel="stylesheet" href="craigslist.css" />
+	<script type="text/javascript" src="ZeroClipboard.js"></script>
+	<script language="JavaScript">
+		var clip = null;
+		
+		function $(id) { return document.getElementById(id); }
+		
+		function init() {
+			rent_clip = new ZeroClipboard.Client();
+			rent_clip.setHandCursor( true );
+			
+			rent_clip.addEventListener('mouseOver', function (client) {
+				// update the text on mouse over
+				rent_clip.setText( $('rent_text').value );
+			});
+			
+			rent_clip.glue( 'rent_button', 'rent_container' );
+			
+			email_clip = new ZeroClipboard.Client();
+			email_clip.setHandCursor( true );
+			
+			email_clip.addEventListener('mouseOver', function (client) {
+				// update the text on mouse over
+				email_clip.setText( $('email_text').value );
+			});
+			
+			email_clip.glue( 'email_button', 'email_container' );
+			
+			descrip_clip = new ZeroClipboard.Client();
+			descrip_clip.setHandCursor( true );
+			
+			descrip_clip.addEventListener('mouseOver', function (client) {
+				// update the text on mouse over
+				descrip_clip.setText( $('descrip_text').value );
+			});
+			
+			descrip_clip.glue( 'descrip_button', 'descrip_container' );
+		}
+		
+	</script>
+</head> 
+<body onLoad="init()"> 
+ 
+	<div id = "frameDiv"> 
+		<iframe scrolling="auto" id="frame" src="http://post.craigslist.org/" frameborder="0"></iframe> 
+	</div> 
+	<!-- BEGIN: bar --> 
+	<div id="bar"> 
+		<div id="logo">
+		</div>
+		<div id="instructions">
+			<p id="intro">
+				Navigate to the posting page and then Copy and Paste the below into Craigslist
+			</p>
+			<p id="rent" class="instructions">
+				<span class="numbering">1</span>
+				<b>Rent:</b>
+				<textarea id="rent_text" onChange="rent_clip.setText(this.value)">900</textarea>
+				<div id="rent_container">
+					<div id="rent_button" class="clip_button">
+						copy
+					</div>
+				</div>
+			</p>
+			<p id="beds" class="instructions">
+				<span class="numbering">2</span>
+				select <strong>2</strong> beds
+			</p>
+			<p id="rent" class="instructions">
+				<span class="numbering">3</span>
+				enter a <strong>Title</strong>
+			</p>
+			<p id="email" class="instructions">
+				<span class="numbering">4</span>
+				<b>Email:</b>
+				<textarea id="email_text" onChange="email_clip.setText(this.value)">matt@inbode.com</textarea>
+				<div id="email_container">
+					<div id="email_button" class="clip_button">
+						copy
+					</div>
+				</div>
+			</p>
+			<p id="descrip" class="instructions">
+				<span class="numbering">5</span>
+				<b>Description:</b>
+				<textarea id="descrip_text" onChange="descrip_clip.setText(this.value)">blah blah blah blah</textarea>
+				<div id="descrip_container">
+					<div id="descrip_button" class="clip_button">
+						copy
+					</div>
+				</div>
+			</p>
+			<p id="continue" class="instructions">
+				<span class="numbering">6</span>
+				press <strong>continue</strong>
+			</p>
+		</div>
+	</div> 
+ 
+ 
+</body> 
+</html> 
