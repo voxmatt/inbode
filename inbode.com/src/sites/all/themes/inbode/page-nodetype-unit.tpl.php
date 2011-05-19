@@ -24,8 +24,11 @@
 		<script type="text/javascript" src="/ui/js/jquery.cookie.js"></script>
 		<script type="text/javascript" src="/ui/js/jquery.jcarousel.js"></script>
 		<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script> 
-
+		<script type="text/javascript" src="/sites/all/themes/inbode/modernizr-1.7.min.js"></script>
 		<script>
+
+
+
 
 			var cookieexpiration = 365;
 
@@ -147,7 +150,10 @@
 
 
 	</head>
-	<body>
+<!--[if lt IE 7 ]> <body class="ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <body class="" lang="en"> <!--<![endif]-->
 
 		<div id="t7_white_box">
 		
@@ -162,7 +168,6 @@
 						<div class="contact">
 							<a href="mailto:<?php print $node->field_unit_email[0]['value']; ?>?subject=inbode:&cc=activity@inbode.com"><h3>contact manager</h3></a>
 						</div><!-- .contact end -->
-
 
 						<div class="t7_fav_share" style="font-size:13px;font-family:Helvetica Neue;">
 							<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#"><img id="favestar" src="/sites/all/themes/inbode/images/unit/grey_star.png" border="0" /></a>&nbsp;<a onClick="inbode.favorite.starclick('<?php echo $faveid; ?>');" href="#">favorite</a> &nbsp;

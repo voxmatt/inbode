@@ -204,3 +204,28 @@ input.getlink {
 	font-family: 'helvetica neue', helvetica, arial, sans-serif;
 	font-size: 11px;
 }
+
+
+/* IE7 */
+.ie7 #t7_swapout_header_right {
+	width: 200px;
+}
+.ie7 .t7_swapout {
+	top: 50px !important;
+	left: 0 !important;
+}
+.ie7 #t7_swapout_contain {
+	margin-bottom: 0px !important;
+}
+.ie7 #fancybox-frame {
+	height: 640px !important;
+	overflow: hidden !important;
+}
+.ie7 .jcarousel-skin-tango .jcarousel-clip-horizontal {
+	height: 63px !important;
+	padding-bottom: 20px !important;
+	margin-bottom: 0px !important;
+}
+.ie7 #t7_white_box ul.images li {
+	margin-bottom: 0px !important;
+}

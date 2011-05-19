@@ -31,7 +31,10 @@
 		<link type="text/css" media="all" rel="stylesheet" href="/sites/all/themes/inbode/jquery-ui-1.8.7.custom.css">
 
 	</head>
-	<body>
+<!--[if lt IE 7 ]> <body class="ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <body class="not_ie" lang="en"> <!--<![endif]-->
 	
 		<?php
 		

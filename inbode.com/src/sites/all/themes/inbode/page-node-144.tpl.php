@@ -41,12 +41,12 @@ if (
   <script type="text/javascript" src="/ui/js/jquery-ui-1.8.2.custom.min.js"></script>
   <script type="text/javascript" src="/ui/js/jquery.cookie.js"></script>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-  <script type="text/javascript" src="/ui/js/jquery.checkbox.js"></script>
   <script type="text/javascript" src="http://code.google.com/apis/gears/gears_init.js"></script>
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript" src="/ui/js/jquery.fancybox-1.3.4.pack.js"></script>
   <script type="text/javascript" src="/ui/js/jquery.easing-1.3.pack.js"></script>
   <script type="text/javascript" src="/ui/js/inbode.js"></script>
+	<script type="text/javascript" src="/sites/all/themes/inbode/modernizr-1.7.min.js"></script>
   <script type="text/javascript">
 		google.load('gdata', '2.x', { packages: ['maps'] });
   </script>
@@ -58,9 +58,33 @@ if (
   		border: none;
   	}
   </style>
+
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script type="text/javascript" src="/ui/js/jquery.checkbox.js"></script>
+<script type="text/javascript">
+$(document).ready( function() {
+	// pretty checkboxes
+	$('input:checkbox:not([safari])').checkbox({
+	    cls: 'jquery-safari-checkbox'
+	});
+	$('input[safari]:checkbox').checkbox({
+	    cls: 'jquery-safari-checkbox'
+	});
+	$('input:radio').checkbox({
+	    cls: 'jquery-safari-checkbox'
+	});
+});
+</script>
+<!--<![endif]-->
+
+
 </head>
 
-<body>
+<!--[if lt IE 7 ]> <body class="ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <body class="not_ie" lang="en"> <!--<![endif]-->
   <div id="map_canvas"></div>
 
   <div id="t7_container">

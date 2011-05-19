@@ -882,3 +882,24 @@ a.t7_logo_link {
 	font-size: 24px;
 	letter-spacing: 4px;
 }
+
+
+.ie7 .ui-slider-vertical {
+	margin-left: 20px;
+}
+.ie7 .ui-slider-vertical .ui-slider-handle {
+	background: none;
+	background-color: #2391a5;
+	background-image: url(/ui/img/iebutton.gif) !important;
+	background-repeat: no-repeat;
+	background-position: top center;
+	padding: 0px 10px 0px 0px;
+	height: 25px;
+	width: 34px;
+	border: 0;
+	box-shadow: none;
+	border-radius: none;
+}
+.ie7 .ui-slider-horizontal .ui-slider-handle {
+	background-image: url(/ui/img/move_in_slider.gif) !important;
+}

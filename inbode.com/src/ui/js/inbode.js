@@ -271,7 +271,7 @@ $(document).ready(function() {
     });
 
     // check box clicks
-    $('#amenities .jquery-safari-checkbox').click(function() {
+    $('#amenities input').click(function() {
         inbode.util.filter($(this).attr('id'), !$(this).is(':checked'));
         $.cookie($(this).attr('id'), !$(this).is(':checked'), {
             expires: cookieexpiration,
@@ -280,7 +280,7 @@ $(document).ready(function() {
     });
 
     // set states of checkboxes
-    $('#amenities .jquery-safari-checkbox').each(function(i) {
+    $('#amenities input').each(function(i) {
         if ($.cookie($(this).attr('id')) === 'true') {
             $(this).attr('checked', true);
         }
@@ -430,17 +430,6 @@ inbode.util = {
 
         $("a.trigger_2").click(function() {
             inbode.util.open_more_filters();
-        });
-
-        // pretty checkboxes
-        $('input:checkbox:not([safari])').checkbox({
-            cls: 'jquery-safari-checkbox'
-        });
-        $('input[safari]:checkbox').checkbox({
-            cls: 'jquery-safari-checkbox'
-        });
-        $('input:radio').checkbox({
-            cls: 'jquery-safari-checkbox'
         });
 
         // map options
@@ -1037,7 +1026,7 @@ inbode.util = {
             path: '/'
         });
 
-        $('#amenities .jquery-safari-checkbox').each(function() {
+        $('#amenities input').each(function() {
             $.cookie($(this).attr('id'), false, {
                 expires: cookieexpiration,
                 path: '/'
@@ -1182,7 +1171,7 @@ inbode.util = {
         // remember that the one we just clicked on (if we did) hasn't changed yet
         // and so the 'idc' and 'chkd' value will override anything we come into contact with
         amenities = [];
-        $('#amenities .jquery-safari-checkbox').each(function(i) {
+        $('#amenities input').each(function(i) {
             //var am;
             if ($(this).attr('id') === idc) {
 							if (chkd) {

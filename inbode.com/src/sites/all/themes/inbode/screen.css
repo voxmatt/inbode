@@ -532,6 +532,8 @@ form.confirmation div a,
   font-weight: 400;
   letter-spacing: -.5px;
 }
+
+
 /* add building button corrections */
 #t7_bldng_add_header a {display: inline;}
 #t7_summary h2 a:link {color: black !important;}
@@ -791,3 +793,35 @@ table.ui-datepicker tbody td a:hover {
 .icanhazaccount:active {
 	top: 2px;
 	}
+	
+	
+	
+	
+.ie7 #t7_bldng_add_header a,
+.ie7 .swfupload_button div.center,
+.ie7 form.confirmation div a,
+.ie7 .form-submit,
+.ie7 #edit-submit,
+.ie7 #edit-field-building-images div.center,
+.ie7 #t7_bldng_add_header a {
+	background-color: transparent;
+	background-image: url(/ui/img/iesubmit.gif);
+	background-position: top center;
+	background-repeat: no-repeat;
+	border: 0;
+	text-align: center;
+	height: 27px;
+	width: 150px !important;
+}
+.ie7 #t7_bldng_add_header a:hover,
+.ie7 .swfupload_button div.center:hover,
+.ie7 form.confirmation div a:hover,
+.ie7 .form-submit:hover,
+.ie7 #edit-submit:hover,
+.ie7 #edit-field-building-images div.center:hover,
+.ie7 #t7_bldng_add_header a:hover {
+	background-image: url(/ui/img/iesubmit_hov.gif);
+}
+.ie7 #t7_bldng_add_header a {
+	padding: 6px 25px;
+}

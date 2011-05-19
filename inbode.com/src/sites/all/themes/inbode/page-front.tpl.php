@@ -7,12 +7,15 @@
 	<script src="/sites/all/themes/inbode/jquery-1.5.1.min.js"></script>
     <script type="text/javascript" src="/sites/all/themes/inbode/modernizr-1.7.min.js"></script>
    
-<!--[if lt IE 9]> -->
+<!--[if lt IE 9] -->
 	<script src="/sites/all/themes/inbode/IE9.js"></script>
 <!-- <![endif]-->
 
 </head>
-<body>
+<!--[if lt IE 7 ]> <body class="ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <body class="not_ie" lang="en"> <!--<![endif]-->
 
     <div id="header-bg">
     </div>
@@ -176,7 +179,7 @@
 		    }
 		}
 		</script>
-		<!--End mc_embed_signup-->
+		<!-- End mc_embed_signup -->
 		<p id="email_disclaimer">(we will <i>never</i> share your email address)
 		<div id="links" class="clearfix">
 			<div id="blog_link">

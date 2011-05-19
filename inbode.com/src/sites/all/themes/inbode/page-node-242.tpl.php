@@ -30,7 +30,10 @@
 		<?php print $scripts; ?>
 
 	</head>
-	<body>
+<!--[if lt IE 7 ]> <body class="ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <body class="not_ie" lang="en"> <!--<![endif]-->
 	
 	<div id="t7_craigslist_contain"> 
 		<iframe scrolling="auto" id="frame" src="http://minneapolis.craigslist.org/hnp/apa/2302094624.html" frameborder="0">

@@ -32,7 +32,10 @@
 				$('#edit-submit').button();			
 			</script>
 	</head>
-	<body>
+<!--[if lt IE 7 ]> <body class="ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <body class="not_ie" lang="en"> <!--<![endif]-->
 	
 		<?php
 		
@@ -89,11 +92,7 @@
 			<!-- footer -->
 			<div id="t7_footer">
 				<?php print $footer; ?>
-
-				<?php if ($footer_message): ?>
 					<p><?php print $footer_message; ?></p>
-				<?php endif; ?>
-						
 			</div> 
 			
 			
