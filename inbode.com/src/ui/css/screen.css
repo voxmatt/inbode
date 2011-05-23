@@ -903,3 +903,35 @@ a.t7_logo_link {
 .ie7 .ui-slider-horizontal .ui-slider-handle {
 	background-image: url(/ui/img/move_in_slider.gif) !important;
 }
+
+
+
+/* the class the background div multi markers get */
+.t7mmarkerbox {
+	background-color: #fbfbfb;
+	border: 1px solid #8e8e86;
+	position: absolute;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	z-index: 1;
+	overflow: hidden;
+}
+.t7mmarkerboxarrow {
+	position: absolute;
+	width: 23px;
+	height: 10px;
+	bottom: 0;
+	left: 50%;
+	background-image: url(/ui/img/mmarrow.gif) !important;
+	z-index: 2;
+}
+.t7mmarkerboxcont {
+	position: absolute;
+	display: none;
+	z-index: 0;
+	text-align: center;
+}
+.t7circ {
+	
+}

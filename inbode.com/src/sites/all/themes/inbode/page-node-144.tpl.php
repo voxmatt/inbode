@@ -45,6 +45,7 @@ if (
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript" src="/ui/js/jquery.fancybox-1.3.4.pack.js"></script>
   <script type="text/javascript" src="/ui/js/jquery.easing-1.3.pack.js"></script>
+  <script type="text/javascript" src="/ui/js/jquery.crypt.js"></script>
   <script type="text/javascript" src="/ui/js/inbode.js"></script>
 	<script type="text/javascript" src="/sites/all/themes/inbode/modernizr-1.7.min.js"></script>
   <script type="text/javascript">

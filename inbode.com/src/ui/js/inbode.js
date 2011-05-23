@@ -20,8 +20,11 @@
 // general vars
 var map;
 var results = [];
+var buildings = [];
 var cookieexpiration = 365;
 var visibleinfowindow = new google.maps.InfoWindow({});
+var visibleiw = new google.maps.InfoWindow({});
+var pp;
 // requesting a specific unit?
 var unithash = document.location.hash.replace('#', '');
 // limit arrays (min, max, step)
@@ -129,6 +132,10 @@ $(document).ready(function() {
     $('#t7_city').keypress(function(e) {
         if (e.keyCode === 13) {
             visibleinfowindow.close(map);
+		        visibleiw.close(map);
+						if (pp) {
+							pp.setMap(null);
+						}
             inbode.util.search($('#t7_city').val());
         }
     });
@@ -285,12 +292,74 @@ $(document).ready(function() {
             $(this).attr('checked', true);
         }
     });
+    
 
 
 });
 
 // inbode yea
 inbode = {};
+
+inbode.multi = {
+
+	klick: function(uid, ind) {
+	
+    $.each(results, function(i, item) {
+
+			if (item.unit_id==uid) {
+
+
+				// html to show in the infowindow
+	      var mrkrhtml = inbode.util.markerhtml(item, item.marker);
+	      
+	      // offset from the left
+	      var unitnum = buildings[item.hash]['total'];
+	      var ofl = (ind * 24)-(unitnum * 12)+12;
+
+        // create the info windows and listeners
+        var iw = new google.maps.InfoWindow({
+            content: mrkrhtml,
+            size: new google.maps.Size(270, 210),
+            position: item.marker.position,
+            pixelOffset: new google.maps.Size(ofl, -70)
+        });
+
+        // add some click history
+        if ($.cookie('click_history')) {
+            if ($.cookie('click_history').search(item.marker.position) === -1) {
+                $.cookie('click_history', $.cookie('click_history') + '|' + item.marker.position, {
+                    expires: cookieexpiration,
+		                path: '/'
+                });
+            }
+        } else {
+            $.cookie('click_history', item.marker.position, {
+                expires: cookieexpiration,
+                path: '/'
+            });
+        }
+
+				// only change it to a viewed if not a fave
+				if ($('#t7ind'+ind).attr('src')=='/ui/img/circred.gif') {
+					$('#t7ind'+ind).attr('src', '/ui/img/circrednodot.gif');
+				}
+
+		
+        // close the visible one infowindow
+        visibleiw.close(map);
+        // open the new infowindow, with offset
+        iw.open(map);
+        visibleiw = iw;
+        		
+			}
+
+		
+		});
+	
+	}
+
+};
+
 
 inbode.favorite = {
 
@@ -675,6 +744,7 @@ inbode.util = {
             google.maps.event.addListener(mrkr, 'click', function() {
                 // close the visible one
                 visibleinfowindow.close(map);
+                // open the info window
                 infowindow.open(map);
                 // add some click history
                 if ($.cookie('click_history')) {
@@ -697,7 +767,7 @@ inbode.util = {
 
             });
 
-            // open automatically on the map
+            // set the global variable to the current open infowindow
             visibleinfowindow = infowindow;
 
 /*
@@ -864,7 +934,7 @@ inbode.util = {
             results = [];
             // loop thru all results and create markers on the map
             $.each(data.items, function(i, item) {
-                // location on earth where the store is
+                // location on earth where the unit's buiding is
                 var ll = new google.maps.LatLng(item.lat, item.lng);
                 mrkr = new google.maps.Marker({
                     position: ll,
@@ -872,31 +942,39 @@ inbode.util = {
 		                animation: google.maps.Animation.DROP
                 });
 
-                var inb = {
-                    "marker": mrkr,
-                    "beds": item.beds,
-                    "baths": item.baths,
-                    "price": item.price,
-                    "unit_id": item.unit_id,
-                    "unit_name": item.unit_name,
-                    "building_am_cats": item.building_am_cats,
-                    "building_am_dogs_small": item.building_am_dogs_small,
-                    "building_am_dogs_large": item.building_am_dogs_large,
-                    "building_am_pool": item.building_am_pool,
-                    "unit_am_laundry": item.unit_am_laundry,
-                    "unit_am_dishwasher": item.unit_am_dishwasher,
-                    "unit_am_disposal": item.unit_am_disposal,
-                    "unit_am_balcony": item.unit_am_balcony,
-                    "unit_am_furnished": item.unit_am_furnished,
-                    "unit_am_garage": item.unit_am_garage,
-                    "available": item.available,
-                    "status": item.status,
-                    "nid": item.nid,
-                    "unit_image_1": item.unit_image_1,
-                    "unit_image_2": item.unit_image_2,
-                    "visible": 1
-                };
+								// hash of position
+                var hsh = $().crypt({method:"md5",source: mrkr.getPosition().lat()+":"+mrkr.getPosition().lng() });
 
+                var inb = {
+                  "marker": mrkr,
+                  "beds": item.beds,
+                  "baths": item.baths,
+                  "price": item.price,
+                  "building_id": item.buiding_id,
+                  "unit_id": item.unit_id,
+                  "unit_name": item.unit_name,
+                  "street": item.street,
+                  "building_am_cats": item.building_am_cats,
+                  "building_am_dogs_small": item.building_am_dogs_small,
+                  "building_am_dogs_large": item.building_am_dogs_large,
+                  "building_am_pool": item.building_am_pool,
+                  "unit_am_laundry": item.unit_am_laundry,
+                  "unit_am_dishwasher": item.unit_am_dishwasher,
+                  "unit_am_disposal": item.unit_am_disposal,
+                  "unit_am_balcony": item.unit_am_balcony,
+                  "unit_am_furnished": item.unit_am_furnished,
+                  "unit_am_garage": item.unit_am_garage,
+                  "available": item.available,
+                  "status": item.status,
+                  "nid": item.nid,
+                  "unit_image_1": item.unit_image_1,
+                  "unit_image_2": item.unit_image_2,
+                  "visible": 1,
+                  "hash": hsh
+                };
+                
+
+								// units
                 results.push(inb);
 
                 // set marker click history
@@ -928,30 +1006,50 @@ inbode.util = {
 
                 // add marker click event listener
                 google.maps.event.addListener(mrkr, 'click', function() {
-                    // close the visible one
+                    
+                    // close the visible one infowindow
                     visibleinfowindow.close(map);
-                    infowindow.open(map);
-                    // add some click history
-                    if ($.cookie('click_history')) {
-                        if ($.cookie('click_history').search(infowindow.position) === -1) {
-                            $.cookie('click_history', $.cookie('click_history') + '|' + infowindow.position, {
-                                expires: cookieexpiration,
-								                path: '/'
-                            });
-                        }
-                    } else {
-                        $.cookie('click_history', infowindow.position, {
-                            expires: cookieexpiration,
-						                path: '/'
-                        });
-                    }
-                    // make the marker grey now pls
-                    if (this.getIcon() !== '/ui/img/inbmrkr.png') {
-                        this.setIcon('/ui/img/inbmrkr-grey.png');
-                        this.setShadow('/ui/img/inbmrkr_shadow.png');
-                    }
+                    // remove the multimarker list too
+										if (pp) {
+											pp.setMap(null);
+										}
 
-                    visibleinfowindow = infowindow;
+										// specific has for this location, same for all units in the same building                    
+										csh = $().crypt({method:"md5",source:  infowindow.position.lat()+":"+infowindow.position.lng() });
+
+
+										if (buildings[csh]['total']==1) {
+										
+	                    infowindow.open(map);
+	                    // add some click history
+	                    if ($.cookie('click_history')) {
+	                        if ($.cookie('click_history').search(infowindow.position) === -1) {
+	                            $.cookie('click_history', $.cookie('click_history') + '|' + infowindow.position, {
+	                                expires: cookieexpiration,
+									                path: '/'
+	                            });
+	                        }
+	                    } else {
+	                        $.cookie('click_history', infowindow.position, {
+	                            expires: cookieexpiration,
+							                path: '/'
+	                        });
+	                    }
+	                    // make the marker grey now pls
+	                    if (this.getIcon() !== '/ui/img/inbmrkr.png') {
+	                        this.setIcon('/ui/img/inbmrkr-grey.png');
+	                        this.setShadow('/ui/img/inbmrkr_shadow.png');
+	                    }
+	
+	                    visibleinfowindow = infowindow;
+	
+										} else {
+										
+											// pp is the overlay that we put multimarkers into with the cool animation :)
+			                pp = new inbode_MultiMarker(infowindow.position, map);
+										
+										}
+                    
 
                 });
 
@@ -1212,18 +1310,172 @@ inbode.util = {
 						}
         });
 					
-				// filter by date
+				// filter by date ?
 				
+				
+				// get the array of building info made now, reset building array first
+				buildings = [];
+        $.each(results, function(i, item) {
+
+					if (item.visible) {
+					
+		        // building hash based on location
+		        var bcont = [];
+		        bcont['set'] = 0;
+		        // keep track of units as part of buildings, used for multi markers
+		        if (buildings[item.hash]) {
+		        	cur = buildings[item.hash];
+		        	bcont['total'] = cur['total'] + 1;
+		        	bcont['units'] = cur['units'] + ',' + item.unit_id;
+		        	buildings[item.hash] = bcont;                
+		        } else {
+		        	bcont['total'] = 1;
+		        	bcont['units'] = item.unit_id;
+		        	buildings[item.hash] = bcont;
+		        }
+				
+					}
+
+				
+				});
+
+                
+                
+                				
 
         // i have a results object with the correct visibility, apply it!
         $.each(results, function(i, item) {
             if (item.visible) {
+								
+							// numb of units
+							u = buildings[item.hash]['total'];
+							
+							if (u>1) {
+								// multi marker!
+								if (buildings[item.hash]['set']==0) {
+								
+									buildings[item.hash]['set']=1
+									item.marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld='+u+'|ff776b|000000');
+	                item.marker.setVisible(true);
+
+								} else {
+
+	                item.marker.setVisible(false);
+								
+								}
+								
+
+							} else {
+
                 item.marker.setVisible(true);
+
+							}
+
+
             } else {
-                item.marker.setVisible(false);
+
+              item.marker.setVisible(false);
+
             }
         });
 
 
     }
 };
+
+
+inbode_MultiMarker.prototype = new google.maps.OverlayView();
+
+function inbode_MultiMarker(position, map) {
+
+    // Now initialize all properties.
+    this.position_ = position;
+    this.map_ = map;
+    this.setMap(map);
+
+		//alert(this.position_);
+
+}
+
+
+inbode_MultiMarker.prototype.onAdd = function() {
+
+    var div = document.createElement('div');
+		div.className = "t7mmarkerboxcont";
+    this.div_ = div;
+    var panes = this.getPanes();
+    panes.overlayImage.appendChild(div);
+    
+}
+
+inbode_MultiMarker.prototype.draw = function() {
+
+  var overlayProjection = this.getProjection();
+  var pxposition = overlayProjection.fromLatLngToContainerPixel(this.position_);
+  var pxposition1 = overlayProjection.fromLatLngToDivPixel(this.position_);
+  var l = pxposition1.x;
+  var t = pxposition1.y;
+  
+/*
+  console.log('latlng: '+this.position_);
+  console.log('pxcont: '+pxposition);
+  console.log('pxdiv: '+pxposition1);
+  console.log('left: '+l);
+  console.log('top: '+t);
+*/
+
+  var div = this.div_;
+  
+	csh = $().crypt({method:"md5",source:  this.position_.lat()+":"+this.position_.lng() });
+	unitnum = buildings[csh]['total'];
+	units = buildings[csh]['units'];
+	unit = units.split(',');
+  
+  var boxwidth = 24 * unitnum;
+  var boxheight = 25;
+  var contheight = 35;
+  var arrowwidth = -23/2;
+  l = l - (boxwidth/2);
+  // marker height is 34px
+  t = t - 34 - 2 - contheight;
+  div.style.left = l + 'px';
+  div.style.top = t + 'px';
+  div.style.width = boxwidth+'px';
+  div.style.height = contheight+'px';
+	options = { percent: 100, origin: ['bottom', 'center'] };
+	$(".t7mmarkerboxcont").append('<div><div class="t7mmarkerbox"></div><div class="t7mmarkerboxarrow"></div></div>');	
+
+	for(var i in unit) {
+
+		var isrc = '/ui/img/circred.gif';
+
+    // set marker click history
+    if ($.cookie('click_history') !== null) {
+        if ($.cookie('click_history').search(this.position_) > 0) {
+           isrc = '/ui/img/circrednodot.gif';
+        }
+    }
+    
+	  // set marker if it's a favorite
+	  if ($.cookie('faves') !== null) {
+	      if ($.cookie('faves').search(unit[i]) > 0) {
+					isrc = '/ui/img/circinbode.gif';
+	      }
+	  }
+
+    $('.t7mmarkerbox').append('<a href="#"><img class="t7circ" id="t7ind'+i+'" onclick="inbode.multi.klick('+unit[i]+','+i+');" height="25" width="22" border="0" src="'+isrc+'" /></a>');
+	}
+		
+	$(".t7mmarkerboxarrow").css('marginLeft', arrowwidth+'px')
+	$(".t7mmarkerbox").width(boxwidth);
+	$(".t7mmarkerbox").height(boxheight);
+	$(".t7mmarkerboxcont").show();
+
+}
+
+inbode_MultiMarker.prototype.onRemove = function() {
+    this.div_.parentNode.removeChild(this.div_);
+    this.div_ = null;
+    visibleiw.close(map);
+}
+
