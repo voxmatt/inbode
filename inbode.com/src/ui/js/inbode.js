@@ -340,8 +340,8 @@ inbode.multi = {
         }
 
 				// only change it to a viewed if not a fave
-				if ($('#t7ind'+ind).attr('src')=='/ui/img/circred.gif') {
-					$('#t7ind'+ind).attr('src', '/ui/img/circrednodot.gif');
+				if ($('#t7ind'+item.unit_id).attr('src')=='/ui/img/circred.gif') {
+					$('#t7ind'+i).attr('src', '/ui/img/circrednodot.gif');
 				}
 
 		
@@ -396,6 +396,9 @@ inbode.favorite = {
 		},
 
     starclick: function(id, position) {
+    
+    		var uuid = id.split("_");
+    		var iid = uuid[2];
 
         if ($('#' + id).attr('src') === '/ui/img/grey_star.png') {
             // now a fave :)
@@ -415,9 +418,16 @@ inbode.favorite = {
             $.each(results, function(i, item) {
 
                 if (item.marker.position == position) {
+                	// set different icons if a multi marker!
+                	if (buildings[item.hash]['total']==1) {
                     // this is the marker whose icon we need to change!
                     item.marker.setIcon('/ui/img/inbmrkr.png');
                     item.marker.setShadow('/ui/img/inbmrkr_shadow.png');
+                	} else {
+                		if (item.unit_id==iid) {
+	                		$('#t7ind'+item.unit_id).attr('src','/ui/img/circinbode.gif')                		
+                		}
+                	}
                 }
             });
 
@@ -432,13 +442,28 @@ inbode.favorite = {
             $.each(results, function(i, item) {
 
                 if (item.marker.position == position) {
-                    // thi is the marker whose icon we need to change!
+                    // this is the marker whose icon we need to change!
+
+                	// set different icons if a multi marker!
+                	if (buildings[item.hash]['total']==1) {
+
                     if ($.cookie('click_history').search(position) > 0) {
                         item.marker.setIcon('/ui/img/inbmrkr-grey.png');
                     } else {
                         item.marker.setIcon();
                     }
-
+									
+									} else {
+									
+                		if (item.unit_id==iid) {
+	                    if ($.cookie('click_history').search(position) > 0) {
+		                		$('#t7ind'+item.unit_id).attr('src','/ui/img/circrednodot.gif')                		
+	                    } else {
+		                		$('#t7ind'+item.unit_id).attr('src','/ui/img/circred.gif')                		
+	                    }									
+	                  }
+									
+									}
 
                 }
             });
@@ -1463,7 +1488,7 @@ inbode_MultiMarker.prototype.draw = function() {
 	      }
 	  }
 
-    $('.t7mmarkerbox').append('<a href="#"><img class="t7circ" id="t7ind'+i+'" onclick="inbode.multi.klick('+unit[i]+','+i+');" height="25" width="22" border="0" src="'+isrc+'" /></a>');
+    $('.t7mmarkerbox').append('<a href="#"><img class="t7circ" id="t7ind'+unit[i]+'" onclick="inbode.multi.klick('+unit[i]+','+i+');" height="25" width="22" border="0" src="'+isrc+'" /></a>');
 	}
 		
 	$(".t7mmarkerboxarrow").css('marginLeft', arrowwidth+'px')
