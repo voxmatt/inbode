@@ -1,3 +1,7 @@
+AddType application/x-httpd-php52cgi .php
+Action application/x-httpd-php52cgi /cgi-sys/php52.cgi
+
+
 #authtype basic
 #authname "Inbode"
 #authuserfile /usr/home/inbode/.htpasswd
