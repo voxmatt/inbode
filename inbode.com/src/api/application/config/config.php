@@ -72,7 +72,7 @@ if (file_exists("/usr/www/users/stegic/git")) {
 	// google account password	
 	$config['i_GApass'] = 'w1r3dmag';
 	// fusion table datasrc id
-	$config['i_InbodeBeta-BuildingsUnits'] = '517005';
+	$config['i_InbodeBeta-BuildingsUnits'] = '422613';
 
 
 } else if (file_exists("/Users/mtm/Documents/git_inbode/inbode.com/src")) {

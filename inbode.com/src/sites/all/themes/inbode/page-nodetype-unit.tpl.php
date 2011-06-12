@@ -78,14 +78,13 @@
 						$('#t7-thumb-'+h).parent().addClass('thumb-selected');
 						$('#t7-thumb-'+h).click();
 					}
-					
-          if ($.cookie('faves').search('<?php echo $faveid; ?>') > 0) {
-          
-          	$('#favestar').attr('src', '/sites/all/themes/inbode/images/unit/yellow_star.png');
-          
-          }
 
-
+				  if ($.cookie('faves') !== null) {
+	          if ($.cookie('faves').search('<?php echo $faveid; ?>') > 0) {
+	          	$('#favestar').attr('src', '/sites/all/themes/inbode/images/unit/yellow_star.png');
+	          }
+					}
+ 					
 			    
           
 								

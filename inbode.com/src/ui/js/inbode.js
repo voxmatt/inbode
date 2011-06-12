@@ -16,8 +16,10 @@
 */
 
 
-
 // general vars
+// f*ing ie7
+var ie7;
+// the rest
 var map;
 var results = [];
 var buildings = [];
@@ -109,6 +111,12 @@ datez[1] = zm + "/" + zd + "/" + y;
 // now ready
 $(document).ready(function() {
 
+		// ie7
+		if ($('body.ie7').length>0) {
+			ie7=1;
+		} else{
+			ie7=0;
+		}
 
     // if we see a request for an individual unit, reset filters
     //if (unithash) {
@@ -294,7 +302,6 @@ $(document).ready(function() {
     });
     
 
-
 });
 
 // inbode yea
@@ -432,6 +439,7 @@ inbode.favorite = {
             });
 
         } else {
+        
             // no longer a fave :(
             $('#' + id).attr('src', '/ui/img/grey_star.png');
             $.cookie('faves', $.cookie('faves').replace('|' + id, ''), {
@@ -1077,6 +1085,8 @@ inbode.util = {
                     
 
                 });
+                
+                
 
 
 
@@ -1257,12 +1267,17 @@ inbode.util = {
     },
 
     filter: function(idc, chkd) {
-
+    
         if (chkd) {
             chkd = true;
         } else {
             chkd = false;
         }
+
+				if (ie7) {
+					chkd= !chkd;
+				}
+
 
         // major filters
         var pricemin = $("#slider-price a:first").html();
@@ -1293,20 +1308,21 @@ inbode.util = {
         // go thru each one of the amenities and create an array of the current state
         // remember that the one we just clicked on (if we did) hasn't changed yet
         // and so the 'idc' and 'chkd' value will override anything we come into contact with
-        amenities = [];
+        samenities = [];
+        
         $('#amenities input').each(function(i) {
             //var am;
             if ($(this).attr('id') === idc) {
 							if (chkd) {
-                amenities[$(this).attr('id')] = 1;
+                samenities[$(this).attr('id')] = 1;
 							} else {
-                amenities[$(this).attr('id')] = 0;
+                samenities[$(this).attr('id')] = 0;
 							}
             } else {
             	if ($(this).is(':checked')) {
-                amenities[$(this).attr('id')] = 1;
+                samenities[$(this).attr('id')] = 1;
             	} else {
-                amenities[$(this).attr('id')] = 0;
+                samenities[$(this).attr('id')] = 0;
             	}
             }
         });
@@ -1325,10 +1341,10 @@ inbode.util = {
         // now filter by amenities
         $.each(results, function(i, item) {
 						// amenities
-						for (am in amenities) {
+						for (am in samenities) {
 							if (am) {
 								// the magic of filtering by amenities
-								if (item.visible==1 && amenities[am]==1 && item[am]==0) {
+								if (item.visible==1 && samenities[am]==1 && item[am]==0) {
 				        	item.visible=0;
 								}
 							} 
@@ -1492,8 +1508,16 @@ inbode_MultiMarker.prototype.draw = function() {
 	}
 		
 	$(".t7mmarkerboxarrow").css('marginLeft', arrowwidth+'px')
+
 	$(".t7mmarkerbox").width(boxwidth);
 	$(".t7mmarkerbox").height(boxheight);
+
+	// stupid ie7 doesn't play nicely, so we have to add a shimmy, shim, shim.	
+	if ( ie7 ) {
+		var bp = -boxwidth/2;
+		$(".t7mmarkerbox").css('marginLeft', bp+'px')
+	}
+
 	$(".t7mmarkerboxcont").show();
 
 }
